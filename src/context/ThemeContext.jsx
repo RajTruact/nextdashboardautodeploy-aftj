@@ -117,8 +117,8 @@ export const ThemeProvider = ({ children }) => {
       const payload = {
         Theme_Settings: {
           primaryColor: newColors.primaryColor,
-          secondaryColor: newColors.secondaryColor,
           tertiaryColor: newColors.tertiaryColor,
+          secondaryColor: newColors.secondaryColor,
         },
       };
 

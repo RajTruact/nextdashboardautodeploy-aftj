@@ -140,14 +140,19 @@ export const ThemeProvider = ({ children }) => {
   };
 
   // Apply CSS variables to document
+  // Apply CSS variables to document
   const applyColorVariables = (colorObj) => {
     if (typeof window !== "undefined") {
       const root = document.documentElement;
 
+      console.log("Applying color variables:", colorObj); // Debug log
+
       // Apply base colors
       if (colorObj.primaryColor) {
         root.style.setProperty("--color-primary-500", colorObj.primaryColor);
+        root.style.setProperty("--color-brand-500", colorObj.primaryColor); // Override brand color too!
         generateAndApplyShades(colorObj.primaryColor, "primary");
+        generateAndApplyShades(colorObj.primaryColor, "brand"); // Also generate brand shades
       }
 
       if (colorObj.secondaryColor) {
@@ -165,7 +170,7 @@ export const ThemeProvider = ({ children }) => {
     }
   };
 
-  // Generate and apply color shades
+  // Update the shade generation to also create brand shades
   const generateAndApplyShades = (baseColor, colorName) => {
     const root = document.documentElement;
     const shades = generateShadesFromBase(baseColor);
@@ -173,6 +178,13 @@ export const ThemeProvider = ({ children }) => {
     Object.keys(shades).forEach((shade) => {
       root.style.setProperty(`--color-${colorName}-${shade}`, shades[shade]);
     });
+
+    // If we're updating primary, also update brand colors
+    if (colorName === "primary") {
+      Object.keys(shades).forEach((shade) => {
+        root.style.setProperty(`--color-brand-${shade}`, shades[shade]);
+      });
+    }
   };
 
   // Initialize theme - RUNS FOR ALL USERS

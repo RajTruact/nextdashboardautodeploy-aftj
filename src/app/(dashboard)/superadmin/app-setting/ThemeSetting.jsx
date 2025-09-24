@@ -206,29 +206,6 @@ export default function ThemeCustomizationPage() {
                   "Save Theme"
                 )}
               </button>
-
-              <button
-                onClick={resetTheme}
-                disabled={isUpdating}
-                className="px-6 py-3 bg-gray-100 hover:bg-gray-200 disabled:bg-gray-300 text-gray-800 rounded-lg font-medium transition-colors dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white"
-              >
-                Reset to Default
-              </button>
-
-              <button
-                onClick={refreshFromAPI}
-                disabled={isUpdating}
-                className="px-6 py-3 bg-secondary-500 hover:bg-secondary-600 text-white rounded-lg font-medium transition-colors"
-              >
-                Refresh from API
-              </button>
-
-              {/* {isSaved && (
-                <div className="ml-auto flex items-center px-4 py-3 bg-green-50 text-green-700 rounded-lg border border-green-200 dark:bg-green-500/20 dark:text-green-400">
-                  ✅ Theme saved successfully! Changes will reflect for all
-                  users.
-                </div>
-              )} */}
             </div>
           </>
         )}

@@ -126,31 +126,31 @@ export default function ThemeCustomizationPage() {
     </div>
   );
 
-  if (userRole !== "superAdmin") {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900 p-4">
-        <div className="max-w-md w-full p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
-            Access Denied
-          </h2>
-          <p className="text-gray-600 dark:text-gray-300">
-            You don't have permission to customize the theme.
-          </p>
-        </div>
-      </div>
-    );
-  }
+  // if (userRole !== "superAdmin") {
+  //   return (
+  //     <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900 p-4">
+  //       <div className="max-w-md w-full p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+  //         <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
+  //           Access Denied
+  //         </h2>
+  //         <p className="text-gray-600 dark:text-gray-300">
+  //           You don't have permission to customize the theme.
+  //         </p>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className=" bg-gray-50 dark:bg-gray-900 p-4 md:p-6">
       <div className=" mx-auto">
         <div className="mb-8">
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-2">
+          <h1 className="text-md md:text-md font-bold text-gray-800 dark:text-white mb-2">
             Theme Customization
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            Customize your application's color scheme. Changes are saved to the
-            database and applied globally to all users.
+          <p className="text-gray-600 dark:text-gray-400 text-sm">
+            Customize your application's color scheme. Changes are saved and
+            applied globally to all users.
           </p>
         </div>
 
@@ -195,7 +195,7 @@ export default function ThemeCustomizationPage() {
               <button
                 onClick={saveTheme}
                 disabled={isUpdating}
-                className="px-6 py-3 bg-primary-500 hover:bg-primary-600 disabled:bg-gray-400 text-white rounded-lg font-medium transition-colors flex items-center justify-center"
+                className="px-6 py-3 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 text-white rounded-lg font-medium transition-colors flex items-center justify-center"
               >
                 {isUpdating ? (
                   <>
@@ -205,6 +205,13 @@ export default function ThemeCustomizationPage() {
                 ) : (
                   "Save Theme"
                 )}
+              </button>
+              <button
+                onClick={refreshFromAPI}
+                disabled={isUpdating}
+                className="px-6 py-3 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 text-white rounded-lg font-medium transition-colors"
+              >
+                Refresh from API
               </button>
             </div>
           </>

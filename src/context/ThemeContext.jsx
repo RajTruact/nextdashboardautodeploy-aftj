@@ -140,21 +140,35 @@ export const ThemeProvider = ({ children }) => {
   };
 
   // Apply CSS variables to document
-  // Apply CSS variables to document
   const applyColorVariables = (colorObj) => {
     if (typeof window !== "undefined") {
       const root = document.documentElement;
 
-      console.log("Applying color variables:", colorObj); // Debug log
-
-      // Apply base colors
+      // Apply primary color to both primary and brand variables
       if (colorObj.primaryColor) {
+        // Set the base colors
         root.style.setProperty("--color-primary-500", colorObj.primaryColor);
-        root.style.setProperty("--color-brand-500", colorObj.primaryColor); // Override brand color too!
-        generateAndApplyShades(colorObj.primaryColor, "primary");
-        generateAndApplyShades(colorObj.primaryColor, "brand"); // Also generate brand shades
+        root.style.setProperty("--color-brand-500", colorObj.primaryColor);
+
+        // Generate and apply shades for both naming conventions
+        const primaryShades = generateShadesFromBase(colorObj.primaryColor);
+        const brandShades = generateShadesFromBase(colorObj.primaryColor);
+
+        // Apply primary shades
+        Object.keys(primaryShades).forEach((shade) => {
+          root.style.setProperty(
+            `--color-primary-${shade}`,
+            primaryShades[shade]
+          );
+        });
+
+        // Apply brand shades (so existing brand CSS variables work)
+        Object.keys(brandShades).forEach((shade) => {
+          root.style.setProperty(`--color-brand-${shade}`, brandShades[shade]);
+        });
       }
 
+      // Apply secondary color
       if (colorObj.secondaryColor) {
         root.style.setProperty(
           "--color-secondary-500",
@@ -163,6 +177,7 @@ export const ThemeProvider = ({ children }) => {
         generateAndApplyShades(colorObj.secondaryColor, "secondary");
       }
 
+      // Apply tertiary color
       if (colorObj.tertiaryColor) {
         root.style.setProperty("--color-tertiary-500", colorObj.tertiaryColor);
         generateAndApplyShades(colorObj.tertiaryColor, "tertiary");

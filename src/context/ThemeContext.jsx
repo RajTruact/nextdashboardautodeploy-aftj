@@ -115,11 +115,9 @@ export const ThemeProvider = ({ children }) => {
   const updateThemeInAPI = async (newColors) => {
     try {
       const payload = {
-        Theme_Settings: {
-          primaryColor: newColors.primaryColor,
-          tertiaryColor: newColors.tertiaryColor,
-          secondaryColor: newColors.secondaryColor,
-        },
+        primaryColor: newColors.primaryColor,
+        tertiaryColor: newColors.tertiaryColor,
+        secondaryColor: newColors.secondaryColor,
       };
 
       // Try POST instead of PATCH
@@ -134,7 +132,7 @@ export const ThemeProvider = ({ children }) => {
 
       // Fallback: Store locally and apply changes anyway
       console.log("Applying theme changes locally...");
-      return true; // Don't throw error, allow local update
+      // return true; // Don't throw error, allow local update
     }
     return false;
   };

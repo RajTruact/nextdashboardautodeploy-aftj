@@ -91,48 +91,36 @@ export const ThemeProvider = ({ children }) => {
 
   // Apply CSS variables to document
   // In your ThemeContext, update the applyColorVariables function
-  const applyColorVariables = (colorObj) => {
-    if (typeof window !== "undefined") {
-      const root = document.documentElement;
+ // In your applyColorVariables function, update to set the CSS variables:
+const applyColorVariables = (colorObj) => {
+  if (typeof window !== "undefined") {
+    const root = document.documentElement;
 
-      // Apply primary color and generate shades
-      if (colorObj.primaryColor) {
-        const primaryShades = generateShadesFromBase(colorObj.primaryColor);
-        Object.keys(primaryShades).forEach((shade) => {
-          root.style.setProperty(
-            `--color-primary-${shade}`,
-            primaryShades[shade]
-          );
-          root.style.setProperty(
-            `--color-brand-${shade}`,
-            primaryShades[shade]
-          ); // For compatibility
-        });
-      }
-
-      // Apply secondary color and generate shades
-      if (colorObj.secondaryColor) {
-        const secondaryShades = generateShadesFromBase(colorObj.secondaryColor);
-        Object.keys(secondaryShades).forEach((shade) => {
-          root.style.setProperty(
-            `--color-secondary-${shade}`,
-            secondaryShades[shade]
-          );
-        });
-      }
-
-      // Apply tertiary color and generate shades
-      if (colorObj.tertiaryColor) {
-        const tertiaryShades = generateShadesFromBase(colorObj.tertiaryColor);
-        Object.keys(tertiaryShades).forEach((shade) => {
-          root.style.setProperty(
-            `--color-tertiary-${shade}`,
-            tertiaryShades[shade]
-          );
-        });
-      }
+    // Apply primary color to brand variables (existing)
+    if (colorObj.primaryColor) {
+      const primaryShades = generateShadesFromBase(colorObj.primaryColor);
+      Object.keys(primaryShades).forEach((shade) => {
+        root.style.setProperty(`--color-brand-${shade}`, primaryShades[shade]);
+      });
     }
-  };
+
+    // Apply secondary color
+    if (colorObj.secondaryColor) {
+      const secondaryShades = generateShadesFromBase(colorObj.secondaryColor);
+      Object.keys(secondaryShades).forEach((shade) => {
+        root.style.setProperty(`--color-secondary-${shade}`, secondaryShades[shade]);
+      });
+    }
+
+    // Apply tertiary color
+    if (colorObj.tertiaryColor) {
+      const tertiaryShades = generateShadesFromBase(colorObj.tertiaryColor);
+      Object.keys(tertiaryShades).forEach((shade) => {
+        root.style.setProperty(`--color-tertiary-${shade}`, tertiaryShades[shade]);
+      });
+    }
+  }
+};
 
   // Update the shade generation to also create brand shades
   const generateAndApplyShades = (baseColor, colorName) => {

@@ -160,6 +160,34 @@
   --z-index-9999: 9999;
   --z-index-99999: 99999;
   --z-index-999999: 999999;
+
+  /* Secondary Color Variables (based on your secondaryColor from theme context) */
+  --color-secondary-25: #f8f5ff;
+  --color-secondary-50: #f3eeff;
+  --color-secondary-100: #e8deff;
+  --color-secondary-200: #d5c2ff;
+  --color-secondary-300: #ba9cff;
+  --color-secondary-400: #9d75ff;
+  --color-secondary-500: #8b5cf6; /* Your default secondary color */
+  --color-secondary-600: #7c46f5;
+  --color-secondary-700: #6a31d8;
+  --color-secondary-800: #582dae;
+  --color-secondary-900: #492e89;
+  --color-secondary-950: #2e1950;
+
+  /* Tertiary Color Variables (based on your tertiaryColor from theme context) */
+  --color-tertiary-25: #f0fdf9;
+  --color-tertiary-50: #ecfdf3;
+  --color-tertiary-100: #d1fae5;
+  --color-tertiary-200: #a6f4c5;
+  --color-tertiary-300: #6ee9a6;
+  --color-tertiary-400: #32d583;
+  --color-tertiary-500: #10b981; /* Your default tertiary color */
+  --color-tertiary-600: #039855;
+  --color-tertiary-700: #027a48;
+  --color-tertiary-800: #05603a;
+  --color-tertiary-900: #054f31;
+  --color-tertiary-950: #053321;
 }
 
 /*
@@ -284,6 +312,86 @@
     -webkit-appearance: none;
   }
 }
+
+/* Secondary Color Utilities */
+@utility bg-secondary-25 { background-color: var(--color-secondary-25); }
+@utility bg-secondary-50 { background-color: var(--color-secondary-50); }
+@utility bg-secondary-100 { background-color: var(--color-secondary-100); }
+@utility bg-secondary-200 { background-color: var(--color-secondary-200); }
+@utility bg-secondary-300 { background-color: var(--color-secondary-300); }
+@utility bg-secondary-400 { background-color: var(--color-secondary-400); }
+@utility bg-secondary-500 { background-color: var(--color-secondary-500); }
+@utility bg-secondary-600 { background-color: var(--color-secondary-600); }
+@utility bg-secondary-700 { background-color: var(--color-secondary-700); }
+@utility bg-secondary-800 { background-color: var(--color-secondary-800); }
+@utility bg-secondary-900 { background-color: var(--color-secondary-900); }
+@utility bg-secondary-950 { background-color: var(--color-secondary-950); }
+
+@utility text-secondary-25 { color: var(--color-secondary-25); }
+@utility text-secondary-50 { color: var(--color-secondary-50); }
+@utility text-secondary-100 { color: var(--color-secondary-100); }
+@utility text-secondary-200 { color: var(--color-secondary-200); }
+@utility text-secondary-300 { color: var(--color-secondary-300); }
+@utility text-secondary-400 { color: var(--color-secondary-400); }
+@utility text-secondary-500 { color: var(--color-secondary-500); }
+@utility text-secondary-600 { color: var(--color-secondary-600); }
+@utility text-secondary-700 { color: var(--color-secondary-700); }
+@utility text-secondary-800 { color: var(--color-secondary-800); }
+@utility text-secondary-900 { color: var(--color-secondary-900); }
+@utility text-secondary-950 { color: var(--color-secondary-950); }
+
+@utility border-secondary-25 { border-color: var(--color-secondary-25); }
+@utility border-secondary-50 { border-color: var(--color-secondary-50); }
+@utility border-secondary-100 { border-color: var(--color-secondary-100); }
+@utility border-secondary-200 { border-color: var(--color-secondary-200); }
+@utility border-secondary-300 { border-color: var(--color-secondary-300); }
+@utility border-secondary-400 { border-color: var(--color-secondary-400); }
+@utility border-secondary-500 { border-color: var(--color-secondary-500); }
+@utility border-secondary-600 { border-color: var(--color-secondary-600); }
+@utility border-secondary-700 { border-color: var(--color-secondary-700); }
+@utility border-secondary-800 { border-color: var(--color-secondary-800); }
+@utility border-secondary-900 { border-color: var(--color-secondary-900); }
+@utility border-secondary-950 { border-color: var(--color-secondary-950); }
+
+/* Tertiary Color Utilities */
+@utility bg-tertiary-25 { background-color: var(--color-tertiary-25); }
+@utility bg-tertiary-50 { background-color: var(--color-tertiary-50); }
+@utility bg-tertiary-100 { background-color: var(--color-tertiary-100); }
+@utility bg-tertiary-200 { background-color: var(--color-tertiary-200); }
+@utility bg-tertiary-300 { background-color: var(--color-tertiary-300); }
+@utility bg-tertiary-400 { background-color: var(--color-tertiary-400); }
+@utility bg-tertiary-500 { background-color: var(--color-tertiary-500); }
+@utility bg-tertiary-600 { background-color: var(--color-tertiary-600); }
+@utility bg-tertiary-700 { background-color: var(--color-tertiary-700); }
+@utility bg-tertiary-800 { background-color: var(--color-tertiary-800); }
+@utility bg-tertiary-900 { background-color: var(--color-tertiary-900); }
+@utility bg-tertiary-950 { background-color: var(--color-tertiary-950); }
+
+@utility text-tertiary-25 { color: var(--color-tertiary-25); }
+@utility text-tertiary-50 { color: var(--color-tertiary-50); }
+@utility text-tertiary-100 { color: var(--color-tertiary-100); }
+@utility text-tertiary-200 { color: var(--color-tertiary-200); }
+@utility text-tertiary-300 { color: var(--color-tertiary-300); }
+@utility text-tertiary-400 { color: var(--color-tertiary-400); }
+@utility text-tertiary-500 { color: var(--color-tertiary-500); }
+@utility text-tertiary-600 { color: var(--color-tertiary-600); }
+@utility text-tertiary-700 { color: var(--color-tertiary-700); }
+@utility text-tertiary-800 { color: var(--color-tertiary-800); }
+@utility text-tertiary-900 { color: var(--color-tertiary-900); }
+@utility text-tertiary-950 { color: var(--color-tertiary-950); }
+
+@utility border-tertiary-25 { border-color: var(--color-tertiary-25); }
+@utility border-tertiary-50 { border-color: var(--color-tertiary-50); }
+@utility border-tertiary-100 { border-color: var(--color-tertiary-100); }
+@utility border-tertiary-200 { border-color: var(--color-tertiary-200); }
+@utility border-tertiary-300 { border-color: var(--color-tertiary-300); }
+@utility border-tertiary-400 { border-color: var(--color-tertiary-400); }
+@utility border-tertiary-500 { border-color: var(--color-tertiary-500); }
+@utility border-tertiary-600 { border-color: var(--color-tertiary-600); }
+@utility border-tertiary-700 { border-color: var(--color-tertiary-700); }
+@utility border-tertiary-800 { border-color: var(--color-tertiary-800); }
+@utility border-tertiary-900 { border-color: var(--color-tertiary-900); }
+@utility border-tertiary-950 { border-color: var(--color-tertiary-950); }
 
 /* third-party libraries CSS */
 .apexcharts-legend-text {

@@ -142,8 +142,8 @@ export default function ThemeCustomizationPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-4 md:p-6">
-      <div className="max-w-6xl mx-auto">
+    <div className=" bg-gray-50 dark:bg-gray-900 p-4 md:p-6">
+      <div className=" mx-auto">
         <div className="mb-8">
           <h1 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-2">
             Theme Customization
@@ -155,8 +155,33 @@ export default function ThemeCustomizationPage() {
         </div>
 
         {isLoading ? (
-          <div className="flex items-center justify-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
+          <div className=" flex items-center justify-center bg-gray-50 dark:bg-gray-900 mt-4">
+            <div className="w-full p-6 space-y-6">
+              {/* Page title shimmer */}
+              {/* <div className="h-6 w-1/3 rounded-md bg-gray-300 dark:bg-gray-700 animate-pulse"></div>
+              <div className="h-4 w-2/3 rounded-md bg-gray-200 dark:bg-gray-600 animate-pulse"></div> */}
+
+              {/* 3 color pickers shimmer */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {[1, 2, 3].map((i) => (
+                  <div
+                    key={i}
+                    className="rounded-lg bg-gray-100 dark:bg-gray-800 p-6 space-y-4 animate-pulse"
+                  >
+                    <div className="h-4 w-1/2 rounded-md bg-gray-300 dark:bg-gray-700"></div>
+                    <div className="h-3 w-2/3 rounded-md bg-gray-200 dark:bg-gray-600"></div>
+                    <div className="h-10 w-full rounded-md bg-gray-300 dark:bg-gray-700"></div>
+                    <div className="h-6 w-1/2 rounded-md bg-gray-200 dark:bg-gray-600"></div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Buttons shimmer */}
+              <div className="flex gap-4">
+                <div className="h-10 w-40 rounded-lg bg-gray-300 dark:bg-gray-700 animate-pulse"></div>
+                <div className="h-10 w-40 rounded-lg bg-gray-200 dark:bg-gray-600 animate-pulse"></div>
+              </div>
+            </div>
           </div>
         ) : (
           <>
@@ -198,43 +223,12 @@ export default function ThemeCustomizationPage() {
                 Refresh from API
               </button>
 
-              {isSaved && (
+              {/* {isSaved && (
                 <div className="ml-auto flex items-center px-4 py-3 bg-green-50 text-green-700 rounded-lg border border-green-200 dark:bg-green-500/20 dark:text-green-400">
                   ✅ Theme saved successfully! Changes will reflect for all
                   users.
                 </div>
-              )}
-            </div>
-
-            {/* Live Preview */}
-            <div className="mt-8 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
-              <h2 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">
-                Live Preview
-              </h2>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-4">
-                  <button className="w-full px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded transition-colors">
-                    Primary Button
-                  </button>
-                  <div className="p-4 bg-primary-50 dark:bg-primary-500/20 rounded">
-                    <p className="text-primary-700 dark:text-primary-300">
-                      Primary background
-                    </p>
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  <button className="w-full px-4 py-2 bg-secondary-500 hover:bg-secondary-600 text-white rounded transition-colors">
-                    Secondary Button
-                  </button>
-                  <div className="p-4 bg-secondary-50 dark:bg-secondary-500/20 rounded">
-                    <p className="text-secondary-700 dark:text-secondary-300">
-                      Secondary background
-                    </p>
-                  </div>
-                </div>
-              </div>
+              )} */}
             </div>
           </>
         )}

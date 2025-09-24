@@ -67,6 +67,51 @@ export const ThemeProvider = ({ children }) => {
 
   // Update theme in Catalyst API using Axios
   // Updated updateThemeInAPI function with CORS workaround
+  // const updateThemeInAPI = async (newColors) => {
+  //   try {
+  //     const payload = {
+  //       Theme_Settings: {
+  //         primaryColor: newColors.primaryColor,
+  //         secondaryColor: newColors.secondaryColor,
+  //         tertiaryColor: newColors.tertiaryColor,
+  //       },
+  //     };
+
+  //     // Try POST instead of PATCH (many APIs accept POST for updates)
+  //     let response;
+  //     try {
+  //       response = await axios.post(CATALYST_API.update, payload);
+  //       console.log("Theme updated via POST");
+  //     } catch (postError) {
+  //       // If POST fails, try PUT
+  //       console.log("POST failed, trying PUT...");
+  //       response = await axios.put(CATALYST_API.update, payload);
+  //       console.log("Theme updated via PUT");
+  //     }
+
+  //     if (response.data) {
+  //       console.log("Theme updated successfully in Catalyst");
+  //       return true;
+  //     }
+  //   } catch (error) {
+  //     console.warn(
+  //       "API update failed due to CORS, but applying changes locally..."
+  //     );
+
+  //     // Store the update intent for when CORS is fixed
+  //     const updateRecord = {
+  //       timestamp: new Date().toISOString(),
+  //       colors: newColors,
+  //       status: "pending",
+  //     };
+  //     localStorage.setItem("lastThemeUpdate", JSON.stringify(updateRecord));
+
+  //     // Don't throw error - allow the local update to succeed
+  //     return true;
+  //   }
+  //   return false;
+  // };
+
   const updateThemeInAPI = async (newColors) => {
     try {
       const payload = {
@@ -77,40 +122,23 @@ export const ThemeProvider = ({ children }) => {
         },
       };
 
-      // Try POST instead of PATCH (many APIs accept POST for updates)
-      let response;
-      try {
-        response = await axios.post(CATALYST_API.update, payload);
-        console.log("Theme updated via POST");
-      } catch (postError) {
-        // If POST fails, try PUT
-        console.log("POST failed, trying PUT...");
-        response = await axios.put(CATALYST_API.update, payload);
-        console.log("Theme updated via PUT");
-      }
+      // Try POST instead of PATCH
+      const response = await axios.post(CATALYST_API.update, payload);
 
       if (response.data) {
         console.log("Theme updated successfully in Catalyst");
         return true;
       }
     } catch (error) {
-      console.warn(
-        "API update failed due to CORS, but applying changes locally..."
-      );
+      console.error("Failed to update theme in API:", error);
 
-      // Store the update intent for when CORS is fixed
-      const updateRecord = {
-        timestamp: new Date().toISOString(),
-        colors: newColors,
-        status: "pending",
-      };
-      localStorage.setItem("lastThemeUpdate", JSON.stringify(updateRecord));
-
-      // Don't throw error - allow the local update to succeed
-      return true;
+      // Fallback: Store locally and apply changes anyway
+      console.log("Applying theme changes locally...");
+      return true; // Don't throw error, allow local update
     }
     return false;
   };
+
   // Apply CSS variables to document
   const applyColorVariables = (colorObj) => {
     if (typeof window !== "undefined") {

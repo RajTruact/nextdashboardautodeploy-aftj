@@ -64,54 +64,6 @@ export const ThemeProvider = ({ children }) => {
     }
     return null;
   };
-
-  // Update theme in Catalyst API using Axios
-  // Updated updateThemeInAPI function with CORS workaround
-  // const updateThemeInAPI = async (newColors) => {
-  //   try {
-  //     const payload = {
-  //       Theme_Settings: {
-  //         primaryColor: newColors.primaryColor,
-  //         secondaryColor: newColors.secondaryColor,
-  //         tertiaryColor: newColors.tertiaryColor,
-  //       },
-  //     };
-
-  //     // Try POST instead of PATCH (many APIs accept POST for updates)
-  //     let response;
-  //     try {
-  //       response = await axios.post(CATALYST_API.update, payload);
-  //       console.log("Theme updated via POST");
-  //     } catch (postError) {
-  //       // If POST fails, try PUT
-  //       console.log("POST failed, trying PUT...");
-  //       response = await axios.put(CATALYST_API.update, payload);
-  //       console.log("Theme updated via PUT");
-  //     }
-
-  //     if (response.data) {
-  //       console.log("Theme updated successfully in Catalyst");
-  //       return true;
-  //     }
-  //   } catch (error) {
-  //     console.warn(
-  //       "API update failed due to CORS, but applying changes locally..."
-  //     );
-
-  //     // Store the update intent for when CORS is fixed
-  //     const updateRecord = {
-  //       timestamp: new Date().toISOString(),
-  //       colors: newColors,
-  //       status: "pending",
-  //     };
-  //     localStorage.setItem("lastThemeUpdate", JSON.stringify(updateRecord));
-
-  //     // Don't throw error - allow the local update to succeed
-  //     return true;
-  //   }
-  //   return false;
-  // };
-
   const updateThemeInAPI = async (newColors) => {
     try {
       const payload = {
@@ -138,50 +90,37 @@ export const ThemeProvider = ({ children }) => {
   };
 
   // Apply CSS variables to document
-  const applyColorVariables = (colorObj) => {
-    if (typeof window !== "undefined") {
-      const root = document.documentElement;
+  // In your ThemeContext, update the applyColorVariables function
+ // In your applyColorVariables function, update to set the CSS variables:
+const applyColorVariables = (colorObj) => {
+  if (typeof window !== "undefined") {
+    const root = document.documentElement;
 
-      // Apply primary color to both primary and brand variables
-      if (colorObj.primaryColor) {
-        // Set the base colors
-        root.style.setProperty("--color-primary-500", colorObj.primaryColor);
-        root.style.setProperty("--color-brand-500", colorObj.primaryColor);
-
-        // Generate and apply shades for both naming conventions
-        const primaryShades = generateShadesFromBase(colorObj.primaryColor);
-        const brandShades = generateShadesFromBase(colorObj.primaryColor);
-
-        // Apply primary shades
-        Object.keys(primaryShades).forEach((shade) => {
-          root.style.setProperty(
-            `--color-primary-${shade}`,
-            primaryShades[shade]
-          );
-        });
-
-        // Apply brand shades (so existing brand CSS variables work)
-        Object.keys(brandShades).forEach((shade) => {
-          root.style.setProperty(`--color-brand-${shade}`, brandShades[shade]);
-        });
-      }
-
-      // Apply secondary color
-      if (colorObj.secondaryColor) {
-        root.style.setProperty(
-          "--color-secondary-500",
-          colorObj.secondaryColor
-        );
-        generateAndApplyShades(colorObj.secondaryColor, "secondary");
-      }
-
-      // Apply tertiary color
-      if (colorObj.tertiaryColor) {
-        root.style.setProperty("--color-tertiary-500", colorObj.tertiaryColor);
-        generateAndApplyShades(colorObj.tertiaryColor, "tertiary");
-      }
+    // Apply primary color to brand variables (existing)
+    if (colorObj.primaryColor) {
+      const primaryShades = generateShadesFromBase(colorObj.primaryColor);
+      Object.keys(primaryShades).forEach((shade) => {
+        root.style.setProperty(`--color-brand-${shade}`, primaryShades[shade]);
+      });
     }
-  };
+
+    // Apply secondary color
+    if (colorObj.secondaryColor) {
+      const secondaryShades = generateShadesFromBase(colorObj.secondaryColor);
+      Object.keys(secondaryShades).forEach((shade) => {
+        root.style.setProperty(`--color-secondary-${shade}`, secondaryShades[shade]);
+      });
+    }
+
+    // Apply tertiary color
+    if (colorObj.tertiaryColor) {
+      const tertiaryShades = generateShadesFromBase(colorObj.tertiaryColor);
+      Object.keys(tertiaryShades).forEach((shade) => {
+        root.style.setProperty(`--color-tertiary-${shade}`, tertiaryShades[shade]);
+      });
+    }
+  }
+};
 
   // Update the shade generation to also create brand shades
   const generateAndApplyShades = (baseColor, colorName) => {

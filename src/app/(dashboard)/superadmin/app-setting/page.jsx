@@ -20,9 +20,9 @@ export default function AppSetting() {
         <div className="space-y-6">
           <ThemeCustomizationPage />
         </div>
-        <div className="space-y-6">
+        {/* <div className="space-y-6">
           <ColorPicker default_value="#acff47" />
-        </div>
+        </div> */}
       </div>
     </div>
   );

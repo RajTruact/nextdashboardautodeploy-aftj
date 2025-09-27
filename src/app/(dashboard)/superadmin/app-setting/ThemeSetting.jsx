@@ -25,7 +25,7 @@ export default function ThemeCustomizationPage() {
     {
       name: "Primary Color",
       key: "primaryColor",
-      description: "Main brand color for primary actions and buttons",
+      description: "Main brand color for primary actions",
     },
     {
       name: "Secondary Color",
@@ -188,13 +188,13 @@ export default function ThemeCustomizationPage() {
                 )}
               </button>
 
-              <button
+              {/* <button
                 onClick={resetTheme}
                 disabled={isUpdating}
                 className="px-6 py-3 bg-gray-500 hover:bg-gray-600 disabled:bg-gray-400 text-white rounded-lg font-medium transition-colors min-w-[140px]"
               >
                 Reset to Default
-              </button>
+              </button> */}
 
               {isSaved && (
                 <div className="ml-auto flex items-center text-green-600 dark:text-green-400">

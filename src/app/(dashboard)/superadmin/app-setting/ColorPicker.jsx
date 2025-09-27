@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState, useMemo } from "react";
 
 function clsx(...inputs) {
   return inputs.filter(Boolean).join(" ");
@@ -22,373 +22,413 @@ const HashtagIcon = (props) => {
   );
 };
 
+// Optimized HSL to Hex conversion
 function hslToHex({ h, s, l }) {
+  h /= 360;
   s /= 100;
   l /= 100;
 
-  const k = (n) => (n + h / 30) % 12;
-  const a = s * Math.min(l, 1 - l);
-  const f = (n) => l - a * Math.max(Math.min(k(n) - 3, 9 - k(n), 1), -1);
-  let r = Math.round(255 * f(0));
-  let g = Math.round(255 * f(8));
-  let b = Math.round(255 * f(4));
+  let r, g, b;
+
+  if (s === 0) {
+    r = g = b = l;
+  } else {
+    const hue2rgb = (p, q, t) => {
+      if (t < 0) t += 1;
+      if (t > 1) t -= 1;
+      if (t < 1/6) return p + (q - p) * 6 * t;
+      if (t < 1/2) return q;
+      if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+      return p;
+    };
+
+    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+    const p = 2 * l - q;
+    r = hue2rgb(p, q, h + 1/3);
+    g = hue2rgb(p, q, h);
+    b = hue2rgb(p, q, h - 1/3);
+  }
 
   const toHex = (x) => {
-    const hex = x.toString(16);
-    return hex.length === 1 ? "0" + hex : hex;
+    const hex = Math.round(x * 255).toString(16);
+    return hex.length === 1 ? '0' + hex : hex;
   };
 
-  return `${toHex(r)}${toHex(g)}${toHex(b)}`.toUpperCase();
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`.toUpperCase();
 }
 
-function hexToHsl({ hex }) {
-  // Ensure the hex string is formatted properly
-  hex = hex.replace(/^#/, "");
+// Optimized Hex to HSL conversion
+function hexToHsl(hex) {
+  let r, g, b;
 
-  // Handle 3-digit hex
   if (hex.length === 3) {
-    hex = hex
-      .split("")
-      .map((char) => char + char)
-      .join("");
+    r = parseInt(hex[0] + hex[0], 16) / 255;
+    g = parseInt(hex[1] + hex[1], 16) / 255;
+    b = parseInt(hex[2] + hex[2], 16) / 255;
+  } else {
+    r = parseInt(hex.slice(0, 2), 16) / 255;
+    g = parseInt(hex.slice(2, 4), 16) / 255;
+    b = parseInt(hex.slice(4, 6), 16) / 255;
   }
 
-  // Pad with zeros if incomplete
-  while (hex.length < 6) {
-    hex += "0";
-  }
-
-  // Convert hex to RGB
-  let r = parseInt(hex.slice(0, 2), 16) || 0;
-  let g = parseInt(hex.slice(2, 4), 16) || 0;
-  let b = parseInt(hex.slice(4, 6), 16) || 0;
-
-  // Then convert RGB to HSL
-  r /= 255;
-  g /= 255;
-  b /= 255;
   const max = Math.max(r, g, b);
   const min = Math.min(r, g, b);
-  let h = 0;
-  let s;
-  let l = (max + min) / 2;
+  let h, s, l = (max + min) / 2;
 
   if (max === min) {
-    h = s = 0; // achromatic
+    h = s = 0;
   } else {
     const d = max - min;
     s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    
     switch (max) {
-      case r:
-        h = (g - b) / d + (g < b ? 6 : 0);
-        break;
-      case g:
-        h = (b - r) / d + 2;
-        break;
-      case b:
-        h = (r - g) / d + 4;
-        break;
+      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+      case g: h = (b - r) / d + 2; break;
+      case b: h = (r - g) / d + 4; break;
     }
     h /= 6;
-    h *= 360;
   }
 
-  return { h: Math.round(h), s: Math.round(s * 100), l: Math.round(l * 100) };
+  return {
+    h: Math.round(h * 360),
+    s: Math.round(s * 100),
+    l: Math.round(l * 100)
+  };
 }
 
-const DraggableColorCanvas = ({ h, s, l, handleChange }) => {
+// Memoized canvas component to prevent unnecessary re-renders
+const DraggableColorCanvas = React.memo(({ h, s, l, onColorChange }) => {
   const [dragging, setDragging] = useState(false);
   const colorAreaRef = useRef(null);
+  const animationRef = useRef(null);
 
-  const calculateSaturationAndLightness = useCallback(
-    (clientX, clientY) => {
-      if (!colorAreaRef.current) return;
-      const rect = colorAreaRef.current.getBoundingClientRect();
-      const x = clientX - rect.left;
-      const y = clientY - rect.top;
-      const xClamped = Math.max(0, Math.min(x, rect.width));
-      const yClamped = Math.max(0, Math.min(y, rect.height));
-      const newSaturation = Math.round((xClamped / rect.width) * 100);
-      const newLightness = 100 - Math.round((yClamped / rect.height) * 100);
-      handleChange({ s: newSaturation, l: newLightness });
-    },
-    [handleChange]
-  );
+  // Throttled color calculation
+  const calculateSaturationAndLightness = useCallback((clientX, clientY) => {
+    if (!colorAreaRef.current) return;
+    
+    const rect = colorAreaRef.current.getBoundingClientRect();
+    const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
+    const y = Math.max(0, Math.min(clientY - rect.top, rect.height));
+    
+    const newSaturation = Math.round((x / rect.width) * 100);
+    const newLightness = 100 - Math.round((y / rect.height) * 100);
+    
+    onColorChange({ s: newSaturation, l: newLightness });
+  }, [onColorChange]);
 
-  // Mouse event handlers
-  const handleMouseMove = useCallback(
-    (e) => {
-      e.preventDefault();
+  // RAF-based smooth dragging
+  const handleMouseMove = useCallback((e) => {
+    if (!dragging) return;
+    
+    if (animationRef.current) {
+      cancelAnimationFrame(animationRef.current);
+    }
+    
+    animationRef.current = requestAnimationFrame(() => {
       calculateSaturationAndLightness(e.clientX, e.clientY);
-    },
-    [calculateSaturationAndLightness]
-  );
+    });
+  }, [dragging, calculateSaturationAndLightness]);
 
-  const handleMouseUp = useCallback(() => {
-    setDragging(false);
-  }, []);
-
-  const handleMouseDown = (e) => {
+  const handleMouseDown = useCallback((e) => {
     e.preventDefault();
     setDragging(true);
     calculateSaturationAndLightness(e.clientX, e.clientY);
-  };
+  }, [calculateSaturationAndLightness]);
 
-  // Touch event handlers
-  const handleTouchMove = useCallback(
-    (e) => {
-      e.preventDefault();
+  const handleMouseUp = useCallback(() => {
+    setDragging(false);
+    if (animationRef.current) {
+      cancelAnimationFrame(animationRef.current);
+    }
+  }, []);
+
+  const handleTouchMove = useCallback((e) => {
+    if (!dragging) return;
+    e.preventDefault();
+    
+    if (animationRef.current) {
+      cancelAnimationFrame(animationRef.current);
+    }
+    
+    animationRef.current = requestAnimationFrame(() => {
       const touch = e.touches[0];
       if (touch) {
         calculateSaturationAndLightness(touch.clientX, touch.clientY);
       }
-    },
-    [calculateSaturationAndLightness]
-  );
+    });
+  }, [dragging, calculateSaturationAndLightness]);
+
+  const handleTouchStart = useCallback((e) => {
+    e.preventDefault();
+    setDragging(true);
+    const touch = e.touches[0];
+    if (touch) {
+      calculateSaturationAndLightness(touch.clientX, touch.clientY);
+    }
+  }, [calculateSaturationAndLightness]);
 
   const handleTouchEnd = useCallback(() => {
     setDragging(false);
-  }, []);
-
-  const handleTouchStart = (e) => {
-    e.preventDefault();
-    const touch = e.touches[0];
-    if (touch) {
-      setDragging(true);
-      calculateSaturationAndLightness(touch.clientX, touch.clientY);
+    if (animationRef.current) {
+      cancelAnimationFrame(animationRef.current);
     }
-  };
+  }, []);
 
   useEffect(() => {
     if (dragging) {
-      window.addEventListener("mousemove", handleMouseMove);
-      window.addEventListener("mouseup", handleMouseUp);
-      window.addEventListener("touchmove", handleTouchMove, { passive: false });
-      window.addEventListener("touchend", handleTouchEnd);
-    } else {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
-      window.removeEventListener("touchmove", handleTouchMove);
-      window.removeEventListener("touchend", handleTouchEnd);
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+      document.addEventListener("touchmove", handleTouchMove, { passive: false });
+      document.addEventListener("touchend", handleTouchEnd);
     }
 
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
-      window.removeEventListener("touchmove", handleTouchMove);
-      window.removeEventListener("touchend", handleTouchEnd);
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+      document.removeEventListener("touchmove", handleTouchMove);
+      document.removeEventListener("touchend", handleTouchEnd);
+      
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
     };
-  }, [
-    dragging,
-    handleMouseMove,
-    handleMouseUp,
-    handleTouchMove,
-    handleTouchEnd,
-  ]);
+  }, [dragging, handleMouseMove, handleMouseUp, handleTouchMove, handleTouchEnd]);
+
+  // Memoized gradient style to prevent unnecessary re-renders
+  const canvasStyle = useMemo(() => ({
+    background: `linear-gradient(to top, #000, transparent), linear-gradient(to right, #fff, hsl(${h}, 100%, 50%))`,
+    position: "relative",
+    cursor: dragging ? "grabbing" : "grab",
+  }), [h, dragging]);
+
+  const selectorStyle = useMemo(() => ({
+    left: `${s}%`,
+    top: `${100 - l}%`,
+    transform: "translate(-50%, -50%)",
+    backgroundColor: `hsl(${h}, ${s}%, ${l}%)`,
+    pointerEvents: "none",
+  }), [h, s, l]);
 
   return (
     <div
       ref={colorAreaRef}
-      className="h-48 w-full touch-auto overscroll-none rounded-xl border border-zinc-200 dark:touch-auto dark:border-zinc-700"
-      style={{
-        background: `linear-gradient(to top, #000, transparent, #fff), linear-gradient(to left, hsl(${h}, 100%, 50%), #bbb)`,
-        position: "relative",
-        cursor: "crosshair",
-      }}
+      className="h-48 w-full touch-none overscroll-none rounded-xl border border-zinc-200 dark:border-zinc-700"
+      style={canvasStyle}
       onMouseDown={handleMouseDown}
       onTouchStart={handleTouchStart}
     >
       <div
-        className="color-selector border-4 border-white ring-1 ring-zinc-200 dark:border-zinc-900 dark:ring-zinc-700"
-        style={{
-          position: "absolute",
-          width: "20px",
-          height: "20px",
-          borderRadius: "50%",
-          background: `hsl(${h}, ${s}%, ${l}%)`,
-          transform: "translate(-50%, -50%)",
-          left: `${s}%`,
-          top: `${100 - l}%`,
-          cursor: dragging ? "grabbing" : "grab",
-        }}
-      ></div>
+        className="absolute w-5 h-5 rounded-full border-2 border-white shadow-lg transition-transform duration-100"
+        style={selectorStyle}
+      />
     </div>
   );
-};
+});
+
+DraggableColorCanvas.displayName = 'DraggableColorCanvas';
 
 function sanitizeHex(val) {
-  const sanitized = val.replace(/[^a-zA-Z0-9]/g, "").toUpperCase();
-  return sanitized;
+  return val.replace(/[^a-fA-F0-9]/g, "").toUpperCase();
 }
-const ColorPicker = ({ default_value = "#1C9488", onChange }) => {
-  const [color, setColor] = useState(() => {
-    const hex = sanitizeHex(default_value);
-    const hsl = hexToHsl({ hex: hex });
-    return { ...hsl, hex: sanitizeHex(hex) };
+
+const ColorPicker = React.memo(({ default_value = "#3b82f6", onChange }) => {
+  const [internalColor, setInternalColor] = useState(() => {
+    const hex = sanitizeHex(default_value.replace("#", ""));
+    const fullHex = hex.length === 3 ? hex.split('').map(c => c + c).join('') : hex;
+    const hsl = hexToHsl(fullHex);
+    return { ...hsl, hex: fullHex };
   });
 
-  // Update from hex input
-  const handleHexInputChange = (newVal) => {
-    const hex = sanitizeHex(newVal);
-    if (hex.length === 6) {
-      const hsl = hexToHsl({ hex });
-      setColor({ ...hsl, hex: hex });
-      // Call onChange callback with the hex value (without #)
-      if (onChange) onChange(hex);
-    } else if (hex.length < 6) {
-      setColor((prev) => ({ ...prev, hex: hex }));
-    }
-  };
+  const lastExternalValueRef = useRef(default_value);
+  const onChangeRef = useRef(onChange);
+  const debounceRef = useRef(null);
 
-  // Add useEffect to call onChange when color changes via other methods
+  // Update ref when onChange changes
   useEffect(() => {
-    if (onChange && color.hex.length === 6) {
-      onChange(color.hex);
+    onChangeRef.current = onChange;
+  }, [onChange]);
+
+  // Debounced onChange callback
+  const debouncedOnChange = useCallback((hexValue) => {
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current);
     }
-  }, [color.hex, onChange]);
+    
+    debounceRef.current = setTimeout(() => {
+      if (onChangeRef.current) {
+        onChangeRef.current(hexValue);
+      }
+    }, 16); // ~60fps
+  }, []);
+
+  // Sync with external changes (debounced)
+  useEffect(() => {
+    if (default_value !== lastExternalValueRef.current) {
+      const hex = sanitizeHex(default_value.replace("#", ""));
+      const fullHex = hex.length === 3 ? hex.split('').map(c => c + c).join('') : hex;
+      
+      if (fullHex.length === 6) {
+        const hsl = hexToHsl(fullHex);
+        setInternalColor({ ...hsl, hex: fullHex });
+        lastExternalValueRef.current = default_value;
+      }
+    }
+  }, [default_value]);
+
+  const handleColorUpdate = useCallback((updates) => {
+    setInternalColor(prev => {
+      const newColor = { ...prev, ...updates };
+      const hex = hslToHex(newColor);
+      const finalColor = { ...newColor, hex: hex.replace("#", "") };
+      
+      // Debounce the onChange call
+      debouncedOnChange(finalColor.hex);
+      
+      return finalColor;
+    });
+  }, [debouncedOnChange]);
+
+  const handleHexInputChange = useCallback((newVal) => {
+    const hex = sanitizeHex(newVal);
+    const fullHex = hex.length === 3 ? hex.split('').map(c => c + c).join('') : hex;
+    
+    if (fullHex.length === 6) {
+      const hsl = hexToHsl(fullHex);
+      const newColor = { ...hsl, hex: fullHex };
+      setInternalColor(newColor);
+      debouncedOnChange(fullHex);
+    } else {
+      setInternalColor(prev => ({ ...prev, hex: hex }));
+    }
+  }, [debouncedOnChange]);
+
+  const handleHueChange = useCallback((hue) => {
+    handleColorUpdate({ h: hue });
+  }, [handleColorUpdate]);
+
+  const handleCanvasChange = useCallback((updates) => {
+    handleColorUpdate(updates);
+  }, [handleColorUpdate]);
+
+  // Memoized styles and values
+  const hueSliderBackground = useMemo(() => ({
+    background: 'linear-gradient(to right, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000)'
+  }), []);
+
+  const previewColor = useMemo(() => `#${internalColor.hex}`, [internalColor.hex]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (debounceRef.current) {
+        clearTimeout(debounceRef.current);
+      }
+    };
+  }, []);
+
   return (
     <>
       <style
-        id="slider-thumb-style"
         dangerouslySetInnerHTML={{
-          // For the input range thumb styles. Some things are just easier to add to an external stylesheet.
-          // don't actually put this in production.
-          // Just putting this here for the sake of a single file in this example
           __html: `
-            input[type='range']::-webkit-slider-thumb {
+            .color-picker-range {
               -webkit-appearance: none;
               appearance: none;
-              width: 18px; 
-              height: 18px;
-              background: transparent;
-              border: 4px solid #FFFFFF;
-              box-shadow: 0 0 0 1px #e4e4e7; 
-              cursor: pointer;
-              border-radius: 50%;
-            }
-            input[type='range']::-moz-range-thumb {
-              width: 18px;
-              height: 18px;
-              cursor: pointer;
-              border-radius: 50%;
-              background: transparent;
-              border: 4px solid #FFFFFF;
-              box-shadow: 0 0 0 1px #e4e4e7;
-            }
-            input[type='range']::-ms-thumb {
-              width: 18px;
-              height: 18px;
+              width: 100%;
+              height: 12px;
+              border-radius: 6px;
               background: transparent;
               cursor: pointer;
+            }
+            
+            .color-picker-range::-webkit-slider-thumb {
+              -webkit-appearance: none;
+              appearance: none;
+              width: 20px;
+              height: 20px;
+              background: white;
+              border: 2px solid #e4e4e7;
               border-radius: 50%;
-              border: 4px solid #FFFFFF;
-              box-shadow: 0 0 0 1px #e4e4e7;
+              cursor: pointer;
+              box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+              transition: all 0.1s ease;
             }
-  
-            .dark input[type='range']::-webkit-slider-thumb {
-              border: 4px solid rgb(24 24 27);
-              box-shadow: 0 0 0 1px #3f3f46; 
+            
+            .color-picker-range::-moz-range-thumb {
+              width: 20px;
+              height: 20px;
+              background: white;
+              border: 2px solid #e4e4e7;
+              border-radius: 50%;
+              cursor: pointer;
+              box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+              transition: all 0.1s ease;
             }
-            .dark input[type='range']::-moz-range-thumb {
-              border: 4px solid rgb(24 24 27);
-              box-shadow: 0 0 0 1px #3f3f46; 
+            
+            .dark .color-picker-range::-webkit-slider-thumb {
+              border: 2px solid #3f3f46;
+              background: #18181b;
             }
-            .dark input[type='range']::-ms-thumb {
-              border: 4px solid rgb(24 24 27);
-              box-shadow: 0 0 0 1px #3f3f46; 
+            
+            .dark .color-picker-range::-moz-range-thumb {
+              border: 2px solid #3f3f46;
+              background: #18181b;
             }
-            `,
+            
+            .color-picker-range::-webkit-slider-thumb:hover {
+              transform: scale(1.1);
+            }
+            
+            .color-picker-range::-moz-range-thumb:hover {
+              transform: scale(1.1);
+            }
+          `,
         }}
       />
-      <div
-        style={{
-          "--thumb-border-color": "#000000",
-          "--thumb-ring-color": "#666666",
-        }}
-        className="z-30 flex mt-5 w-full max-w-[300px] select-none flex-col items-center gap-3 overscroll-none rounded-2xl border border-zinc-200 bg-white p-4 shadow-md dark:border-zinc-700 dark:bg-zinc-900"
-      >
+      
+      <div className="w-full max-w-[300px] select-none flex flex-col items-center gap-4 overscroll-none rounded-2xl border border-zinc-200 bg-white p-4 shadow-md dark:border-zinc-700 dark:bg-zinc-900">
         <DraggableColorCanvas
-          {...color}
-          handleChange={(parital) => {
-            setColor((prev) => {
-              const value = { ...prev, ...parital };
-              const hex_formatted = hslToHex({
-                h: value.h,
-                s: value.s,
-                l: value.l,
-              });
-              return { ...value, hex: hex_formatted };
-            });
-          }}
+          h={internalColor.h}
+          s={internalColor.s}
+          l={internalColor.l}
+          onColorChange={handleCanvasChange}
         />
-        <input
-          type="range"
-          min="0"
-          max="360"
-          value={color.h}
-          className="dark:border-zinc-7000 h-3 w-full cursor-pointer appearance-none rounded-full border border-zinc-200 bg-white text-white placeholder:text-white dark:border-zinc-700"
-          style={{
-            background: `linear-gradient(to right, 
-                  hsl(0, 100%, 50%), 
-                  hsl(60, 100%, 50%), 
-                  hsl(120, 100%, 50%), 
-                  hsl(180, 100%, 50%), 
-                  hsl(240, 100%, 50%), 
-                  hsl(300, 100%, 50%), 
-                  hsl(360, 100%, 50%))`,
-          }}
-          onChange={(e) => {
-            const hue = e.target.valueAsNumber;
-            setColor((prev) => {
-              const { hex, ...rest } = { ...prev, h: hue };
-              const hex_formatted = hslToHex({ ...rest });
-              return { ...rest, hex: hex_formatted };
-            });
-          }}
-        />
-        <div className="relative h-fit w-full">
-          <div className="absolute inset-y-0 flex items-center px-[5px]">
-            <HashtagIcon className="size-4 text-zinc-600" />
+        
+        <div className="w-full">
+          <input
+            type="range"
+            min="0"
+            max="360"
+            value={internalColor.h}
+            onChange={(e) => handleHueChange(Number(e.target.value))}
+            className="color-picker-range"
+            style={hueSliderBackground}
+          />
+        </div>
+        
+        <div className="relative w-full">
+          <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+            <HashtagIcon className="size-4 text-zinc-600 dark:text-zinc-400" />
           </div>
           <input
-            id="color-value"
-            className={clsx(
-              "flex w-full items-center justify-between rounded-lg border p-2 text-sm focus:ring-1",
-              //10 px for the paddng on the hashtag, 16px for the icon
-              "pl-[26px]",
-              // 10px for the padding on the color badge, 28px for the color badge
-              "pr-[38px]",
-              // bg & text
-              "bg-black/[2.5%] text-zinc-700 dark:bg-white/[2.5%]  dark:text-zinc-200",
-              // borders & backgrounds
-              "border-zinc-200 dark:border-zinc-700",
-              // hover classes
-              "hover:border-zinc-300",
-              "dark:hover:border-zinc-600",
-              // focus classes
-              "focus:border-zinc-300 focus:ring-zinc-300",
-              "dark:focus:border-zinc-600 dark:focus:ring-zinc-600",
-              // selection styles
-              "selection:bg-black/20  selection:text-black",
-              "dark:selection:bg-white/30 dark:selection:text-white"
-            )}
-            value={color.hex}
-            onChange={(e) => {
-              handleHexInputChange(e.target.value);
-            }}
+            value={internalColor.hex}
+            onChange={(e) => handleHexInputChange(e.target.value)}
+            className="w-full pl-10 pr-12 py-2 rounded-lg border border-zinc-200 bg-white text-sm text-zinc-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-150"
+            placeholder="HEX"
+            maxLength={6}
           />
-          <div className="absolute inset-y-0 right-0 flex h-full items-center px-[5px]">
+          <div className="absolute inset-y-0 right-0 flex items-center pr-3">
             <div
-              className="size-7 rounded-md border border-zinc-200 dark:border-zinc-800"
-              style={{
-                backgroundColor: `hsl(${color.h}, ${color.s}%, ${color.l}%)`,
-              }}
+              className="w-6 h-6 rounded border border-zinc-200 dark:border-zinc-600 transition-colors duration-150"
+              style={{ backgroundColor: previewColor }}
             />
           </div>
         </div>
       </div>
     </>
   );
-};
+});
+
+ColorPicker.displayName = 'ColorPicker';
 
 export default ColorPicker;

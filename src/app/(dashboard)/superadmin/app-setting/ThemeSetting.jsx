@@ -176,7 +176,11 @@ export default function ThemeCustomizationPage() {
               <button
                 onClick={saveTheme}
                 disabled={isUpdating}
-                className="px-6 py-3 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 text-white rounded-lg font-medium transition-colors flex items-center justify-center min-w-[140px]"
+                className="px-6 py-3 bg-[var(--primary-color)] hover:opacity-90 disabled:bg-gray-400 text-white rounded-lg font-medium transition-all flex items-center justify-center min-w-[140px]"
+                style={{
+                  backgroundColor: themeSettings.primaryColor,
+                  opacity: isUpdating ? 0.7 : 1,
+                }}
               >
                 {isUpdating ? (
                   <>
@@ -188,10 +192,15 @@ export default function ThemeCustomizationPage() {
                 )}
               </button>
 
+              {/* Optional: Reset button using secondary color */}
               {/* <button
                 onClick={resetTheme}
                 disabled={isUpdating}
-                className="px-6 py-3 bg-gray-500 hover:bg-gray-600 disabled:bg-gray-400 text-white rounded-lg font-medium transition-colors min-w-[140px]"
+                className="px-6 py-3 hover:opacity-90 disabled:bg-gray-400 text-white rounded-lg font-medium transition-all min-w-[140px]"
+                style={{
+                  backgroundColor: themeSettings.secondaryColor,
+                  opacity: isUpdating ? 0.7 : 1,
+                }}
               >
                 Reset to Default
               </button> */}

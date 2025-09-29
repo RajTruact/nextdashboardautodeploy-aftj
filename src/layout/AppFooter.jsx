@@ -17,15 +17,8 @@ const AppFooter = () => {
           href={`/${roles}/terms`}
           className="text-center text-[13px] hover:underline transition-all"
         >
-          Terms
+          Terms & Privacy
         </Link>
-        <Link
-          href={`/${roles}/privacy`}
-          className="text-center text-[13px] hover:underline transition-all"
-        >
-          Privacy
-        </Link>
-
         <Link
           href={`/${roles}/support`}
           className="text-center text-[13px] hover:underline transition-all"

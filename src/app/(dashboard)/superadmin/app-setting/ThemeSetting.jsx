@@ -5,6 +5,7 @@ import ColorPicker from "./ColorPicker";
 
 export default function ThemeCustomizationPage() {
   const { colors, updateColors, refreshTheme, isLoading } = useTheme();
+  console.log("all colors", colors);
   const [userRole, setUserRole] = useState("superAdmin");
   const [themeSettings, setThemeSettings] = useState({
     primaryColor: "#3b82f6",
@@ -62,9 +63,9 @@ export default function ThemeCustomizationPage() {
 
   const resetTheme = async () => {
     const defaultSettings = {
-      primaryColor: "#3b82f6",
-      tertiaryColor: "#10b981",
-      secondaryColor: "#8b5cf6",
+      primaryColor: colors.primaryColor,
+      tertiaryColor: colors.tertiaryColor,
+      secondaryColor: colors.secondaryColor,
     };
 
     setThemeSettings(defaultSettings);
@@ -129,10 +130,10 @@ export default function ThemeCustomizationPage() {
   );
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-900 p-4 md:p-6 min-h-screen">
-      <div className="max-w-7xl mx-auto">
+    <div className="bg-gray-50 dark:bg-gray-900 p-4 md:p-6 ">
+      <div className=" mx-auto">
         <div className="mb-8">
-          <h1 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-white mb-2">
+          <h1 className="text-md md:text-md font-bold text-gray-800 dark:text-white mb-2">
             Theme Customization
           </h1>
           <p className="text-gray-600 dark:text-gray-400 text-sm md:text-base">
@@ -193,17 +194,17 @@ export default function ThemeCustomizationPage() {
               </button>
 
               {/* Optional: Reset button using secondary color */}
-              {/* <button
+              <button
                 onClick={resetTheme}
                 disabled={isUpdating}
                 className="px-6 py-3 hover:opacity-90 disabled:bg-gray-400 text-white rounded-lg font-medium transition-all min-w-[140px]"
                 style={{
-                  backgroundColor: themeSettings.secondaryColor,
+                  backgroundColor: themeSettings.primaryColor,
                   opacity: isUpdating ? 0.7 : 1,
                 }}
               >
                 Reset to Default
-              </button> */}
+              </button>
 
               {isSaved && (
                 <div className="ml-auto flex items-center text-green-600 dark:text-green-400">

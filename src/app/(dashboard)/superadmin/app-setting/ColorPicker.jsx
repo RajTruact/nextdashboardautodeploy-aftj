@@ -1,5 +1,11 @@
 "use client";
-import React, { useCallback, useEffect, useRef, useState, useMemo } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useMemo,
+} from "react";
 
 function clsx(...inputs) {
   return inputs.filter(Boolean).join(" ");
@@ -36,22 +42,22 @@ function hslToHex({ h, s, l }) {
     const hue2rgb = (p, q, t) => {
       if (t < 0) t += 1;
       if (t > 1) t -= 1;
-      if (t < 1/6) return p + (q - p) * 6 * t;
-      if (t < 1/2) return q;
-      if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+      if (t < 1 / 6) return p + (q - p) * 6 * t;
+      if (t < 1 / 2) return q;
+      if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
       return p;
     };
 
     const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
     const p = 2 * l - q;
-    r = hue2rgb(p, q, h + 1/3);
+    r = hue2rgb(p, q, h + 1 / 3);
     g = hue2rgb(p, q, h);
-    b = hue2rgb(p, q, h - 1/3);
+    b = hue2rgb(p, q, h - 1 / 3);
   }
 
   const toHex = (x) => {
     const hex = Math.round(x * 255).toString(16);
-    return hex.length === 1 ? '0' + hex : hex;
+    return hex.length === 1 ? "0" + hex : hex;
   };
 
   return `#${toHex(r)}${toHex(g)}${toHex(b)}`.toUpperCase();
@@ -73,18 +79,26 @@ function hexToHsl(hex) {
 
   const max = Math.max(r, g, b);
   const min = Math.min(r, g, b);
-  let h, s, l = (max + min) / 2;
+  let h,
+    s,
+    l = (max + min) / 2;
 
   if (max === min) {
     h = s = 0;
   } else {
     const d = max - min;
     s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-    
+
     switch (max) {
-      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-      case g: h = (b - r) / d + 2; break;
-      case b: h = (r - g) / d + 4; break;
+      case r:
+        h = (g - b) / d + (g < b ? 6 : 0);
+        break;
+      case g:
+        h = (b - r) / d + 2;
+        break;
+      case b:
+        h = (r - g) / d + 4;
+        break;
     }
     h /= 6;
   }
@@ -92,7 +106,7 @@ function hexToHsl(hex) {
   return {
     h: Math.round(h * 360),
     s: Math.round(s * 100),
-    l: Math.round(l * 100)
+    l: Math.round(l * 100),
   };
 }
 
@@ -103,37 +117,46 @@ const DraggableColorCanvas = React.memo(({ h, s, l, onColorChange }) => {
   const animationRef = useRef(null);
 
   // Throttled color calculation
-  const calculateSaturationAndLightness = useCallback((clientX, clientY) => {
-    if (!colorAreaRef.current) return;
-    
-    const rect = colorAreaRef.current.getBoundingClientRect();
-    const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
-    const y = Math.max(0, Math.min(clientY - rect.top, rect.height));
-    
-    const newSaturation = Math.round((x / rect.width) * 100);
-    const newLightness = 100 - Math.round((y / rect.height) * 100);
-    
-    onColorChange({ s: newSaturation, l: newLightness });
-  }, [onColorChange]);
+  const calculateSaturationAndLightness = useCallback(
+    (clientX, clientY) => {
+      if (!colorAreaRef.current) return;
+
+      const rect = colorAreaRef.current.getBoundingClientRect();
+      const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
+      const y = Math.max(0, Math.min(clientY - rect.top, rect.height));
+
+      const newSaturation = Math.round((x / rect.width) * 100);
+      const newLightness = 100 - Math.round((y / rect.height) * 100);
+
+      onColorChange({ s: newSaturation, l: newLightness });
+    },
+    [onColorChange]
+  );
 
   // RAF-based smooth dragging
-  const handleMouseMove = useCallback((e) => {
-    if (!dragging) return;
-    
-    if (animationRef.current) {
-      cancelAnimationFrame(animationRef.current);
-    }
-    
-    animationRef.current = requestAnimationFrame(() => {
-      calculateSaturationAndLightness(e.clientX, e.clientY);
-    });
-  }, [dragging, calculateSaturationAndLightness]);
+  const handleMouseMove = useCallback(
+    (e) => {
+      if (!dragging) return;
 
-  const handleMouseDown = useCallback((e) => {
-    e.preventDefault();
-    setDragging(true);
-    calculateSaturationAndLightness(e.clientX, e.clientY);
-  }, [calculateSaturationAndLightness]);
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+
+      animationRef.current = requestAnimationFrame(() => {
+        calculateSaturationAndLightness(e.clientX, e.clientY);
+      });
+    },
+    [dragging, calculateSaturationAndLightness]
+  );
+
+  const handleMouseDown = useCallback(
+    (e) => {
+      e.preventDefault();
+      setDragging(true);
+      calculateSaturationAndLightness(e.clientX, e.clientY);
+    },
+    [calculateSaturationAndLightness]
+  );
 
   const handleMouseUp = useCallback(() => {
     setDragging(false);
@@ -142,30 +165,36 @@ const DraggableColorCanvas = React.memo(({ h, s, l, onColorChange }) => {
     }
   }, []);
 
-  const handleTouchMove = useCallback((e) => {
-    if (!dragging) return;
-    e.preventDefault();
-    
-    if (animationRef.current) {
-      cancelAnimationFrame(animationRef.current);
-    }
-    
-    animationRef.current = requestAnimationFrame(() => {
+  const handleTouchMove = useCallback(
+    (e) => {
+      if (!dragging) return;
+      e.preventDefault();
+
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+
+      animationRef.current = requestAnimationFrame(() => {
+        const touch = e.touches[0];
+        if (touch) {
+          calculateSaturationAndLightness(touch.clientX, touch.clientY);
+        }
+      });
+    },
+    [dragging, calculateSaturationAndLightness]
+  );
+
+  const handleTouchStart = useCallback(
+    (e) => {
+      e.preventDefault();
+      setDragging(true);
       const touch = e.touches[0];
       if (touch) {
         calculateSaturationAndLightness(touch.clientX, touch.clientY);
       }
-    });
-  }, [dragging, calculateSaturationAndLightness]);
-
-  const handleTouchStart = useCallback((e) => {
-    e.preventDefault();
-    setDragging(true);
-    const touch = e.touches[0];
-    if (touch) {
-      calculateSaturationAndLightness(touch.clientX, touch.clientY);
-    }
-  }, [calculateSaturationAndLightness]);
+    },
+    [calculateSaturationAndLightness]
+  );
 
   const handleTouchEnd = useCallback(() => {
     setDragging(false);
@@ -178,7 +207,9 @@ const DraggableColorCanvas = React.memo(({ h, s, l, onColorChange }) => {
     if (dragging) {
       document.addEventListener("mousemove", handleMouseMove);
       document.addEventListener("mouseup", handleMouseUp);
-      document.addEventListener("touchmove", handleTouchMove, { passive: false });
+      document.addEventListener("touchmove", handleTouchMove, {
+        passive: false,
+      });
       document.addEventListener("touchend", handleTouchEnd);
     }
 
@@ -187,27 +218,39 @@ const DraggableColorCanvas = React.memo(({ h, s, l, onColorChange }) => {
       document.removeEventListener("mouseup", handleMouseUp);
       document.removeEventListener("touchmove", handleTouchMove);
       document.removeEventListener("touchend", handleTouchEnd);
-      
+
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [dragging, handleMouseMove, handleMouseUp, handleTouchMove, handleTouchEnd]);
+  }, [
+    dragging,
+    handleMouseMove,
+    handleMouseUp,
+    handleTouchMove,
+    handleTouchEnd,
+  ]);
 
   // Memoized gradient style to prevent unnecessary re-renders
-  const canvasStyle = useMemo(() => ({
-    background: `linear-gradient(to top, #000, transparent), linear-gradient(to right, #fff, hsl(${h}, 100%, 50%))`,
-    position: "relative",
-    cursor: dragging ? "grabbing" : "grab",
-  }), [h, dragging]);
+  const canvasStyle = useMemo(
+    () => ({
+      background: `linear-gradient(to top, #000, transparent), linear-gradient(to right, #fff, hsl(${h}, 100%, 50%))`,
+      position: "relative",
+      cursor: dragging ? "grabbing" : "grab",
+    }),
+    [h, dragging]
+  );
 
-  const selectorStyle = useMemo(() => ({
-    left: `${s}%`,
-    top: `${100 - l}%`,
-    transform: "translate(-50%, -50%)",
-    backgroundColor: `hsl(${h}, ${s}%, ${l}%)`,
-    pointerEvents: "none",
-  }), [h, s, l]);
+  const selectorStyle = useMemo(
+    () => ({
+      left: `${s}%`,
+      top: `${100 - l}%`,
+      transform: "translate(-50%, -50%)",
+      backgroundColor: `hsl(${h}, ${s}%, ${l}%)`,
+      pointerEvents: "none",
+    }),
+    [h, s, l]
+  );
 
   return (
     <div
@@ -225,7 +268,7 @@ const DraggableColorCanvas = React.memo(({ h, s, l, onColorChange }) => {
   );
 });
 
-DraggableColorCanvas.displayName = 'DraggableColorCanvas';
+DraggableColorCanvas.displayName = "DraggableColorCanvas";
 
 function sanitizeHex(val) {
   return val.replace(/[^a-fA-F0-9]/g, "").toUpperCase();
@@ -234,7 +277,13 @@ function sanitizeHex(val) {
 const ColorPicker = React.memo(({ default_value = "#3b82f6", onChange }) => {
   const [internalColor, setInternalColor] = useState(() => {
     const hex = sanitizeHex(default_value.replace("#", ""));
-    const fullHex = hex.length === 3 ? hex.split('').map(c => c + c).join('') : hex;
+    const fullHex =
+      hex.length === 3
+        ? hex
+            .split("")
+            .map((c) => c + c)
+            .join("")
+        : hex;
     const hsl = hexToHsl(fullHex);
     return { ...hsl, hex: fullHex };
   });
@@ -253,7 +302,7 @@ const ColorPicker = React.memo(({ default_value = "#3b82f6", onChange }) => {
     if (debounceRef.current) {
       clearTimeout(debounceRef.current);
     }
-    
+
     debounceRef.current = setTimeout(() => {
       if (onChangeRef.current) {
         onChangeRef.current(hexValue);
@@ -265,8 +314,14 @@ const ColorPicker = React.memo(({ default_value = "#3b82f6", onChange }) => {
   useEffect(() => {
     if (default_value !== lastExternalValueRef.current) {
       const hex = sanitizeHex(default_value.replace("#", ""));
-      const fullHex = hex.length === 3 ? hex.split('').map(c => c + c).join('') : hex;
-      
+      const fullHex =
+        hex.length === 3
+          ? hex
+              .split("")
+              .map((c) => c + c)
+              .join("")
+          : hex;
+
       if (fullHex.length === 6) {
         const hsl = hexToHsl(fullHex);
         setInternalColor({ ...hsl, hex: fullHex });
@@ -275,47 +330,72 @@ const ColorPicker = React.memo(({ default_value = "#3b82f6", onChange }) => {
     }
   }, [default_value]);
 
-  const handleColorUpdate = useCallback((updates) => {
-    setInternalColor(prev => {
-      const newColor = { ...prev, ...updates };
-      const hex = hslToHex(newColor);
-      const finalColor = { ...newColor, hex: hex.replace("#", "") };
-      
-      // Debounce the onChange call
-      debouncedOnChange(finalColor.hex);
-      
-      return finalColor;
-    });
-  }, [debouncedOnChange]);
+  const handleColorUpdate = useCallback(
+    (updates) => {
+      setInternalColor((prev) => {
+        const newColor = { ...prev, ...updates };
+        const hex = hslToHex(newColor);
+        const finalColor = { ...newColor, hex: hex.replace("#", "") };
 
-  const handleHexInputChange = useCallback((newVal) => {
-    const hex = sanitizeHex(newVal);
-    const fullHex = hex.length === 3 ? hex.split('').map(c => c + c).join('') : hex;
-    
-    if (fullHex.length === 6) {
-      const hsl = hexToHsl(fullHex);
-      const newColor = { ...hsl, hex: fullHex };
-      setInternalColor(newColor);
-      debouncedOnChange(fullHex);
-    } else {
-      setInternalColor(prev => ({ ...prev, hex: hex }));
-    }
-  }, [debouncedOnChange]);
+        // Debounce the onChange call
+        debouncedOnChange(finalColor.hex);
 
-  const handleHueChange = useCallback((hue) => {
-    handleColorUpdate({ h: hue });
-  }, [handleColorUpdate]);
+        return finalColor;
+      });
+    },
+    [debouncedOnChange]
+  );
 
-  const handleCanvasChange = useCallback((updates) => {
-    handleColorUpdate(updates);
-  }, [handleColorUpdate]);
+  const handleHexInputChange = useCallback(
+    (newVal) => {
+      const hex = sanitizeHex(newVal);
+      const fullHex =
+        hex.length === 3
+          ? hex
+              .split("")
+              .map((c) => c + c)
+              .join("")
+          : hex;
+
+      if (fullHex.length === 6) {
+        const hsl = hexToHsl(fullHex);
+        const newColor = { ...hsl, hex: fullHex };
+        setInternalColor(newColor);
+        debouncedOnChange(fullHex);
+      } else {
+        setInternalColor((prev) => ({ ...prev, hex: hex }));
+      }
+    },
+    [debouncedOnChange]
+  );
+
+  const handleHueChange = useCallback(
+    (hue) => {
+      handleColorUpdate({ h: hue });
+    },
+    [handleColorUpdate]
+  );
+
+  const handleCanvasChange = useCallback(
+    (updates) => {
+      handleColorUpdate(updates);
+    },
+    [handleColorUpdate]
+  );
 
   // Memoized styles and values
-  const hueSliderBackground = useMemo(() => ({
-    background: 'linear-gradient(to right, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000)'
-  }), []);
+  const hueSliderBackground = useMemo(
+    () => ({
+      background:
+        "linear-gradient(to right, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000)",
+    }),
+    []
+  );
 
-  const previewColor = useMemo(() => `#${internalColor.hex}`, [internalColor.hex]);
+  const previewColor = useMemo(
+    () => `#${internalColor.hex}`,
+    [internalColor.hex]
+  );
 
   // Cleanup on unmount
   useEffect(() => {
@@ -385,15 +465,15 @@ const ColorPicker = React.memo(({ default_value = "#3b82f6", onChange }) => {
           `,
         }}
       />
-      
-      <div className="w-full max-w-[300px] select-none flex flex-col items-center gap-4 overscroll-none rounded-2xl border border-zinc-200 bg-white p-4 shadow-md dark:border-zinc-700 dark:bg-zinc-900">
+
+      <div className="w-full max-w-[380px] select-none flex flex-col items-center gap-4 overscroll-none rounded-2xl border border-zinc-200 bg-white p-4 shadow-md dark:border-zinc-700 dark:bg-zinc-900">
         <DraggableColorCanvas
           h={internalColor.h}
           s={internalColor.s}
           l={internalColor.l}
           onColorChange={handleCanvasChange}
         />
-        
+
         <div className="w-full">
           <input
             type="range"
@@ -405,7 +485,7 @@ const ColorPicker = React.memo(({ default_value = "#3b82f6", onChange }) => {
             style={hueSliderBackground}
           />
         </div>
-        
+
         <div className="relative w-full">
           <div className="absolute inset-y-0 left-0 flex items-center pl-3">
             <HashtagIcon className="size-4 text-zinc-600 dark:text-zinc-400" />
@@ -429,6 +509,6 @@ const ColorPicker = React.memo(({ default_value = "#3b82f6", onChange }) => {
   );
 });
 
-ColorPicker.displayName = 'ColorPicker';
+ColorPicker.displayName = "ColorPicker";
 
 export default ColorPicker;

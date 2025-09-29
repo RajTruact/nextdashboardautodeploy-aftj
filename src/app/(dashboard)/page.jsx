@@ -8,20 +8,26 @@ export default function Page() {
   const router = useRouter();
 
   useEffect(() => {
+    // Add class to hide top loader
+    document.body.classList.add('hide-top-loader');
+    
     // Redirect after 2s (simulate loading)
     const timer = setTimeout(() => {
       router.push("/superadmin");
     }, 2000);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      // Remove class when component unmounts
+      document.body.classList.remove('hide-top-loader');
+    };
   }, [router]);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-900">
       {/* Logo or Icon */}
       <div className="relative">
-        {/* <div className="h-16 w-16 rounded-full border-4 border-blue-500 border-t-transparent animate-spin" /> */}
-         <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600"></div>
         <div className="absolute inset-0 flex items-center justify-center">
           <span className="text-blue-500 font-bold text-lg">SA</span>
         </div>

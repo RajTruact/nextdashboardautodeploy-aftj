@@ -860,3 +860,12 @@ span.flatpickr-weekday,
   display: inline-block;
   will-change: transform;
 }
+
+/* Hide next-top-loader on specific routes */
+.hide-top-loader #nprogress {
+  display: none !important;
+}
+
+.hide-top-loader .nprogress-bar {
+  display: none !important;
+}

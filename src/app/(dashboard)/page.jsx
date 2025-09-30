@@ -3,14 +3,17 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { useTheme } from "@/src/context/ThemeContext";
 
 export default function Page() {
   const router = useRouter();
+  const { colors } = useTheme();
+  const primary = colors?.primaryColor || "#2563eb"; // fallback to blue-600
 
   useEffect(() => {
     // Add class to hide top loader
-    document.body.classList.add('hide-top-loader');
-    
+    document.body.classList.add("hide-top-loader");
+
     // Redirect after 2s (simulate loading)
     const timer = setTimeout(() => {
       router.push("/superadmin");
@@ -19,7 +22,7 @@ export default function Page() {
     return () => {
       clearTimeout(timer);
       // Remove class when component unmounts
-      document.body.classList.remove('hide-top-loader');
+      document.body.classList.remove("hide-top-loader");
     };
   }, [router]);
 
@@ -27,9 +30,14 @@ export default function Page() {
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-900">
       {/* Logo or Icon */}
       <div className="relative">
-        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600"></div>
+        <div
+          className="animate-spin rounded-full h-16 w-16 border-b-2"
+          style={{ borderColor: primary }}
+        ></div>
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-blue-500 font-bold text-lg">SA</span>
+          <span className="font-bold text-lg" style={{ color: primary }}>
+            SA
+          </span>
         </div>
       </div>
 
@@ -40,7 +48,10 @@ export default function Page() {
 
       {/* Progress Bar */}
       <div className="w-64 h-2 mt-6 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-        <div className="h-full bg-blue-600 animate-[progress_2s_linear_forwards]" />
+        <div
+          className="h-full animate-[progress_2s_linear_forwards]"
+          style={{ backgroundColor: primary }}
+        />
       </div>
 
       <style jsx>{`

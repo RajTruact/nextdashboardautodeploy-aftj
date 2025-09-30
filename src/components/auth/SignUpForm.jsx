@@ -1,4 +1,5 @@
 "use client";
+import { useTheme } from "@/src/context/ThemeContext";
 import Checkbox from "../ui/input/Checkbox";
 import Input from "../ui/input/InputField";
 import Label from "../ui/input/Label";
@@ -11,6 +12,8 @@ import React, { useState } from "react";
 export default function SignUpForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
+  const { colors } = useTheme();
+  const primary = colors?.primaryColor;
   return (
     <div className="flex flex-col flex-1 lg:w-1/2 w-full overflow-y-auto no-scrollbar">
       <div className="w-full max-w-md sm:pt-10 mx-auto mb-0">
@@ -167,7 +170,10 @@ export default function SignUpForm() {
                 </div>
                 {/* <!-- Button --> */}
                 <div>
-                  <button className="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white transition rounded-lg bg-brand-500 shadow-theme-xs hover:bg-brand-600">
+                  <button
+                    className="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white transition rounded-lg shadow-theme-xs "
+                    style={{ background: primary }}
+                  >
                     Sign Up
                   </button>
                 </div>
@@ -176,12 +182,12 @@ export default function SignUpForm() {
 
             <div className="mt-5">
               <p className="text-sm font-normal text-center text-gray-700 dark:text-gray-400 sm:text-start">
-                Already have an account?
+                Already have an account?{" "}
                 <Link
                   href="/signin"
                   className="text-brand-500 hover:text-brand-600 dark:text-brand-400"
                 >
-                  Sign In
+                  Log In
                 </Link>
               </p>
             </div>

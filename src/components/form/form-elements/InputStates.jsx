@@ -1,22 +1,22 @@
 "use client";
 import React, { useState } from "react";
 import ComponentCard from "../../common/ComponentCard";
-import Input from "../input/InputField";
-import Label from "../Label";
+import Input from "../../ui/input/InputField";
+import Label from "../../ui/input/Label";
 
 export default function InputStates() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState(false);
 
   // Simulate a validation check
-  const validateEmail = (value: string) => {
+  const validateEmail = (value) => {
     const isValidEmail =
       /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value);
     setError(!isValidEmail);
     return isValidEmail;
   };
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleEmailChange = (e) => {
     const value = e.target.value;
     setEmail(value);
     validateEmail(value);

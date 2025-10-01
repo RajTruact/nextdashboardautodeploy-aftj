@@ -1,11 +1,12 @@
 "use client";
-import React, { useState } from 'react';
-import ComponentCard from '../../common/ComponentCard';
-import Label from '../Label';
-import Input from '../input/InputField';
-import Select from '../Select';
-import { ChevronDownIcon, EyeCloseIcon, EyeIcon, TimeIcon } from '../../../icons';
-import DatePicker from '@/components/form/date-picker';
+import React, { useState } from "react";
+import ComponentCard from "../../common/ComponentCard";
+import Label from "../../ui/input/Label";
+import Input from "../../ui/input/InputField";
+import Select from "../Select";
+// import { ChevronDownIcon, EyeCloseIcon, EyeIcon, TimeIcon } from '../../../icons';
+import { ChevronDownIcon, EyeIcon, EyeClosed, TimerIcon } from "lucide-react";
+import DatePicker from "../date-picker";
 
 export default function DefaultInputs() {
   const [showPassword, setShowPassword] = useState(false);
@@ -14,7 +15,7 @@ export default function DefaultInputs() {
     { value: "template", label: "Template" },
     { value: "development", label: "Development" },
   ];
-  const handleSelectChange = (value: string) => {
+  const handleSelectChange = (value) => {
     console.log("Selected value:", value);
   };
   return (
@@ -32,13 +33,13 @@ export default function DefaultInputs() {
           <Label>Select Input</Label>
           <div className="relative">
             <Select
-            options={options}
-            placeholder="Select an option"
-            onChange={handleSelectChange}
-            className="dark:bg-dark-900"
-          />
-             <span className="absolute text-gray-500 -translate-y-1/2 pointer-events-none right-3 top-1/2 dark:text-gray-400">
-              <ChevronDownIcon/>
+              options={options}
+              placeholder="Select an option"
+              onChange={handleSelectChange}
+              className="dark:bg-dark-900"
+            />
+            <span className="absolute text-gray-500 -translate-y-1/2 pointer-events-none right-3 top-1/2 dark:text-gray-400">
+              <ChevronDownIcon />
             </span>
           </div>
         </div>
@@ -56,7 +57,7 @@ export default function DefaultInputs() {
               {showPassword ? (
                 <EyeIcon className="fill-gray-500 dark:fill-gray-400" />
               ) : (
-                <EyeCloseIcon className="fill-gray-500 dark:fill-gray-400" />
+                <EyeClosed className="fill-gray-500 dark:fill-gray-400" />
               )}
             </button>
           </div>
@@ -74,7 +75,7 @@ export default function DefaultInputs() {
           />
         </div>
 
-        <div>
+        {/* <div>
           <Label htmlFor="tm">Time Picker Input</Label>
           <div className="relative">
             <Input
@@ -84,11 +85,11 @@ export default function DefaultInputs() {
               onChange={(e) => console.log(e.target.value)}
             />
             <span className="absolute text-gray-500 -translate-y-1/2 pointer-events-none right-3 top-1/2 dark:text-gray-400">
-              <TimeIcon />
+              <TimerIcon />
             </span>
           </div>
-        </div>
-        <div>
+        </div> */}
+        {/* <div>
           <Label htmlFor="tm">Input with Payment</Label>
           <div className="relative">
             <Input
@@ -113,7 +114,7 @@ export default function DefaultInputs() {
               </svg>
             </span>
           </div>
-        </div>
+        </div> */}
       </div>
     </ComponentCard>
   );

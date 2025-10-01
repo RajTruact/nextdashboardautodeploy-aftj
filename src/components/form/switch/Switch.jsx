@@ -1,15 +1,7 @@
 "use client";
 import React, { useState } from "react";
 
-interface SwitchProps {
-  label: string;
-  defaultChecked?: boolean;
-  disabled?: boolean;
-  onChange?: (checked: boolean) => void;
-  color?: "blue" | "gray"; // Added prop to toggle color theme
-}
-
-const Switch: React.FC<SwitchProps> = ({
+const Switch = ({
   label,
   defaultChecked = false,
   disabled = false,
@@ -51,7 +43,8 @@ const Switch: React.FC<SwitchProps> = ({
       className={`flex cursor-pointer select-none items-center gap-3 text-sm font-medium ${
         disabled ? "text-gray-400" : "text-gray-700 dark:text-gray-400"
       }`}
-      onClick={handleToggle} // Toggle when the label itself is clicked
+      // Toggle when the label itself is clicked
+      onClick={handleToggle}
     >
       <div className="relative">
         <div

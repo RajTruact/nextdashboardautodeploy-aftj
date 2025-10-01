@@ -5,6 +5,7 @@ import Button from "@/src/components/ui/button/Button";
 import Input from "@/src/components/ui/input/InputField";
 import Label from "@/src/components/ui/input/Label";
 import TextArea from "@/src/components/ui/input/TextArea";
+import FormElements from "./FormElement";
 
 // Define validation schema
 const formSchema = yup.object().shape({
@@ -137,7 +138,8 @@ export default function FormPage() {
 
   return (
     <div className="p-5 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
-      <div className="flex flex-col gap-6">
+      <FormElements />
+      {/* <div className="flex flex-col gap-6">
         {isSubmitted ? (
           <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg text-center">
             <svg
@@ -266,7 +268,7 @@ export default function FormPage() {
             </div>
           </form>
         )}
-      </div>
+      </div> */}
     </div>
   );
 }

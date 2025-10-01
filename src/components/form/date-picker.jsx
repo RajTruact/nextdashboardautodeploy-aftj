@@ -1,19 +1,10 @@
-import { useEffect } from 'react';
-import flatpickr from 'flatpickr';
-import 'flatpickr/dist/flatpickr.css';
-import Label from './Label';
-import { CalenderIcon } from '../../icons';
-import Hook = flatpickr.Options.Hook;
-import DateOption = flatpickr.Options.DateOption;
-
-type PropsType = {
-  id: string;
-  mode?: "single" | "multiple" | "range" | "time";
-  onChange?: Hook | Hook[];
-  defaultDate?: DateOption;
-  label?: string;
-  placeholder?: string;
-};
+import { useEffect } from "react";
+import flatpickr from "flatpickr";
+import "flatpickr/dist/flatpickr.css";
+import Label from "../ui/input/Label";
+import { Calendar1Icon } from "lucide-react";
+// var Hook = flatpickr.Options.Hook;
+// var DateOption = flatpickr.Options.DateOption;
 
 export default function DatePicker({
   id,
@@ -22,7 +13,7 @@ export default function DatePicker({
   label,
   defaultDate,
   placeholder,
-}: PropsType) {
+}) {
   useEffect(() => {
     const flatPickr = flatpickr(`#${id}`, {
       mode: mode || "single",
@@ -52,7 +43,7 @@ export default function DatePicker({
         />
 
         <span className="absolute text-gray-500 -translate-y-1/2 pointer-events-none right-3 top-1/2 dark:text-gray-400">
-          <CalenderIcon className="size-6" />
+          <Calendar1Icon className="size-6" />
         </span>
       </div>
     </div>

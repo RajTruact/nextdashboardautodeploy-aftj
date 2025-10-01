@@ -31,7 +31,6 @@ const formSchema = yup.object().shape({
       /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/,
       "Please enter a valid email address"
     ),
-  // .email(""),
 
   phone: yup
     .string()
@@ -53,6 +52,15 @@ const formSchema = yup.object().shape({
     .required("Description is required")
     .min(10, "Description must be at least 10 characters")
     .max(1000, "Description must be less than 1000 characters"),
+
+  password: yup
+    .string()
+    .required("Password is required")
+    .min(8, "Password must be at least 8 characters")
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
+      "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
+    ),
 });
 
 export default function FormPage() {
@@ -63,6 +71,7 @@ export default function FormPage() {
     phone: "",
     subject: "",
     description: "",
+    password: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -71,19 +80,29 @@ export default function FormPage() {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    console.log(name, value);
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    try {
+      if (!e?.target) {
+        console.warn('Invalid event received in handleChange');
+        return;
+      }
 
-    // Clear error when user starts typing
-    if (errors[name]) {
-      setErrors({
-        ...errors,
-        [name]: "",
-      });
+      const { name, value } = e.target;
+      console.log(name, value);
+      
+      setFormData(prev => ({
+        ...prev,
+        [name]: value,
+      }));
+
+      // Clear error when user starts typing
+      if (errors[name]) {
+        setErrors(prev => ({
+          ...prev,
+          [name]: "",
+        }));
+      }
+    } catch (error) {
+      console.error('Error in handleChange:', error);
     }
   };
 
@@ -99,8 +118,17 @@ export default function FormPage() {
   };
 
   const handleBlur = (e) => {
-    const { name, value } = e.target;
-    validateField(name, value);
+    try {
+      if (!e?.target) {
+        console.warn('Invalid event received in handleBlur');
+        return;
+      }
+
+      const { name, value } = e.target;
+      validateField(name, value);
+    } catch (error) {
+      console.error('Error in handleBlur:', error);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -128,6 +156,7 @@ export default function FormPage() {
           phone: "",
           subject: "",
           description: "",
+          password: "",
         });
       }, 3000);
     } catch (error) {
@@ -189,7 +218,6 @@ export default function FormPage() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   required
-                  // error={errors.firstName}
                 />
                 {errors.firstName && (
                   <p className="mt-1 text-sm text-red-500">
@@ -208,7 +236,6 @@ export default function FormPage() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   required
-                  // error={errors.lastName}
                 />
                 {errors.lastName && (
                   <p className="mt-1 text-sm text-red-500">{errors.lastName}</p>
@@ -226,15 +253,12 @@ export default function FormPage() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   required
-                  // error={errors.email}
                 />
                 {errors.email && (
                   <p className="mt-1 text-sm text-red-500">{errors.email}</p>
                 )}
               </div>
             </div>
-
-            {/* show actual on the bottom of input bar so the user can see */}
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               <div>
@@ -247,7 +271,6 @@ export default function FormPage() {
                   value={formData.phone}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  // error={errors.phone}
                 />
                 {errors.phone && (
                   <p className="mt-1 text-sm text-red-500">{errors.phone}</p>
@@ -265,7 +288,6 @@ export default function FormPage() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   required
-                  // error={errors.subject}
                 />
                 {errors.subject && (
                   <p className="mt-1 text-sm text-red-500">{errors.subject}</p>
@@ -273,13 +295,20 @@ export default function FormPage() {
               </div>
 
               <div>
-                <Label>Password</Label>
+                <Label htmlFor="password">Password *</Label>
                 <div className="relative">
                   <Input
+                    id="password"
+                    name="password"
                     type={showPassword ? "text" : "password"}
                     placeholder="Enter your password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    required
                   />
                   <button
+                    type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute z-30 -translate-y-1/2 cursor-pointer right-4 top-1/2"
                   >
@@ -290,6 +319,9 @@ export default function FormPage() {
                     )}
                   </button>
                 </div>
+                {errors.password && (
+                  <p className="mt-1 text-sm text-red-500">{errors.password}</p>
+                )}
               </div>
             </div>
 
@@ -303,8 +335,7 @@ export default function FormPage() {
                 value={formData.description}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                // required
-                // error={errors.description}
+                required
               />
               {errors.description && (
                 <p className="mt-1 text-sm text-red-500">

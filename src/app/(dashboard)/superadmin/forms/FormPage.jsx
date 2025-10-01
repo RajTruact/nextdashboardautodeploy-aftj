@@ -6,6 +6,7 @@ import Input from "@/src/components/ui/input/InputField";
 import Label from "@/src/components/ui/input/Label";
 import TextArea from "@/src/components/ui/input/TextArea";
 import FormElements from "./FormElement";
+import { EyeClosed, EyeIcon } from "lucide-react";
 
 // Define validation schema
 const formSchema = yup.object().shape({
@@ -26,10 +27,16 @@ const formSchema = yup.object().shape({
   email: yup
     .string()
     .required("Email is required")
-    .email("Please enter a valid email address"),
+    .matches(
+      /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/,
+      "Please enter a valid email address"
+    ),
+  // .email(""),
 
   phone: yup
     .string()
+    .min(10, "Minimum 10 numbers allowed")
+    .max(10, "Maximum 10 numbers allowed")
     .matches(
       /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/,
       "Please enter a valid phone number"
@@ -61,9 +68,11 @@ export default function FormPage() {
   const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    console.log(name, value);
     setFormData({
       ...formData,
       [name]: value,
@@ -138,8 +147,7 @@ export default function FormPage() {
 
   return (
     <div className="p-5 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
-      <FormElements />
-      {/* <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-6 mb-5">
         {isSubmitted ? (
           <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg text-center">
             <svg
@@ -181,8 +189,13 @@ export default function FormPage() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   required
-                  error={errors.firstName}
+                  // error={errors.firstName}
                 />
+                {errors.firstName && (
+                  <p className="mt-1 text-sm text-red-500">
+                    {errors.firstName}
+                  </p>
+                )}
               </div>
               <div>
                 <Label htmlFor="lastName">Last Name *</Label>
@@ -195,8 +208,11 @@ export default function FormPage() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   required
-                  error={errors.lastName}
+                  // error={errors.lastName}
                 />
+                {errors.lastName && (
+                  <p className="mt-1 text-sm text-red-500">{errors.lastName}</p>
+                )}
               </div>
 
               <div>
@@ -210,24 +226,32 @@ export default function FormPage() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   required
-                  error={errors.email}
+                  // error={errors.email}
                 />
+                {errors.email && (
+                  <p className="mt-1 text-sm text-red-500">{errors.email}</p>
+                )}
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {/* show actual on the bottom of input bar so the user can see */}
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               <div>
                 <Label htmlFor="phone">Phone Number</Label>
                 <Input
                   id="phone"
                   name="phone"
                   type="tel"
-                  placeholder="+1 (555) 000-0000"
+                  placeholder="+91 5555 0000000"
                   value={formData.phone}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  error={errors.phone}
+                  // error={errors.phone}
                 />
+                {errors.phone && (
+                  <p className="mt-1 text-sm text-red-500">{errors.phone}</p>
+                )}
               </div>
 
               <div>
@@ -241,8 +265,31 @@ export default function FormPage() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   required
-                  error={errors.subject}
+                  // error={errors.subject}
                 />
+                {errors.subject && (
+                  <p className="mt-1 text-sm text-red-500">{errors.subject}</p>
+                )}
+              </div>
+
+              <div>
+                <Label>Password</Label>
+                <div className="relative">
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Enter your password"
+                  />
+                  <button
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute z-30 -translate-y-1/2 cursor-pointer right-4 top-1/2"
+                  >
+                    {showPassword ? (
+                      <EyeIcon className="fill-gray-500 dark:fill-gray-400" />
+                    ) : (
+                      <EyeClosed className="fill-gray-500 dark:fill-gray-400" />
+                    )}
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -256,9 +303,14 @@ export default function FormPage() {
                 value={formData.description}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                required
-                error={errors.description}
+                // required
+                // error={errors.description}
               />
+              {errors.description && (
+                <p className="mt-1 text-sm text-red-500">
+                  {errors.description}
+                </p>
+              )}
             </div>
 
             <div className="flex justify-end mt-4">
@@ -268,7 +320,8 @@ export default function FormPage() {
             </div>
           </form>
         )}
-      </div> */}
+      </div>
+      <FormElements />
     </div>
   );
 }

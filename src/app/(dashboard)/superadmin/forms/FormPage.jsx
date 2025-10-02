@@ -5,8 +5,10 @@ import Button from "@/src/components/ui/button/Button";
 import Input from "@/src/components/ui/input/InputField";
 import Label from "@/src/components/ui/input/Label";
 import TextArea from "@/src/components/ui/input/TextArea";
-import FormElements from "./FormElement";
 import { EyeClosed, EyeIcon } from "lucide-react";
+import DatePicker from "@/src/components/form/date-picker";
+import DropzoneComponent from "@/src/components/form/form-elements/DropZone";
+import CheckboxComponents from "@/src/components/form/form-elements/CheckboxComponents";
 
 // Define validation schema
 const formSchema = yup.object().shape({
@@ -61,6 +63,47 @@ const formSchema = yup.object().shape({
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
       "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
     ),
+
+  // File upload validation
+  files: yup
+    .array()
+    .of(
+      yup.object().shape({
+        name: yup.string().required(),
+        size: yup.number().required(),
+        type: yup.string().required(),
+      })
+    )
+    .max(5, "Maximum 5 files allowed")
+    .test("fileSize", "File size must be less than 10MB", (files) => {
+      if (!files || files.length === 0) return true; // Optional field
+      return files.every(file => file.size <= 10 * 1024 * 1024);
+    })
+    .test("fileType", "Unsupported file format", (files) => {
+      if (!files || files.length === 0) return true; // Optional field
+      const allowedTypes = [
+        'image/jpeg',
+        'image/png',
+        'image/gif',
+        'application/pdf',
+        'application/msword',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+      ];
+      return files.every(file => allowedTypes.includes(file.type));
+    }),
+
+  // Date picker validation
+  selectedDate: yup
+    .date()
+    .nullable()
+    .required("Date is required")
+    .min(new Date(), "Date cannot be in the past"),
+
+  // Checkbox validation
+  termsAccepted: yup
+    .boolean()
+    .oneOf([true], "You must accept the terms and conditions")
+    .required("You must accept the terms and conditions"),
 });
 
 export default function FormPage() {
@@ -72,6 +115,9 @@ export default function FormPage() {
     subject: "",
     description: "",
     password: "",
+    files: [],
+    selectedDate: null,
+    termsAccepted: false,
   });
 
   const [errors, setErrors] = useState({});
@@ -82,27 +128,76 @@ export default function FormPage() {
   const handleChange = (e) => {
     try {
       if (!e?.target) {
-        console.warn('Invalid event received in handleChange');
+        console.warn("Invalid event received in handleChange");
         return;
       }
 
-      const { name, value } = e.target;
-      console.log(name, value);
+      const { name, value, type, checked } = e.target;
       
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        [name]: value,
+        [name]: type === 'checkbox' ? checked : value,
       }));
 
       // Clear error when user starts typing
       if (errors[name]) {
-        setErrors(prev => ({
+        setErrors((prev) => ({
           ...prev,
           [name]: "",
         }));
       }
     } catch (error) {
-      console.error('Error in handleChange:', error);
+      console.error("Error in handleChange:", error);
+    }
+  };
+
+  // Handle file uploads
+  const handleFilesChange = (files) => {
+    setFormData((prev) => ({
+      ...prev,
+      files: files,
+    }));
+
+    // Clear file errors when new files are selected
+    if (errors.files) {
+      setErrors((prev) => ({
+        ...prev,
+        files: "",
+      }));
+    }
+  };
+
+  // Handle date selection
+  const handleDateChange = (dates, currentDateString) => {
+    const selectedDate = dates ? new Date(dates) : null;
+    
+    setFormData((prev) => ({
+      ...prev,
+      selectedDate: selectedDate,
+    }));
+
+    // Clear date errors when a new date is selected
+    if (errors.selectedDate) {
+      setErrors((prev) => ({
+        ...prev,
+        selectedDate: "",
+      }));
+    }
+  };
+
+  // Handle checkbox change
+  const handleCheckboxChange = (isChecked) => {
+    setFormData((prev) => ({
+      ...prev,
+      termsAccepted: isChecked,
+    }));
+
+    // Clear checkbox errors when changed
+    if (errors.termsAccepted) {
+      setErrors((prev) => ({
+        ...prev,
+        termsAccepted: "",
+      }));
     }
   };
 
@@ -120,14 +215,14 @@ export default function FormPage() {
   const handleBlur = (e) => {
     try {
       if (!e?.target) {
-        console.warn('Invalid event received in handleBlur');
+        console.warn("Invalid event received in handleBlur");
         return;
       }
 
       const { name, value } = e.target;
       validateField(name, value);
     } catch (error) {
-      console.error('Error in handleBlur:', error);
+      console.error("Error in handleBlur:", error);
     }
   };
 
@@ -157,6 +252,9 @@ export default function FormPage() {
           subject: "",
           description: "",
           password: "",
+          files: [],
+          selectedDate: null,
+          termsAccepted: false,
         });
       }, 3000);
     } catch (error) {
@@ -325,23 +423,76 @@ export default function FormPage() {
               </div>
             </div>
 
-            <div>
-              <Label htmlFor="description">Description *</Label>
-              <TextArea
-                id="description"
-                name="description"
-                placeholder="Please provide detailed information"
-                rows={5}
-                value={formData.description}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                required
-              />
-              {errors.description && (
-                <p className="mt-1 text-sm text-red-500">
-                  {errors.description}
-                </p>
-              )}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div>
+                <Label htmlFor="description">Description *</Label>
+                <TextArea
+                  id="description"
+                  name="description"
+                  placeholder="Please provide detailed information"
+                  rows={5}
+                  value={formData.description}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  required
+                  className="min-h-[380px] !py-2"
+                />
+                {errors.description && (
+                  <p className="mt-1 text-sm text-red-500">
+                    {errors.description}
+                  </p>
+                )}
+              </div>
+              <div>
+                <Label>File Upload (Max 10MB per file, Max 5 files)</Label>
+                <DropzoneComponent 
+                  onFilesChange={handleFilesChange}
+                  maxFiles={5}
+                  maxSize={10 * 1024 * 1024} // 10MB in bytes
+                  acceptedFiles={[
+                    'image/jpeg',
+                    'image/png', 
+                    'image/gif',
+                    'application/pdf',
+                    'application/msword',
+                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                  ]}
+                />
+                {errors.files && (
+                  <p className="mt-1 text-sm text-red-500">{errors.files}</p>
+                )}
+                {formData.files.length > 0 && (
+                  <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                    {formData.files.length} file(s) selected
+                  </p>
+                )}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div>
+                <DatePicker
+                  id="date-picker"
+                  label="Date Picker *"
+                  placeholder="Select a date"
+                  value={formData.selectedDate}
+                  onChange={handleDateChange}
+                  minDate={new Date()}
+                />
+                {errors.selectedDate && (
+                  <p className="mt-1 text-sm text-red-500">{errors.selectedDate}</p>
+                )}
+              </div>
+              <div>
+                <CheckboxComponents
+                  checked={formData.termsAccepted}
+                  onChange={handleCheckboxChange}
+                  label="I accept the terms and conditions *"
+                />
+                {errors.termsAccepted && (
+                  <p className="mt-1 text-sm text-red-500">{errors.termsAccepted}</p>
+                )}
+              </div>
             </div>
 
             <div className="flex justify-end mt-4">
@@ -352,7 +503,6 @@ export default function FormPage() {
           </form>
         )}
       </div>
-      <FormElements />
     </div>
   );
 }

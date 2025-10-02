@@ -3,7 +3,7 @@ import React from "react";
 const ComponentCard = ({ title, children, className = "", desc = "" }) => {
   return (
     <div
-      className={`rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03] ${className}`}
+      className={`rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-[#16181D] ${className}`}
     >
       {/* Card Header */}
       <div className="px-6 py-5">

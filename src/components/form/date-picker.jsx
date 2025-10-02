@@ -13,6 +13,8 @@ export default function DatePicker({
   label,
   defaultDate,
   placeholder,
+  value, 
+  minDate 
 }) {
   useEffect(() => {
     const flatPickr = flatpickr(`#${id}`, {

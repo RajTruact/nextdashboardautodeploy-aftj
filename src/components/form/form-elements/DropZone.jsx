@@ -1,35 +1,105 @@
 "use client";
-import React from "react";
+import React, { useState, useCallback } from "react";
 import ComponentCard from "../../common/ComponentCard";
 import { useDropzone } from "react-dropzone";
 
-const DropzoneComponent = () => {
-  const onDrop = (acceptedFiles) => {
-    console.log("Files dropped:", acceptedFiles);
-    // Handle file uploads here
+const DropzoneComponent = ({
+  onFilesChange,
+  maxFiles = 5,
+  maxSize = 10 * 1024 * 1024,
+  acceptedFiles = [
+    'image/png',
+    'image/jpeg', 
+    'image/webp',
+    'image/svg+xml',
+    'application/pdf',
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+  ],
+}) => {
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [error, setError] = useState("");
+
+  const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
+    setError("");
+
+    // Handle rejected files (validation errors)
+    if (rejectedFiles.length > 0) {
+      const rejection = rejectedFiles[0];
+      if (rejection.errors[0].code === 'file-too-large') {
+        setError(`File is too large. Maximum size is ${maxSize / (1024 * 1024)}MB`);
+      } else if (rejection.errors[0].code === 'file-invalid-type') {
+        setError("File type not supported");
+      } else if (rejection.errors[0].code === 'too-many-files') {
+        setError(`Too many files. Maximum ${maxFiles} files allowed`);
+      }
+      return;
+    }
+
+    // Check total files count
+    const totalFiles = selectedFiles.length + acceptedFiles.length;
+    if (totalFiles > maxFiles) {
+      setError(`Maximum ${maxFiles} files allowed`);
+      return;
+    }
+
+    // Update selected files
+    const newFiles = [...selectedFiles, ...acceptedFiles];
+    setSelectedFiles(newFiles);
+
+    // Notify parent component
+    if (onFilesChange) {
+      onFilesChange(newFiles);
+    }
+
+    console.log("Files selected:", acceptedFiles);
+  }, [selectedFiles, maxFiles, maxSize, onFilesChange]);
+
+  const removeFile = (index) => {
+    const newFiles = selectedFiles.filter((_, i) => i !== index);
+    setSelectedFiles(newFiles);
+    setError("");
+    
+    if (onFilesChange) {
+      onFilesChange(newFiles);
+    }
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
+    maxFiles: maxFiles,
+    maxSize: maxSize,
     accept: {
-      "image/png": [],
-      "image/jpeg": [],
-      "image/webp": [],
-      "image/svg+xml": [],
+      'image/png': ['.png'],
+      'image/jpeg': ['.jpg', '.jpeg'],
+      'image/webp': ['.webp'],
+      'image/svg+xml': ['.svg'],
+      'application/pdf': ['.pdf'],
+      'application/msword': ['.doc'],
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx']
     },
   });
+
+  const formatFileSize = (bytes) => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  };
+
   return (
-    <ComponentCard title="Dropzone">
-      <div className="transition border border-gray-300 border-dashed cursor-pointer dark:hover:border-brand-500 dark:border-gray-700 rounded-xl hover:border-brand-500">
+    <ComponentCard title="File Upload">
+      <div className="transition border border-gray-300 border-dashed cursor-pointer dark:hover:border-brand-500 dark:border-gray-700 rounded-xl hover:border-brand-500 ">
         <form
           {...getRootProps()}
-          className={`dropzone rounded-xl   border-dashed border-gray-300 p-7 lg:p-10
-        ${
-          isDragActive
-            ? "border-brand-500 bg-gray-100 dark:bg-gray-800"
-            : "border-gray-300 bg-gray-50 dark:border-gray-700 dark:bg-gray-900"
-        }
-      `}
+          className={`dropzone rounded-xl border-dashed border-gray-300 p-7 lg:p-10
+            ${
+              isDragActive
+                ? "border-brand-500 bg-gray-100 dark:bg-gray-800"
+                : "border-gray-300 bg-gray-50 dark:border-gray-700 dark:bg-gray-900"
+            }
+          `}
           id="demo-upload"
         >
           {/* Hidden Input */}
@@ -38,7 +108,7 @@ const DropzoneComponent = () => {
           <div className="dz-message flex flex-col items-center m-0!">
             {/* Icon Container */}
             <div className="mb-[22px] flex justify-center">
-              <div className="flex h-[68px] w-[68px]  items-center justify-center rounded-full bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-400">
+              <div className="flex h-[68px] w-[68px] items-center justify-center rounded-full bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-400">
                 <svg
                   className="fill-current"
                   width="29"
@@ -60,8 +130,8 @@ const DropzoneComponent = () => {
               {isDragActive ? "Drop Files Here" : "Drag & Drop Files Here"}
             </h4>
 
-            <span className=" text-center mb-5 block w-full max-w-[290px] text-sm text-gray-700 dark:text-gray-400">
-              Drag and drop your PNG, JPG, WebP, SVG images here or browse
+            <span className="text-center mb-5 block w-full max-w-[290px] text-sm text-gray-700 dark:text-gray-400">
+              Drag and drop your files here or browse. Max {maxFiles} files, {maxSize / (1024 * 1024)}MB each
             </span>
 
             <span className="font-medium underline text-theme-sm text-brand-500">
@@ -69,6 +139,41 @@ const DropzoneComponent = () => {
             </span>
           </div>
         </form>
+
+        {/* Error Message */}
+        {error && (
+          <p className="mt-2 text-sm text-red-500">{error}</p>
+        )}
+
+        {/* Selected Files List */}
+        {selectedFiles.length > 0 && (
+          <div className="mt-4 p-4 border-t border-gray-200 dark:border-gray-700">
+            <h5 className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+              Selected Files ({selectedFiles.length}/{maxFiles}):
+            </h5>
+            <ul className="space-y-2">
+              {selectedFiles.map((file, index) => (
+                <li key={index} className="flex items-center justify-between p-2 text-sm bg-white dark:bg-gray-800 rounded-lg">
+                  <div>
+                    <span className="font-medium text-gray-700 dark:text-gray-300">
+                      {file.name}
+                    </span>
+                    <span className="ml-2 text-gray-500 dark:text-gray-400">
+                      ({formatFileSize(file.size)})
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => removeFile(index)}
+                    className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
+                  >
+                    Remove
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </ComponentCard>
   );

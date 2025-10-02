@@ -9,6 +9,8 @@ import { EyeClosed, EyeIcon } from "lucide-react";
 import DatePicker from "@/src/components/form/date-picker";
 import DropzoneComponent from "@/src/components/form/form-elements/DropZone";
 import CheckboxComponents from "@/src/components/form/form-elements/CheckboxComponents";
+import TimePicker from "@/src/components/form/TimePicker";
+import TimePickerComponents from "./TimeRangeComp";
 
 // Define validation schema
 const formSchema = yup.object().shape({
@@ -494,6 +496,8 @@ export default function FormPage() {
                 )}
               </div>
             </div>
+
+            {/* <TimePickerComponents/> */}
 
             <div className="flex justify-end mt-4">
               <Button type="submit" size="sm" disabled={isSubmitting}>

@@ -19,6 +19,7 @@
     "react-dom": "^18.3.1",
     "react-dropzone": "^14.3.8",
     "react-flatpickr": "^4.0.1",
+    "react-signature-canvas": "^1.1.0-alpha.2",
     "tailwind-merge": "^3.3.1",
     "yup": "^1.7.1"
   },

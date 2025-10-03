@@ -9,8 +9,8 @@ import { EyeClosed, EyeIcon } from "lucide-react";
 import DatePicker from "@/src/components/form/date-picker";
 import DropzoneComponent from "@/src/components/form/form-elements/DropZone";
 import CheckboxComponents from "@/src/components/form/form-elements/CheckboxComponents";
-import TimePicker from "@/src/components/form/TimePicker";
-import TimePickerComponents from "./TimeRangeComp";
+import FormElements from "./FormElement";
+import RadioButtons from "@/src/components/form/form-elements/RadioButtons";
 
 // Define validation schema
 const formSchema = yup.object().shape({
@@ -79,19 +79,19 @@ const formSchema = yup.object().shape({
     .max(5, "Maximum 5 files allowed")
     .test("fileSize", "File size must be less than 10MB", (files) => {
       if (!files || files.length === 0) return true; // Optional field
-      return files.every(file => file.size <= 10 * 1024 * 1024);
+      return files.every((file) => file.size <= 10 * 1024 * 1024);
     })
     .test("fileType", "Unsupported file format", (files) => {
       if (!files || files.length === 0) return true; // Optional field
       const allowedTypes = [
-        'image/jpeg',
-        'image/png',
-        'image/gif',
-        'application/pdf',
-        'application/msword',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        "image/jpeg",
+        "image/png",
+        "image/gif",
+        "application/pdf",
+        "application/msword",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
       ];
-      return files.every(file => allowedTypes.includes(file.type));
+      return files.every((file) => allowedTypes.includes(file.type));
     }),
 
   // Date picker validation
@@ -135,10 +135,10 @@ export default function FormPage() {
       }
 
       const { name, value, type, checked } = e.target;
-      
+
       setFormData((prev) => ({
         ...prev,
-        [name]: type === 'checkbox' ? checked : value,
+        [name]: type === "checkbox" ? checked : value,
       }));
 
       // Clear error when user starts typing
@@ -172,7 +172,7 @@ export default function FormPage() {
   // Handle date selection
   const handleDateChange = (dates, currentDateString) => {
     const selectedDate = dates ? new Date(dates) : null;
-    
+
     setFormData((prev) => ({
       ...prev,
       selectedDate: selectedDate,
@@ -447,17 +447,17 @@ export default function FormPage() {
               </div>
               <div>
                 <Label>File Upload (Max 10MB per file, Max 5 files)</Label>
-                <DropzoneComponent 
+                <DropzoneComponent
                   onFilesChange={handleFilesChange}
                   maxFiles={5}
                   maxSize={10 * 1024 * 1024} // 10MB in bytes
                   acceptedFiles={[
-                    'image/jpeg',
-                    'image/png', 
-                    'image/gif',
-                    'application/pdf',
-                    'application/msword',
-                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                    "image/jpeg",
+                    "image/png",
+                    "image/gif",
+                    "application/pdf",
+                    "application/msword",
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
                   ]}
                 />
                 {errors.files && (
@@ -471,7 +471,7 @@ export default function FormPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               <div>
                 <DatePicker
                   id="date-picker"
@@ -482,19 +482,25 @@ export default function FormPage() {
                   minDate={new Date()}
                 />
                 {errors.selectedDate && (
-                  <p className="mt-1 text-sm text-red-500">{errors.selectedDate}</p>
+                  <p className="mt-1 text-sm text-red-500">
+                    {errors.selectedDate}
+                  </p>
                 )}
               </div>
               <div>
                 <CheckboxComponents
                   checked={formData.termsAccepted}
                   onChange={handleCheckboxChange}
-                  label="I accept the terms and conditions *"
+                  label="By accessing this website we assume you accept these terms and conditions.*"
                 />
                 {errors.termsAccepted && (
-                  <p className="mt-1 text-sm text-red-500">{errors.termsAccepted}</p>
+                  <p className="mt-1 text-sm text-red-500">
+                    {errors.termsAccepted}
+                  </p>
                 )}
               </div>
+
+              <RadioButtons />
             </div>
 
             {/* <TimePickerComponents/> */}

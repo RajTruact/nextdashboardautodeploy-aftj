@@ -3,6 +3,7 @@ import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.css";
 import Label from "../ui/input/Label";
 import { Calendar1Icon } from "lucide-react";
+import ComponentCard from "../common/ComponentCard";
 // var Hook = flatpickr.Options.Hook;
 // var DateOption = flatpickr.Options.DateOption;
 
@@ -13,8 +14,8 @@ export default function DatePicker({
   label,
   defaultDate,
   placeholder,
-  value, 
-  minDate 
+  value,
+  minDate,
 }) {
   useEffect(() => {
     const flatPickr = flatpickr(`#${id}`, {
@@ -34,8 +35,9 @@ export default function DatePicker({
   }, [mode, onChange, id, defaultDate]);
 
   return (
-    <div>
-      {label && <Label htmlFor={id}>{label}</Label>}
+    <ComponentCard title="Date Picker">
+      {/* <div>
+        {label && <Label htmlFor={id}>{label}</Label>} */}
 
       <div className="relative">
         <input
@@ -48,6 +50,7 @@ export default function DatePicker({
           <Calendar1Icon className="size-6" />
         </span>
       </div>
-    </div>
+      {/* </div> */}
+    </ComponentCard>
   );
 }

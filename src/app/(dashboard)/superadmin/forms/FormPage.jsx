@@ -446,7 +446,7 @@ export default function FormPage() {
                 )}
               </div>
               <div>
-                <Label>File Upload (Max 10MB per file, Max 5 files)</Label>
+                {/* <Label>File Upload (Max 10MB per file, Max 5 files)</Label> */}
                 <DropzoneComponent
                   onFilesChange={handleFilesChange}
                   maxFiles={5}

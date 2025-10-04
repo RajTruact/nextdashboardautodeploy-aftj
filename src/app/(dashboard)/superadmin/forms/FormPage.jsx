@@ -9,8 +9,8 @@ import { EyeClosed, EyeIcon } from "lucide-react";
 import DatePicker from "@/src/components/form/date-picker";
 import DropzoneComponent from "@/src/components/form/form-elements/DropZone";
 import CheckboxComponents from "@/src/components/form/form-elements/CheckboxComponents";
-import FormElements from "./FormElement";
 import RadioButtons from "@/src/components/form/form-elements/RadioButtons";
+import SignatureField from "@/src/components/form/SignatureField";
 
 // Define validation schema
 const formSchema = yup.object().shape({
@@ -106,6 +106,32 @@ const formSchema = yup.object().shape({
     .boolean()
     .oneOf([true], "You must accept the terms and conditions")
     .required("You must accept the terms and conditions"),
+
+  // Signature validation
+  signature: yup
+    .string()
+    .required("Signature is required")
+    .test("signature-valid", "Please provide a valid signature", (value) => {
+      if (!value) return false;
+
+      // Check if it's a valid data URL
+      if (!value.startsWith("data:image/")) return false;
+
+      // Check if it contains actual Base64 data (not just the empty canvas)
+      const base64Data = value.split(",")[1];
+      if (!base64Data || base64Data.length < 100) {
+        return false; // Too short to be a meaningful signature
+      }
+
+      return true;
+    })
+    .test("signature-size", "Signature appears to be too simple", (value) => {
+      if (!value) return false;
+
+      // Check Base64 data length to ensure it's not empty
+      const base64Data = value.split(",")[1];
+      return base64Data && base64Data.length > 500; // Minimum signature complexity
+    }),
 });
 
 export default function FormPage() {
@@ -120,6 +146,7 @@ export default function FormPage() {
     files: [],
     selectedDate: null,
     termsAccepted: false,
+    signature: null,
   });
 
   const [errors, setErrors] = useState({});
@@ -203,6 +230,22 @@ export default function FormPage() {
     }
   };
 
+  // Handle signature change
+  const handleSignatureChange = (signatureData) => {
+    setFormData((prev) => ({
+      ...prev,
+      signature: signatureData,
+    }));
+
+    // Clear signature errors when signature is added
+    if (errors.signature) {
+      setErrors((prev) => ({
+        ...prev,
+        signature: "",
+      }));
+    }
+  };
+
   const validateField = async (name, value) => {
     try {
       await formSchema.validateAt(name, { [name]: value });
@@ -227,6 +270,7 @@ export default function FormPage() {
       console.error("Error in handleBlur:", error);
     }
   };
+  // In your FormPage component, update the handleSubmit function:
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -239,8 +283,50 @@ export default function FormPage() {
       // Clear any existing errors
       setErrors({});
 
+      // Simple logging that definitely works
+      console.log("✅ FORM SUBMISSION STARTED");
+      console.log("📝 Basic Form Data:", {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        subject: formData.subject,
+        termsAccepted: formData.termsAccepted,
+        signatureExists: !!formData.signature,
+        signatureLength: formData.signature?.length || 0,
+      });
+
+      // Check signature specifically
+      if (formData.signature) {
+        console.log("🖊️ SIGNATURE DATA:");
+        console.log("  - Exists: YES");
+        console.log("  - Total length:", formData.signature.length);
+        console.log(
+          "  - Starts with data:image:",
+          formData.signature.startsWith("data:image")
+        );
+
+        // Simple Base64 check
+        const hasComma = formData.signature.includes(",");
+        console.log("  - Contains comma (has Base64):", hasComma);
+
+        if (hasComma) {
+          const base64Part = formData.signature.split(",")[1];
+          console.log("  - Base64 length:", base64Part?.length || 0);
+          console.log(
+            "  - Base64 preview:",
+            base64Part?.substring(0, 30) + "..."
+          );
+        }
+      } else {
+        console.log("🖊️ SIGNATURE DATA: NO SIGNATURE");
+      }
+
       // Here you would typically send the data to your backend
-      console.log("Support request submitted:", formData);
+      console.log("🚀 Simulating API call...");
+
+      // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       setIsSubmitted(true);
 
       // Reset form after submission
@@ -257,6 +343,7 @@ export default function FormPage() {
           files: [],
           selectedDate: null,
           termsAccepted: false,
+          signature: null,
         });
       }, 3000);
     } catch (error) {
@@ -268,12 +355,15 @@ export default function FormPage() {
           }
         });
         setErrors(newErrors);
+
+        console.log("❌ VALIDATION ERRORS:", newErrors);
+      } else {
+        console.error("💥 SUBMISSION ERROR:", error);
       }
     } finally {
       setIsSubmitting(false);
     }
   };
-
   return (
     <div className="p-5 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
       <div className="flex flex-col gap-6 mb-5">
@@ -297,7 +387,7 @@ export default function FormPage() {
               Thank You!
             </h3>
             <p className="text-gray-600 dark:text-gray-400">
-              Your request has been submitted. We'll get back to you soon.
+              Your request has been submitted with your digital signature.
             </p>
           </div>
         ) : (
@@ -306,6 +396,7 @@ export default function FormPage() {
             onSubmit={handleSubmit}
             noValidate
           >
+            {/* Personal Information Section */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               <div>
                 <Label htmlFor="firstName">First Name *</Label>
@@ -359,7 +450,7 @@ export default function FormPage() {
                 )}
               </div>
             </div>
-
+            {/* Contact & Security Section */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               <div>
                 <Label htmlFor="phone">Phone Number</Label>
@@ -424,7 +515,7 @@ export default function FormPage() {
                 )}
               </div>
             </div>
-
+            {/* Description & File Upload Section */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
                 <Label htmlFor="description">Description *</Label>
@@ -446,7 +537,6 @@ export default function FormPage() {
                 )}
               </div>
               <div>
-                {/* <Label>File Upload (Max 10MB per file, Max 5 files)</Label> */}
                 <DropzoneComponent
                   onFilesChange={handleFilesChange}
                   maxFiles={5}
@@ -470,7 +560,7 @@ export default function FormPage() {
                 )}
               </div>
             </div>
-
+            {/* Date, Terms & Radio Buttons Section */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               <div>
                 <DatePicker
@@ -500,11 +590,70 @@ export default function FormPage() {
                 )}
               </div>
 
-              <RadioButtons />
+              <div>
+                <RadioButtons />
+              </div>
             </div>
-
-            {/* <TimePickerComponents/> */}
-
+            {/* Signature Section */}
+            <div className="grid grid-cols-1 gap-5">
+              <div className="p-4 border border-gray-200 rounded-lg dark:border-gray-700 bg-gray-50 dark:bg-gray-900/20">
+                <SignatureField
+                  label="Digital Signature *"
+                  required={true}
+                  value={formData.signature}
+                  onChange={handleSignatureChange}
+                  error={errors.signature}
+                  width={400}
+                  height={150}
+                  validate={true}
+                  className="w-full"
+                />
+                {errors.signature && (
+                  <p className="mt-2 text-sm text-red-500">
+                    {errors.signature}
+                  </p>
+                )}
+                <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                  Please provide your signature using your mouse, touchpad, or
+                  touchscreen device.
+                </p>
+              </div>
+            </div>
+            // Add this anywhere in your form
+            {formData.signature && (
+              <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded border">
+                <p className="font-medium mb-2">Get Complete Base64:</p>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      navigator.clipboard.writeText(formData.signature);
+                      alert("Complete Base64 copied to clipboard!");
+                    }}
+                    className="px-3 py-1 bg-blue-600 text-white rounded text-sm"
+                  >
+                    Copy Base64 to Clipboard
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const blob = new Blob([formData.signature], {
+                        type: "text/plain",
+                      });
+                      const url = URL.createObjectURL(blob);
+                      const link = document.createElement("a");
+                      link.href = url;
+                      link.download = "signature-base64.txt";
+                      link.click();
+                    }}
+                    className="px-3 py-1 bg-green-600 text-white rounded text-sm"
+                  >
+                    Download as .txt File
+                  </button>
+                </div>
+              </div>
+            )}
+            {/* Submit Button */}
             <div className="flex justify-end mt-4">
               <Button type="submit" size="sm" disabled={isSubmitting}>
                 {isSubmitting ? "Submitting..." : "Submit Request"}

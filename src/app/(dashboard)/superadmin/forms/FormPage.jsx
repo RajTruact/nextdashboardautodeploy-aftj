@@ -51,37 +51,80 @@ const formSchema = yup.object().shape({
   website: yup
     .string()
     .nullable()
-    .test('valid-url', 'Please enter a valid URL', (value) => {
+    .test("valid-url", "Please enter a valid URL", (value) => {
       if (!value) return true; // Optional field
-      
+
       // Basic URL validation
-      const urlRegex = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(:\d+)?(\/[^\s]*)?$/;
+      const urlRegex =
+        /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(:\d+)?(\/[^\s]*)?$/;
       return urlRegex.test(value);
     })
-    .test('valid-domain', 'Please enter a valid domain (e.g., example.com, domain.in)', (value) => {
-      if (!value) return true; // Optional field
-      
-      // Extract domain and validate TLD
-      const domainRegex = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/;
-      if (!domainRegex.test(value)) return false;
-      
-      // Common TLDs including .in, .com, etc.
-      const validTLDs = [
-        'com', 'in', 'org', 'net', 'edu', 'gov', 'mil', 
-        'co', 'io', 'ai', 'info', 'biz', 'me', 'tv', 'us',
-        'uk', 'ca', 'au', 'de', 'fr', 'jp', 'cn', 'ru',
-        'io', 'ai', 'co', 'me', 'tv', 'app', 'dev', 'tech', 'shop', 'site', 'online',
-        'store', 'fun', 'club', 'life', 'space', 'tech', 'xyz', 'work', 'cloud'
-      ];
-      
-      const domain = value.replace(/^https?:\/\//, '').split('/')[0];
-      const tld = domain.split('.').pop()?.toLowerCase();
-      
-      return validTLDs.includes(tld);
-    })
-    .test('no-spaces', 'URL should not contain spaces', (value) => {
+    .test(
+      "valid-domain",
+      "Please enter a valid domain (e.g., example.com, domain.in)",
+      (value) => {
+        if (!value) return true; // Optional field
+
+        // Extract domain and validate TLD
+        const domainRegex = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/;
+        if (!domainRegex.test(value)) return false;
+
+        // Common TLDs including .in, .com, etc.
+        const validTLDs = [
+          "com",
+          "in",
+          "org",
+          "net",
+          "edu",
+          "gov",
+          "mil",
+          "co",
+          "io",
+          "ai",
+          "info",
+          "biz",
+          "me",
+          "tv",
+          "us",
+          "uk",
+          "ca",
+          "au",
+          "de",
+          "fr",
+          "jp",
+          "cn",
+          "ru",
+          "io",
+          "ai",
+          "co",
+          "me",
+          "tv",
+          "app",
+          "dev",
+          "tech",
+          "shop",
+          "site",
+          "online",
+          "store",
+          "fun",
+          "club",
+          "life",
+          "space",
+          "tech",
+          "xyz",
+          "work",
+          "cloud",
+        ];
+
+        const domain = value.replace(/^https?:\/\//, "").split("/")[0];
+        const tld = domain.split(".").pop()?.toLowerCase();
+
+        return validTLDs.includes(tld);
+      }
+    )
+    .test("no-spaces", "URL should not contain spaces", (value) => {
       if (!value) return true;
-      return !value.includes(' ');
+      return !value.includes(" ");
     }),
 
   subject: yup
@@ -329,7 +372,7 @@ export default function FormPage() {
 
   // Handle URL field blur specifically
   const handleWebsiteBlur = (e) => {
-    validateField('website', formData.website);
+    validateField("website", formData.website);
   };
 
   const handleSubmit = async (e) => {

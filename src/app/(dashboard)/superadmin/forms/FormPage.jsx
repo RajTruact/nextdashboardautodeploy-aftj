@@ -11,7 +11,9 @@ import DropzoneComponent from "@/src/components/form/form-elements/DropZone";
 import CheckboxComponents from "@/src/components/form/form-elements/CheckboxComponents";
 import RadioButtons from "@/src/components/form/form-elements/RadioButtons";
 import SignatureField from "@/src/components/form/SignatureField";
+import UrlInput from "@/src/components/form/UrlInput";
 
+// Define validation schema
 // Define validation schema
 const formSchema = yup.object().shape({
   firstName: yup
@@ -44,6 +46,43 @@ const formSchema = yup.object().shape({
       /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/,
       "Please enter a valid phone number"
     ),
+
+  // NEW: Website URL validation
+  website: yup
+    .string()
+    .nullable()
+    .test('valid-url', 'Please enter a valid URL', (value) => {
+      if (!value) return true; // Optional field
+      
+      // Basic URL validation
+      const urlRegex = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(:\d+)?(\/[^\s]*)?$/;
+      return urlRegex.test(value);
+    })
+    .test('valid-domain', 'Please enter a valid domain (e.g., example.com, domain.in)', (value) => {
+      if (!value) return true; // Optional field
+      
+      // Extract domain and validate TLD
+      const domainRegex = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/;
+      if (!domainRegex.test(value)) return false;
+      
+      // Common TLDs including .in, .com, etc.
+      const validTLDs = [
+        'com', 'in', 'org', 'net', 'edu', 'gov', 'mil', 
+        'co', 'io', 'ai', 'info', 'biz', 'me', 'tv', 'us',
+        'uk', 'ca', 'au', 'de', 'fr', 'jp', 'cn', 'ru',
+        'io', 'ai', 'co', 'me', 'tv', 'app', 'dev', 'tech', 'shop', 'site', 'online',
+        'store', 'fun', 'club', 'life', 'space', 'tech', 'xyz', 'work', 'cloud'
+      ];
+      
+      const domain = value.replace(/^https?:\/\//, '').split('/')[0];
+      const tld = domain.split('.').pop()?.toLowerCase();
+      
+      return validTLDs.includes(tld);
+    })
+    .test('no-spaces', 'URL should not contain spaces', (value) => {
+      if (!value) return true;
+      return !value.includes(' ');
+    }),
 
   subject: yup
     .string()
@@ -140,6 +179,7 @@ export default function FormPage() {
     lastName: "",
     email: "",
     phone: "",
+    website: "", // Add website field
     subject: "",
     description: "",
     password: "",
@@ -177,6 +217,22 @@ export default function FormPage() {
       }
     } catch (error) {
       console.error("Error in handleChange:", error);
+    }
+  };
+
+  // Handle URL input change specifically
+  const handleWebsiteChange = (value) => {
+    setFormData((prev) => ({
+      ...prev,
+      website: value,
+    }));
+
+    // Clear website errors when user starts typing
+    if (errors.website) {
+      setErrors((prev) => ({
+        ...prev,
+        website: "",
+      }));
     }
   };
 
@@ -270,7 +326,11 @@ export default function FormPage() {
       console.error("Error in handleBlur:", error);
     }
   };
-  // In your FormPage component, update the handleSubmit function:
+
+  // Handle URL field blur specifically
+  const handleWebsiteBlur = (e) => {
+    validateField('website', formData.website);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -283,12 +343,13 @@ export default function FormPage() {
       // Clear any existing errors
       setErrors({});
 
-      // Simple logging that definitely works
+      // Log form data including website
       console.log("✅ FORM SUBMISSION STARTED");
       console.log("📝 Basic Form Data:", {
         firstName: formData.firstName,
         lastName: formData.lastName,
         email: formData.email,
+        website: formData.website,
         subject: formData.subject,
         termsAccepted: formData.termsAccepted,
         signatureExists: !!formData.signature,
@@ -337,6 +398,7 @@ export default function FormPage() {
           lastName: "",
           email: "",
           phone: "",
+          website: "",
           subject: "",
           description: "",
           password: "",
@@ -364,6 +426,7 @@ export default function FormPage() {
       setIsSubmitting(false);
     }
   };
+
   return (
     <div className="p-5 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
       <div className="flex flex-col gap-6 mb-5">
@@ -450,7 +513,8 @@ export default function FormPage() {
                 )}
               </div>
             </div>
-            {/* Contact & Security Section */}
+
+            {/* Contact & Security Section - UPDATED WITH URL FIELD */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               <div>
                 <Label htmlFor="phone">Phone Number</Label>
@@ -466,6 +530,18 @@ export default function FormPage() {
                 {errors.phone && (
                   <p className="mt-1 text-sm text-red-500">{errors.phone}</p>
                 )}
+              </div>
+
+              {/* NEW: Website URL Field */}
+              <div>
+                <UrlInput
+                  label="Website URL"
+                  value={formData.website}
+                  onChange={handleWebsiteChange}
+                  onBlur={handleWebsiteBlur}
+                  error={errors.website}
+                  placeholder="example.com or domain.in"
+                />
               </div>
 
               <div>
@@ -484,7 +560,10 @@ export default function FormPage() {
                   <p className="mt-1 text-sm text-red-500">{errors.subject}</p>
                 )}
               </div>
+            </div>
 
+            {/* Password Field - Moved to separate row */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
                 <Label htmlFor="password">Password *</Label>
                 <div className="relative">
@@ -514,7 +593,9 @@ export default function FormPage() {
                   <p className="mt-1 text-sm text-red-500">{errors.password}</p>
                 )}
               </div>
+              <div></div> {/* Empty column for layout */}
             </div>
+
             {/* Description & File Upload Section */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
@@ -560,6 +641,7 @@ export default function FormPage() {
                 )}
               </div>
             </div>
+
             {/* Date, Terms & Radio Buttons Section */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               <div>
@@ -594,6 +676,7 @@ export default function FormPage() {
                 <RadioButtons />
               </div>
             </div>
+
             {/* Signature Section */}
             <div className="grid grid-cols-1 gap-5">
               <div className="p-4 border border-gray-200 rounded-lg dark:border-gray-700 bg-gray-50 dark:bg-gray-900/20">
@@ -619,7 +702,8 @@ export default function FormPage() {
                 </p>
               </div>
             </div>
-            // Add this anywhere in your form
+
+            {/* Base64 buttons section */}
             {formData.signature && (
               <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded border">
                 <p className="font-medium mb-2">Get Complete Base64:</p>
@@ -653,6 +737,7 @@ export default function FormPage() {
                 </div>
               </div>
             )}
+
             {/* Submit Button */}
             <div className="flex justify-end mt-4">
               <Button type="submit" size="sm" disabled={isSubmitting}>

@@ -28,7 +28,7 @@ export const ThemeProvider = ({ children }) => {
       const response = await axios.get(CATALYST_API.get);
       const result = response.data;
 
-      console.log("API Response:", result); // Debug log
+      console.log("API Response:", result);
 
       // Extract colors from Catalyst response format
       if (result && result.length > 0) {
@@ -39,7 +39,7 @@ export const ThemeProvider = ({ children }) => {
           tertiaryColor: themeData?.tertiaryColor || "#10b981",
         };
 
-        console.log("Extracted colors:", newColors); // Debug log
+        console.log("Extracted colors:", newColors);
 
         setColors(newColors);
         applyColorVariables(newColors);
@@ -91,36 +91,45 @@ export const ThemeProvider = ({ children }) => {
 
   // Apply CSS variables to document
   // In your ThemeContext, update the applyColorVariables function
- // In your applyColorVariables function, update to set the CSS variables:
-const applyColorVariables = (colorObj) => {
-  if (typeof window !== "undefined") {
-    const root = document.documentElement;
+  // In your applyColorVariables function, update to set the CSS variables:
+  const applyColorVariables = (colorObj) => {
+    if (typeof window !== "undefined") {
+      const root = document.documentElement;
 
-    // Apply primary color to brand variables (existing)
-    if (colorObj.primaryColor) {
-      const primaryShades = generateShadesFromBase(colorObj.primaryColor);
-      Object.keys(primaryShades).forEach((shade) => {
-        root.style.setProperty(`--color-brand-${shade}`, primaryShades[shade]);
-      });
-    }
+      // Apply primary color to brand variables (existing)
+      if (colorObj.primaryColor) {
+        const primaryShades = generateShadesFromBase(colorObj.primaryColor);
+        Object.keys(primaryShades).forEach((shade) => {
+          root.style.setProperty(
+            `--color-brand-${shade}`,
+            primaryShades[shade]
+          );
+        });
+      }
 
-    // Apply secondary color
-    if (colorObj.secondaryColor) {
-      const secondaryShades = generateShadesFromBase(colorObj.secondaryColor);
-      Object.keys(secondaryShades).forEach((shade) => {
-        root.style.setProperty(`--color-secondary-${shade}`, secondaryShades[shade]);
-      });
-    }
+      // Apply secondary color
+      if (colorObj.secondaryColor) {
+        const secondaryShades = generateShadesFromBase(colorObj.secondaryColor);
+        Object.keys(secondaryShades).forEach((shade) => {
+          root.style.setProperty(
+            `--color-secondary-${shade}`,
+            secondaryShades[shade]
+          );
+        });
+      }
 
-    // Apply tertiary color
-    if (colorObj.tertiaryColor) {
-      const tertiaryShades = generateShadesFromBase(colorObj.tertiaryColor);
-      Object.keys(tertiaryShades).forEach((shade) => {
-        root.style.setProperty(`--color-tertiary-${shade}`, tertiaryShades[shade]);
-      });
+      // Apply tertiary color
+      if (colorObj.tertiaryColor) {
+        const tertiaryShades = generateShadesFromBase(colorObj.tertiaryColor);
+        Object.keys(tertiaryShades).forEach((shade) => {
+          root.style.setProperty(
+            `--color-tertiary-${shade}`,
+            tertiaryShades[shade]
+          );
+        });
+      }
     }
-  }
-};
+  };
 
   // Update the shade generation to also create brand shades
   const generateAndApplyShades = (baseColor, colorName) => {

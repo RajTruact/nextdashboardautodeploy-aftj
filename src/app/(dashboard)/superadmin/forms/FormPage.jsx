@@ -577,37 +577,6 @@ export default function FormPage() {
 
               {/* NEW: Website URL Field */}
               <div>
-                <UrlInput
-                  label="Website URL"
-                  value={formData.website}
-                  onChange={handleWebsiteChange}
-                  onBlur={handleWebsiteBlur}
-                  error={errors.website}
-                  placeholder="example.com or domain.in"
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="subject">Subject *</Label>
-                <Input
-                  id="subject"
-                  name="subject"
-                  type="text"
-                  placeholder="Brief description of your issue"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  required
-                />
-                {errors.subject && (
-                  <p className="mt-1 text-sm text-red-500">{errors.subject}</p>
-                )}
-              </div>
-            </div>
-
-            {/* Password Field - Moved to separate row */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <div>
                 <Label htmlFor="password">Password *</Label>
                 <div className="relative">
                   <Input
@@ -636,7 +605,70 @@ export default function FormPage() {
                   <p className="mt-1 text-sm text-red-500">{errors.password}</p>
                 )}
               </div>
-              <div></div> {/* Empty column for layout */}
+              <div>
+                <Label htmlFor="subject">Subject *</Label>
+                <Input
+                  id="subject"
+                  name="subject"
+                  type="text"
+                  placeholder="Brief description of your issue"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  required
+                />
+                {errors.subject && (
+                  <p className="mt-1 text-sm text-red-500">{errors.subject}</p>
+                )}
+              </div>
+            </div>
+
+            {/* Password Field - Moved to separate row */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <div>
+                <Label htmlFor="datePicker">Date Picker *</Label>
+                <div className="relative">
+                  <DatePicker
+                    id="date-picker"
+                    placeholder="Select a date"
+                    value={formData.selectedDate}
+                    onChange={handleDateChange}
+                    minDate={new Date()}
+                  />
+                  {errors.selectedDate && (
+                    <p className="mt-1 text-sm text-red-500">
+                      {errors.selectedDate}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <div>
+                <UrlInput
+                  label="Website URL"
+                  value={formData.website}
+                  onChange={handleWebsiteChange}
+                  onBlur={handleWebsiteBlur}
+                  error={errors.website}
+                  placeholder="example.com or domain.in"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="datePicker">Checkbox *</Label>
+                <div className="relative">
+                  <CheckboxComponents
+                    checked={formData.termsAccepted}
+                    onChange={handleCheckboxChange}
+                    label="By accessing this website we assume you accept these terms and conditions.*"
+                  />
+                  {errors.termsAccepted && (
+                    <p className="mt-1 text-sm text-red-500">
+                      {errors.termsAccepted}
+                    </p>
+                  )}
+                </div>
+              </div>
             </div>
 
             {/* Description & File Upload Section */}
@@ -688,21 +720,6 @@ export default function FormPage() {
             {/* Date, Terms & Radio Buttons Section */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               <div>
-                <DatePicker
-                  id="date-picker"
-                  label="Date Picker *"
-                  placeholder="Select a date"
-                  value={formData.selectedDate}
-                  onChange={handleDateChange}
-                  minDate={new Date()}
-                />
-                {errors.selectedDate && (
-                  <p className="mt-1 text-sm text-red-500">
-                    {errors.selectedDate}
-                  </p>
-                )}
-              </div>
-              <div>
                 <CheckboxComponents
                   checked={formData.termsAccepted}
                   onChange={handleCheckboxChange}
@@ -747,7 +764,7 @@ export default function FormPage() {
             </div>
 
             {/* Base64 buttons section */}
-            {formData.signature && (
+            {/* {formData.signature && (
               <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded border">
                 <p className="font-medium mb-2">Get Complete Base64:</p>
                 <div className="flex gap-2">
@@ -779,7 +796,7 @@ export default function FormPage() {
                   </button>
                 </div>
               </div>
-            )}
+            )} */}
 
             {/* Submit Button */}
             <div className="flex justify-end mt-4">

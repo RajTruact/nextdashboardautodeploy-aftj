@@ -5,8 +5,8 @@ import Checkbox from "../../ui/input/Checkbox";
 
 export default function CheckboxComponents({ checked, onChange, label }) {
   return (
-    <ComponentCard title="Checkbox">
-      <div className="flex items-center gap-4">
+    <div className="border rounded-md dark:border-gray-700">
+      <div className="flex items-center gap-4 p-3">
         <div className="flex items-center gap-3">
           <Checkbox
             checked={checked}
@@ -18,7 +18,7 @@ export default function CheckboxComponents({ checked, onChange, label }) {
           />
         </div>
       </div>
-    </ComponentCard>
+    </div>
   );
 }
 // "use client";

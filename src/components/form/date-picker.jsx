@@ -50,9 +50,9 @@ export default function DatePicker({
           <Calendar1Icon className="size-6" />
         </span>
       </div>
-      <p className="text-xs text-gray-500 dark:text-gray-400">
+      {/* <p className="text-xs text-gray-500 dark:text-gray-400">
         Enter a valid Date
-      </p>
+      </p> */}
       {/* </div> */}
     </>
   );

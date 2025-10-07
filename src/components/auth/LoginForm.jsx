@@ -11,20 +11,6 @@ import * as yup from "yup";
 
 // Validation schema
 const formSchema = yup.object().shape({
-  firstName: yup
-    .string()
-    .required("First name is required")
-    .min(2, "First name must be at least 2 characters")
-    .max(50, "First name must be less than 50 characters")
-    .matches(/^[a-zA-Z\s]+$/, "First name can only contain letters and spaces"),
-
-  lastName: yup
-    .string()
-    .required("Last name is required")
-    .min(2, "Last name must be at least 2 characters")
-    .max(50, "Last name must be less than 50 characters")
-    .matches(/^[a-zA-Z\s]+$/, "Last name can only contain letters and spaces"),
-
   email: yup
     .string()
     .required("Email is required")
@@ -45,14 +31,12 @@ const formSchema = yup.object().shape({
     .required("You must accept the terms and conditions"),
 });
 
-export default function SignUpForm() {
+export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
     email: "",
     password: "",
     termsAccepted: false,
@@ -114,65 +98,15 @@ export default function SignUpForm() {
         <div>
           <div className="mb-5 sm:mb-8">
             <h1 className="mb-2 font-semibold text-gray-800 text-title-sm dark:text-white/90 sm:text-title-md">
-              Sign Up
+              Login
             </h1>
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              Enter your email and password to sign up!
+              Enter your email and password to Login!
             </p>
           </div>
           <div>
             <form onSubmit={handleSubmit}>
               <div className="space-y-5">
-                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-                  {/* First Name */}
-                  <div className="sm:col-span-1">
-                    <Label htmlFor="firstName">
-                      First Name<span className="text-error-500">*</span>
-                    </Label>
-                    <Input
-                      type="text"
-                      id="firstName"
-                      placeholder="Enter your first name"
-                      value={formData.firstName}
-                      onChange={(e) =>
-                        handleInputChange("firstName", e.target.value)
-                      }
-                      onBlur={() =>
-                        validateField("firstName", formData.firstName)
-                      }
-                    />
-                    {errors.firstName && (
-                      <p className="mt-1 text-sm text-error-500">
-                        {errors.firstName}
-                      </p>
-                    )}
-                  </div>
-
-                  {/* Last Name */}
-                  <div className="sm:col-span-1">
-                    <Label htmlFor="lastName">
-                      Last Name<span className="text-error-500">*</span>
-                    </Label>
-                    <Input
-                      type="text"
-                      id="lastName"
-                      placeholder="Enter your last name"
-                      value={formData.lastName}
-                      onChange={(e) =>
-                        handleInputChange("lastName", e.target.value)
-                      }
-                      onBlur={() =>
-                        validateField("lastName", formData.lastName)
-                      }
-                    />
-                    {errors.lastName && (
-                      <p className="mt-1 text-sm text-error-500">
-                        {errors.lastName}
-                      </p>
-                    )}
-                  </div>
-                </div>
-
                 {/* Email */}
                 <div>
                   <Label htmlFor="email">
@@ -266,7 +200,7 @@ export default function SignUpForm() {
                     className="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white transition rounded-lg shadow-theme-xs disabled:opacity-50 disabled:cursor-not-allowed"
                     style={{ background: primary }}
                   >
-                    {isSubmitting ? "Signing Up..." : "Sign Up"}
+                    {isSubmitting ? "Loging..." : "Login"}
                   </button>
                 </div>
               </div>
@@ -274,12 +208,12 @@ export default function SignUpForm() {
 
             <div className="mt-5">
               <p className="text-sm font-normal text-center text-gray-700 dark:text-gray-400 sm:text-start">
-                Already have an account?{" "}
+                Don't have an account?{" "}
                 <Link
-                  href="/login"
+                  href="/signup"
                   className="text-brand-500 hover:text-brand-600 dark:text-brand-400"
                 >
-                  Log In
+                  Sign Up
                 </Link>
               </p>
             </div>

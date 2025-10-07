@@ -12,6 +12,7 @@ import CheckboxComponents from "@/src/components/form/form-elements/CheckboxComp
 import RadioButtons from "@/src/components/form/form-elements/RadioButtons";
 import SignatureField from "@/src/components/form/SignatureField";
 import UrlInput from "@/src/components/form/UrlInput";
+import SelectInputs from "@/src/components/form/form-elements/SelectInputs";
 
 // Define validation schema
 // Define validation schema
@@ -70,51 +71,7 @@ const formSchema = yup.object().shape({
         if (!domainRegex.test(value)) return false;
 
         // Common TLDs including .in, .com, etc.
-        const validTLDs = [
-          "com",
-          "in",
-          "org",
-          "net",
-          "edu",
-          "gov",
-          "mil",
-          "co",
-          "io",
-          "ai",
-          "info",
-          "biz",
-          "me",
-          "tv",
-          "us",
-          "uk",
-          "ca",
-          "au",
-          "de",
-          "fr",
-          "jp",
-          "cn",
-          "ru",
-          "io",
-          "ai",
-          "co",
-          "me",
-          "tv",
-          "app",
-          "dev",
-          "tech",
-          "shop",
-          "site",
-          "online",
-          "store",
-          "fun",
-          "club",
-          "life",
-          "space",
-          "tech",
-          "xyz",
-          "work",
-          "cloud",
-        ];
+        const validTLDs = ["com", "in"];
 
         const domain = value.replace(/^https?:\/\//, "").split("/")[0];
         const tld = domain.split(".").pop()?.toLowerCase();
@@ -644,6 +601,7 @@ export default function FormPage() {
               </div>
 
               <div>
+                <Label htmlFor="websiteurl">Webiste Url *</Label>
                 <UrlInput
                   label="Website URL"
                   value={formData.website}
@@ -720,20 +678,12 @@ export default function FormPage() {
             {/* Date, Terms & Radio Buttons Section */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               <div>
-                <CheckboxComponents
-                  checked={formData.termsAccepted}
-                  onChange={handleCheckboxChange}
-                  label="By accessing this website we assume you accept these terms and conditions.*"
-                />
-                {errors.termsAccepted && (
-                  <p className="mt-1 text-sm text-red-500">
-                    {errors.termsAccepted}
-                  </p>
-                )}
-              </div>
-
-              <div>
+                <Label htmlFor="selectRadio">Select Radio *</Label>
                 <RadioButtons />
+              </div>
+              <div>
+                <Label htmlFor="selectDropdown">Select Dropdown *</Label>
+                <SelectInputs />
               </div>
             </div>
 

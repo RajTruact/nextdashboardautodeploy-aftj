@@ -1,11 +1,11 @@
-import SignUpForm from "@/src/components/auth/SignUpForm";
+import LoginForm from "@/src/components/auth/LoginForm";
 
 export const metadata = {
-  title: "Truact SignUp Page",
+  title: "Truact Login Page",
   description: "This is Next.js SignUp Page",
   // other metadata
 };
 
 export default function SignUp() {
-  return <SignUpForm />;
+  return <LoginForm />;
 }

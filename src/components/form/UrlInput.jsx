@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { Globe, ExternalLink, AlertCircle, CheckCircle } from "lucide-react";
 
 const UrlInput = ({
-  label = "Website URL",
   value = "",
   onChange,
   onBlur,
@@ -62,14 +61,6 @@ const UrlInput = ({
 
   return (
     <div className={`w-full ${className}`}>
-      {/* Label */}
-      {label && (
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-          {label}
-          {required && <span className="text-red-500 ml-1">*</span>}
-        </label>
-      )}
-
       {/* Input Container */}
       <div className="relative">
         <div

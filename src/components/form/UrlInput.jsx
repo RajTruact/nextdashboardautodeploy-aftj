@@ -65,18 +65,8 @@ const UrlInput = ({
       <div className="relative">
         <div
           className={`
-          flex items-center border rounded-lg transition-all duration-200
-          ${
-            showError
-              ? "border-red-500 bg-red-50 dark:bg-red-900/20"
-              : isFocused
-              ? "border-blue-500 bg-white dark:bg-gray-800 ring-2 ring-blue-500/20"
-              : "border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
-          }
-          ${
-            status === "valid" && !showError
-              ? "border-green-500 dark:border-green-400"
-              : ""
+          flex items-center border-2 border-gray-700 rounded-lg transition-all duration-200
+      : ""
           }
         `}
         >

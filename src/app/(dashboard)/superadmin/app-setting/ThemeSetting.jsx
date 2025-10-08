@@ -24,19 +24,20 @@ export default function ThemeCustomizationPage() {
 
   const colorVariables = [
     {
-      name: "Primary Color",
-      key: "primaryColor",
-      description: "Main brand color for primary actions",
-    },
-    {
-      name: "Secondary Color",
+      name: "For AppHeader",
       key: "secondaryColor",
-      description: "Secondary accent color for highlights",
+      // description: "Secondary accent color for highlights",
     },
     {
-      name: "Tertiary Color",
+      name: "For Buttons, Active Links, Top Loader.",
+      key: "primaryColor",
+      // description: "",
+    },
+
+    {
+      name: "For Menu and SubMenu",
       key: "tertiaryColor",
-      description: "Tertiary color for additional accents",
+      // description: "Tertiary color for additional accents",
     },
   ];
 

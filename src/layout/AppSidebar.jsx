@@ -15,11 +15,15 @@ import {
 import { Dropdown } from "../components/ui/dropdown/Dropdown";
 import { DropdownItem } from "../components/ui/dropdown/DropdownItem";
 import sidebarConfig from "../config/sidebarConfig";
+import { useTheme } from "../context/ThemeContext";
 
 const AppSidebar = ({ role = "admin" }) => {
   const pathname = usePathname();
   const roles = pathname.split("/")[1];
   const { isExpanded, isMobileOpen, isHovered } = useSidebar();
+  const { colors } = useTheme();
+  const primary = colors?.secondaryColor || "#2563eb";
+  const tertiary = colors?.tertiaryColor;
 
   const [openSubmenu, setOpenSubmenu] = useState(null);
   const [subMenuHeight, setSubMenuHeight] = useState({});
@@ -323,7 +327,7 @@ const AppSidebar = ({ role = "admin" }) => {
 
   return (
     <aside
-      className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-5 left-0 bg-white dark:bg-gray-900 dark:border-gray-800 text-gray-900 h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200 
+      className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-0 left-0 bg-white dark:bg-gray-900 dark:border-gray-800 text-gray-900 h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200 
         ${
           isExpanded || isMobileOpen
             ? "w-[260px]"
@@ -333,12 +337,14 @@ const AppSidebar = ({ role = "admin" }) => {
         }
         ${isMobileOpen ? "translate-x-0" : "-translate-x-full"}
         lg:translate-x-0`}
+      style={{ background: tertiary }}
     >
       {/* Logo */}
       <div
-        className={`py-8 flex ${
+        className={`py-5 flex mb-2 px-5 ${
           !isExpanded && !isHovered ? "lg:justify-center" : "justify-start"
         }`}
+        style={{ background: primary }}
       >
         <Link href="/">
           {isExpanded || isHovered || isMobileOpen ? (
@@ -370,7 +376,7 @@ const AppSidebar = ({ role = "admin" }) => {
       </div>
 
       {/* Sidebar Content */}
-      <div className="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar">
+      <div className="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar px-5">
         <nav className="mb-6">
           <div className="flex flex-col gap-4">
             <div>

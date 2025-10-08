@@ -15,17 +15,17 @@ const AppFooter = () => {
         </p>
         <Link
           href={`/${roles}/terms`}
-          className="text-center text-[13px] hover:underline transition-all"
+          className="text-center text-[13px] hover:underline transition-all hidden"
         >
           Terms & Privacy
         </Link>
         <Link
           href={`/${roles}/support`}
-          className="text-center text-[13px] hover:underline transition-all"
+          className="text-center text-[13px] hover:underline transition-all hidden"
         >
           Connect to Support
         </Link>
-        <p className="text-center text-[13px]">v1.0.0</p>
+        <p className="text-center text-[13px] hidden">v1.0.0</p>
       </div>
     </footer>
   );

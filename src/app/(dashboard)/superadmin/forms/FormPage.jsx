@@ -511,7 +511,7 @@ export default function FormPage() {
             noValidate
           >
             {/* Personal Information Section */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-2">
               <div>
                 <Label htmlFor="firstName">First Name *</Label>
                 <Input
@@ -566,7 +566,7 @@ export default function FormPage() {
             </div>
 
             {/* Contact & Security Section - UPDATED WITH URL FIELD */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-2">
               <div>
                 <Label htmlFor="phone">Phone Number</Label>
                 <Input
@@ -632,7 +632,7 @@ export default function FormPage() {
             </div>
 
             {/* Password Field - Moved to separate row */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-2">
               <div>
                 <Label htmlFor="selectRadio">Select Radio *</Label>
                 <RadioButtons />
@@ -668,7 +668,7 @@ export default function FormPage() {
             </div>
 
             {/* Description & File Upload Section */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-2">
               <div>
                 <Label htmlFor="description">Description *</Label>
                 <TextArea
@@ -713,7 +713,7 @@ export default function FormPage() {
             </div>
 
             {/* Date, Terms & Radio Buttons Section */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-2">
               {/* File Upload */}
               <div>
                 <Label htmlFor="fileUpload">File Upload *</Label>
@@ -772,8 +772,9 @@ export default function FormPage() {
             </div>
 
             {/* Signature Section */}
-            <div className="grid grid-cols-1 gap-5">
-              <div className="p-4 border border-gray-200 rounded-lg dark:border-gray-700 bg-gray-50 dark:bg-gray-900/20">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-2">
+              <div className="relative">
+                <Label htmlFor="signatureField">Signature Field *</Label>
                 <SignatureField
                   label="Digital Signature *"
                   required={true}

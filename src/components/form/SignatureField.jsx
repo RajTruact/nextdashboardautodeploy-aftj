@@ -1,14 +1,22 @@
 "use client";
-import React, { useState, useRef } from 'react';
-import SignatureCanvas from 'react-signature-canvas';
-import { Edit2, Trash2, AlertCircle, CheckCircle, Download, FileText, X } from 'lucide-react';
-import { 
-  isSignatureValid, 
-  extractBase64FromDataURL, 
-  getBase64FileSize, 
+import React, { useState, useRef } from "react";
+import SignatureCanvas from "react-signature-canvas";
+import {
+  Edit2,
+  Trash2,
+  AlertCircle,
+  CheckCircle,
+  Download,
+  FileText,
+  X,
+} from "lucide-react";
+import {
+  isSignatureValid,
+  extractBase64FromDataURL,
+  getBase64FileSize,
   downloadSignature,
-  getSignatureInfo 
-} from '@/src/utils/signatureUtils';
+  getSignatureInfo,
+} from "@/src/utils/signatureUtils";
 
 const SignatureField = ({
   label = "Signature",
@@ -21,7 +29,7 @@ const SignatureField = ({
   height = 150,
   validate = true,
   className = "",
-  showFileInfo = true
+  showFileInfo = true,
 }) => {
   const [showSignaturePad, setShowSignaturePad] = useState(false);
   const [signature, setSignature] = useState(value);
@@ -29,10 +37,10 @@ const SignatureField = ({
 
   const handleSaveSignature = (signatureData) => {
     console.group("💾 Saving Signature");
-    
+
     const signatureInfo = getSignatureInfo(signatureData);
     console.log("📊 Signature Info:", signatureInfo);
-    
+
     if (isSignatureValid(signatureData)) {
       setSignature(signatureData);
       if (onChange) {
@@ -44,7 +52,7 @@ const SignatureField = ({
     } else {
       console.warn("❌ Signature validation failed");
     }
-    
+
     console.groupEnd();
   };
 
@@ -76,15 +84,15 @@ const SignatureField = ({
   // Get file info for display
   const getFileInfo = () => {
     if (!signature) return null;
-    
+
     const base64Data = extractBase64FromDataURL(signature);
     const fileSize = getBase64FileSize(base64Data);
     const fileSizeKB = (fileSize / 1024).toFixed(2);
-    
+
     return {
       size: fileSizeKB,
       dimensions: `${width}×${height}px`,
-      format: 'PNG'
+      format: "PNG",
     };
   };
 
@@ -92,23 +100,16 @@ const SignatureField = ({
 
   return (
     <div className={`w-full ${className}`}>
-      {/* Label */}
-      {label && (
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-          {label}
-          {required && <span className="text-red-500 ml-1">*</span>}
-        </label>
-      )}
-
       {/* Signature Display/Input Area */}
-      <div 
+      <div
         className={`
-          border-2 border-dashed rounded-lg transition-colors cursor-pointer
-          ${showError 
-            ? 'border-red-300 bg-red-50' 
-            : isValidSignature 
-            ? 'border-green-300 bg-green-50' 
-            : 'border-gray-300 bg-gray-50 hover:border-gray-400'
+          border-2 border-dashed rounded-lg transition-colors cursor-pointer bg
+          ${
+            showError
+              ? "border-brand-300 bg-brand-500"
+              : isValidSignature
+              ? "border-brand-300 bg-brand-50"
+              : "border-brand-300 bg-brand-100 hover:border-gray-400"
           }
         `}
         onClick={() => setShowSignaturePad(true)}
@@ -119,29 +120,39 @@ const SignatureField = ({
           <div className="relative p-4">
             <div className="flex flex-col md:flex-row items-center gap-4">
               {/* Signature Preview */}
-              <img 
-                src={signature} 
+              <img
+                src={signature}
                 alt="Signature"
                 className="max-h-32 object-contain border border-gray-200 rounded"
               />
-              
+
               {/* File Information */}
-              {showFileInfo && fileInfo && (
+              {/* {showFileInfo && fileInfo && (
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-2">
                     <FileText className="w-4 h-4 text-gray-500" />
-                    <span className="text-sm font-medium text-gray-700">Signature Details</span>
+                    <span className="text-sm font-medium text-gray-700">
+                      Signature Details
+                    </span>
                   </div>
                   <div className="grid grid-cols-2 gap-2 text-xs text-gray-600">
-                    <div>Size: <strong>{fileInfo.size} KB</strong></div>
-                    <div>Format: <strong>{fileInfo.format}</strong></div>
-                    <div>Dimensions: <strong>{fileInfo.dimensions}</strong></div>
-                    <div>Status: <strong className="text-green-600">Valid</strong></div>
+                    <div>
+                      Size: <strong>{fileInfo.size} KB</strong>
+                    </div>
+                    <div>
+                      Format: <strong>{fileInfo.format}</strong>
+                    </div>
+                    <div>
+                      Dimensions: <strong>{fileInfo.dimensions}</strong>
+                    </div>
+                    <div>
+                      Status: <strong className="text-green-600">Valid</strong>
+                    </div>
                   </div>
                 </div>
-              )}
+              )} */}
             </div>
-            
+
             {/* Action Buttons */}
             <div className="absolute top-2 right-2 flex gap-1">
               <button
@@ -183,7 +194,9 @@ const SignatureField = ({
             </div>
             <p className="text-gray-600 font-medium">Click to sign</p>
             <p className="text-sm text-gray-500 mt-1">
-              {required ? 'Signature is required' : 'Add your signature (optional)'}
+              {required
+                ? "Signature is required"
+                : "Add your signature (optional)"}
             </p>
           </div>
         )}
@@ -197,7 +210,7 @@ const SignatureField = ({
             <span>Signature is required</span>
           </div>
         )}
-        
+
         {isValidSignature && !showError && (
           <div className="flex items-center gap-2 text-sm text-green-600">
             <CheckCircle className="w-4 h-4" />
@@ -229,7 +242,14 @@ const SignatureField = ({
 };
 
 // Separate modal component for better organization
-const SignaturePadModal = ({ onSave, onClose, width, height, required, validate }) => {
+const SignaturePadModal = ({
+  onSave,
+  onClose,
+  width,
+  height,
+  required,
+  validate,
+}) => {
   const sigCanvas = useRef(null);
   const [isEmpty, setIsEmpty] = useState(true);
 
@@ -242,7 +262,7 @@ const SignaturePadModal = ({ onSave, onClose, width, height, required, validate 
 
   const save = () => {
     if (sigCanvas.current && !sigCanvas.current.isEmpty()) {
-      const signatureData = sigCanvas.current.toDataURL('image/png');
+      const signatureData = sigCanvas.current.toDataURL("image/png");
       onSave(signatureData);
     }
   };
@@ -256,7 +276,10 @@ const SignaturePadModal = ({ onSave, onClose, width, height, required, validate 
       <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl">
         <div className="flex items-center justify-between p-4 border-b">
           <h3 className="text-lg font-semibold text-gray-800">Sign Here</h3>
-          <button onClick={onClose} className="p-1 hover:bg-gray-100 rounded-full">
+          <button
+            onClick={onClose}
+            className="p-1 hover:bg-gray-100 rounded-full"
+          >
             <X className="w-5 h-5 text-gray-600" />
           </button>
         </div>
@@ -269,7 +292,7 @@ const SignaturePadModal = ({ onSave, onClose, width, height, required, validate 
               canvasProps={{
                 width: Math.min(width, window.innerWidth - 40),
                 height: height,
-                className: 'sig-canvas bg-white w-full'
+                className: "sig-canvas bg-white w-full",
               }}
               onBegin={handleBeginDraw}
             />
@@ -277,14 +300,24 @@ const SignaturePadModal = ({ onSave, onClose, width, height, required, validate 
         </div>
 
         <div className="flex items-center justify-between p-4 border-t">
-          <button onClick={clear} className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50">
+          <button
+            onClick={clear}
+            className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50"
+          >
             Clear
           </button>
           <div className="flex gap-3">
-            <button onClick={onClose} className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50">
+            <button
+              onClick={onClose}
+              className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50"
+            >
               Cancel
             </button>
-            <button onClick={save} disabled={isEmpty} className="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:bg-gray-400">
+            <button
+              onClick={save}
+              disabled={isEmpty}
+              className="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:bg-gray-400"
+            >
               Save Signature
             </button>
           </div>

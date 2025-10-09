@@ -402,7 +402,7 @@ const AppSidebar = ({ role = "admin" }) => {
       </div>
 
       {/* Settings Section */}
-      <div className="mt-auto py-4 border-t border-gray-200 dark:border-gray-800">
+      <div className="mt-auto py-4 border-t border-gray-200 dark:border-gray-800 dark:bg-[#16181D]">
         <div className="relative">
           <button
             onClick={toggleSettings}

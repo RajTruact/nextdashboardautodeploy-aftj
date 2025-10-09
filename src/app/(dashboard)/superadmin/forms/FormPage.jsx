@@ -15,9 +15,62 @@ import UrlInput from "@/src/components/form/UrlInput";
 import SelectInputs from "@/src/components/form/form-elements/SelectInputs";
 import AudioUploadComponent from "@/src/components/form/AudioUploadComponent";
 import VideoUploadComponent from "@/src/components/form/VideoUploadComponent";
+import { InspectionSubform } from "@/src/components/form/form-elements/InspectionSubform";
 
 // Define validation schema
 // Define validation schema
+const inspectionEntrySchema = yup.object().shape({
+  scanner: yup
+    .string()
+    .required("Scanner is required")
+    .min(2, "Scanner must be at least 2 characters"),
+
+  productSerialNo: yup.string().required("Product Serial Number is required"),
+
+  productGroup: yup
+    .string()
+    .required("Product Group is required")
+    .min(2, "Product Group must be at least 2 characters"),
+
+  productName: yup
+    .string()
+    .required("Product Name is required")
+    .min(2, "Product Name must be at least 2 characters"),
+
+  actionTaken: yup
+    .string()
+    .required("Action Taken is required")
+    .min(2, "Action Taken must be at least 2 characters"),
+
+  packingCondition: yup
+    .string()
+    .required("Packing Condition is required")
+    .min(2, "Packing Condition must be at least 2 characters"),
+
+  physicalCondition: yup
+    .string()
+    .required("Physical Condition is required")
+    .min(2, "Physical Condition must be at least 2 characters"),
+
+  inspectionImages: yup
+    .array()
+    .max(5, "Maximum 5 inspection images allowed")
+    .test("fileSize", "Image size must be less than 5MB", (files) => {
+      if (!files || files.length === 0) return true;
+      return files.every((file) => file.size <= 5 * 1024 * 1024);
+    })
+    .test("fileType", "Only image files are allowed", (files) => {
+      if (!files || files.length === 0) return true;
+      const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/gif",
+        "image/webp",
+      ];
+      return files.every((file) => allowedTypes.includes(file.type));
+    }),
+});
+
 const formSchema = yup.object().shape({
   firstName: yup
     .string()
@@ -211,6 +264,12 @@ const formSchema = yup.object().shape({
       ];
       return files.every((file) => allowedTypes.includes(file.type));
     }),
+
+  inspectionEntries: yup
+    .array()
+    .of(inspectionEntrySchema)
+    .min(1, "At least one inspection entry is required")
+    .max(10, "Maximum 10 inspection entries allowed"),
 });
 
 export default function FormPage() {
@@ -219,7 +278,7 @@ export default function FormPage() {
     lastName: "",
     email: "",
     phone: "",
-    website: "", // Add website field
+    website: "",
     subject: "",
     description: "",
     password: "",
@@ -227,6 +286,7 @@ export default function FormPage() {
     selectedDate: null,
     termsAccepted: false,
     signature: null,
+    inspectionEntries: [], // Add this line
   });
 
   const [errors, setErrors] = useState({});
@@ -394,7 +454,7 @@ export default function FormPage() {
       // Clear any existing errors
       setErrors({});
 
-      // Log form data including website
+      // Log form data including inspection entries
       console.log("✅ FORM SUBMISSION STARTED");
       console.log("📝 Basic Form Data:", {
         firstName: formData.firstName,
@@ -407,31 +467,33 @@ export default function FormPage() {
         signatureLength: formData.signature?.length || 0,
       });
 
-      // Check signature specifically
-      if (formData.signature) {
-        console.log("🖊️ SIGNATURE DATA:");
-        console.log("  - Exists: YES");
-        console.log("  - Total length:", formData.signature.length);
-        console.log(
-          "  - Starts with data:image:",
-          formData.signature.startsWith("data:image")
-        );
+      // Log inspection entries specifically
+      console.log("🔍 INSPECTION ENTRIES:");
+      formData.inspectionEntries.forEach((entry, index) => {
+        console.log(`  Entry ${index + 1}:`, {
+          scanner: entry.scanner,
+          productSerialNo: entry.productSerialNo,
+          productGroup: entry.productGroup,
+          productName: entry.productName,
+          actionTaken: entry.actionTaken,
+          packingCondition: entry.packingCondition,
+          physicalCondition: entry.physicalCondition,
+          imageCount: entry.inspectionImages?.length || 0,
+        });
+      });
 
-        // Simple Base64 check
-        const hasComma = formData.signature.includes(",");
-        console.log("  - Contains comma (has Base64):", hasComma);
-
-        if (hasComma) {
-          const base64Part = formData.signature.split(",")[1];
-          console.log("  - Base64 length:", base64Part?.length || 0);
-          console.log(
-            "  - Base64 preview:",
-            base64Part?.substring(0, 30) + "..."
-          );
-        }
-      } else {
-        console.log("🖊️ SIGNATURE DATA: NO SIGNATURE");
-      }
+      // Differentiate between entries
+      console.log("📊 ENTRY DIFFERENTIATION:");
+      formData.inspectionEntries.forEach((entry, index) => {
+        const entrySummary = {
+          index: index + 1,
+          product: `${entry.productGroup} - ${entry.productName}`,
+          serialNo: entry.productSerialNo,
+          condition: `${entry.packingCondition} / ${entry.physicalCondition}`,
+          action: entry.actionTaken,
+        };
+        console.log(`  Entry ${index + 1}:`, entrySummary);
+      });
 
       // Here you would typically send the data to your backend
       console.log("🚀 Simulating API call...");
@@ -457,6 +519,7 @@ export default function FormPage() {
           selectedDate: null,
           termsAccepted: false,
           signature: null,
+          inspectionEntries: [], // Reset inspection entries too
         });
       }, 3000);
     } catch (error) {
@@ -475,6 +538,36 @@ export default function FormPage() {
       }
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  // Add handler for inspection entries changes
+  const handleInspectionEntriesChange = (updatedEntries) => {
+    setFormData((prev) => ({
+      ...prev,
+      inspectionEntries: updatedEntries,
+    }));
+
+    // Clear inspection entries errors when entries are modified
+    if (errors.inspectionEntries) {
+      setErrors((prev) => ({
+        ...prev,
+        inspectionEntries: "",
+      }));
+    }
+  };
+
+  // Add blur handler for inspection fields
+  const handleInspectionBlur = async () => {
+    try {
+      await formSchema.validateAt("inspectionEntries", formData);
+      if (errors.inspectionEntries) {
+        setErrors((prev) => ({ ...prev, inspectionEntries: "" }));
+      }
+    } catch (error) {
+      if (error instanceof yup.ValidationError) {
+        setErrors((prev) => ({ ...prev, inspectionEntries: error.message }));
+      }
     }
   };
 
@@ -796,6 +889,18 @@ export default function FormPage() {
                 </p>
               </div>
             </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-1 gap-5 mb-2">
+              <div className="mt-8 pt-6 border-t border-gray-200">
+                <InspectionSubform
+                  inspectionEntries={formData.inspectionEntries}
+                  onChange={handleInspectionEntriesChange}
+                  errors={errors.inspectionEntries}
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-2"></div>
           </form>
         )}
       </div>

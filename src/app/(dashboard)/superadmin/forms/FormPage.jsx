@@ -776,7 +776,6 @@ export default function FormPage() {
               <div className="relative">
                 <Label htmlFor="signatureField">Signature Field *</Label>
                 <SignatureField
-                  label="Digital Signature *"
                   required={true}
                   value={formData.signature}
                   onChange={handleSignatureChange}

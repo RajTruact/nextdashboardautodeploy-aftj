@@ -379,11 +379,11 @@ const SignaturePadModal = ({
             />
           </div>
 
-          {isDrawing && (
+          {/* {isDrawing && (
             <div className="mt-2 text-xs text-green-600 text-center">
               Signature in progress...
             </div>
-          )}
+          )} */}
         </div>
 
         <div className="flex items-center justify-between p-4 border-t bg-gray-50 rounded-b-lg">

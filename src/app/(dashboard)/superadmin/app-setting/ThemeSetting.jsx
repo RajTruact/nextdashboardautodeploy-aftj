@@ -26,18 +26,15 @@ export default function ThemeCustomizationPage() {
     {
       name: "For AppHeader",
       key: "secondaryColor",
-      // description: "Secondary accent color for highlights",
     },
     {
       name: "For Buttons, Active Links, Top Loader.",
       key: "primaryColor",
-      // description: "",
     },
 
     {
       name: "For Menu and SubMenu",
       key: "tertiaryColor",
-      // description: "Tertiary color for additional accents",
     },
   ];
 

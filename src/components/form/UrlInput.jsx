@@ -65,7 +65,7 @@ const UrlInput = ({
       <div className="relative">
         <div
           className={`
-          flex items-center border-2 border-gray-700 rounded-lg transition-all duration-200
+          flex items-center border-2 dark:border-gray-700 rounded-lg transition-all duration-200 dark:bg-[#16181D]
       : ""
           }
         `}
@@ -85,7 +85,7 @@ const UrlInput = ({
             placeholder={placeholder}
             className={`
               w-full py-2.5 pr-12 bg-transparent border-0 focus:outline-none focus:ring-0
-              text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400
+              text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 
               ${showError ? "placeholder-red-300" : ""}
             `}
           />

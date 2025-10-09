@@ -479,7 +479,7 @@ export default function FormPage() {
   };
 
   return (
-    <div className="p-5 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
+    <div className="p-5 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6 relative">
       <div className="flex flex-col gap-6 mb-5">
         {isSubmitted ? (
           <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg text-center">
@@ -797,50 +797,19 @@ export default function FormPage() {
                 </p>
               </div>
             </div>
-
-            {/* Base64 buttons section */}
-            {/* {formData.signature && (
-              <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded border">
-                <p className="font-medium mb-2">Get Complete Base64:</p>
-                <div className="flex gap-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      navigator.clipboard.writeText(formData.signature);
-                      alert("Complete Base64 copied to clipboard!");
-                    }}
-                    className="px-3 py-1 bg-blue-600 text-white rounded text-sm"
-                  >
-                    Copy Base64 to Clipboard
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const blob = new Blob([formData.signature], {
-                        type: "text/plain",
-                      });
-                      const url = URL.createObjectURL(blob);
-                      const link = document.createElement("a");
-                      link.href = url;
-                      link.download = "signature-base64.txt";
-                      link.click();
-                    }}
-                    className="px-3 py-1 bg-green-600 text-white rounded text-sm"
-                  >
-                    Download as .txt File
-                  </button>
-                </div>
-              </div>
-            )} */}
-
-            {/* Submit Button */}
-            <div className="flex justify-end mt-4">
-              <Button type="submit" size="sm" disabled={isSubmitting}>
-                {isSubmitting ? "Submitting..." : "Submit Request"}
-              </Button>
-            </div>
           </form>
         )}
+      </div>
+      {/* Submit Button */}
+      <div className="flex justify-end mt-4 sticky bottom-12 z-40 w-full">
+        <Button
+          type="submit"
+          size="sm"
+          disabled={isSubmitting}
+          onClick={handleSubmit}
+        >
+          {isSubmitting ? "Submitting..." : "Submit Request"}
+        </Button>
       </div>
     </div>
   );

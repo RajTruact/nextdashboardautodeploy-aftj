@@ -10,7 +10,7 @@ export default function RadioButtons() {
     setSelectedValue(value);
   };
   return (
-    <div className="flex flex-wrap items-center gap-8 rounded-2xl border border-gray-200  dark:border-gray-800 py-6 px-5">
+    <div className="flex flex-wrap items-center gap-8 rounded-md border border-gray-200  dark:border-gray-600 py-6 px-5">
       <Radio
         id="radio1"
         name="group1"

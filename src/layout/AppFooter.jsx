@@ -8,7 +8,7 @@ const AppFooter = () => {
   const roles = pathname.split("/")[1];
 
   return (
-    <footer className="sticky bottom-0 w-full bg-white z-50 text-[#344054]  dark:text-[#cbcfd4] dark:bg-[#16181D] h-[40px] border-t-2 dark:border-gray-800 border-white">
+    <footer className="sticky bottom-0 w-full bg-white z-40 text-[#344054]  dark:text-[#cbcfd4] dark:bg-[#16181D] h-[40px] border-t-2 dark:border-gray-800 border-white">
       <div className="flex justify-center items-center h-full gap-3 sm:gap-20">
         <p className="text-center text-[13px]">
           © 2025 TruAct | All Rights Reserved

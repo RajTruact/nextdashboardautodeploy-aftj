@@ -13,6 +13,8 @@ import RadioButtons from "@/src/components/form/form-elements/RadioButtons";
 import SignatureField from "@/src/components/form/SignatureField";
 import UrlInput from "@/src/components/form/UrlInput";
 import SelectInputs from "@/src/components/form/form-elements/SelectInputs";
+import AudioUploadComponent from "@/src/components/form/AudioUploadComponent";
+import VideoUploadComponent from "@/src/components/form/VideoUploadComponent";
 
 // Define validation schema
 // Define validation schema
@@ -171,6 +173,44 @@ const formSchema = yup.object().shape({
       const base64Data = value.split(",")[1];
       return base64Data && base64Data.length > 500; // Minimum signature complexity
     }),
+  audioFiles: yup
+    .array()
+    .max(3, "Maximum 3 audio files allowed")
+    .test("fileSize", "Audio file size must be less than 50MB", (files) => {
+      if (!files || files.length === 0) return true;
+      return files.every((file) => file.size <= 50 * 1024 * 1024);
+    })
+    .test("fileType", "Unsupported audio format", (files) => {
+      if (!files || files.length === 0) return true;
+      const allowedTypes = [
+        "audio/mpeg",
+        "audio/wav",
+        "audio/ogg",
+        "audio/aac",
+        "audio/flac",
+        "audio/x-m4a",
+      ];
+      return files.every((file) => allowedTypes.includes(file.type));
+    }),
+  videoFiles: yup
+    .array()
+    .max(2, "Maximum 2 video files allowed")
+    .test("fileSize", "Video file size must be less than 100MB", (files) => {
+      if (!files || files.length === 0) return true;
+      return files.every((file) => file.size <= 100 * 1024 * 1024);
+    })
+    .test("fileType", "Unsupported video format", (files) => {
+      if (!files || files.length === 0) return true;
+      const allowedTypes = [
+        "video/mp4",
+        "video/mpeg",
+        "video/ogg",
+        "video/webm",
+        "video/quicktime",
+        "video/x-msvideo",
+      ];
+      return files.every((file) => allowedTypes.includes(file.type));
+    }),
 });
 
 export default function FormPage() {
@@ -250,6 +290,17 @@ export default function FormPage() {
         files: "",
       }));
     }
+  };
+
+  // const audioFiles = watch("audioFiles") || [];
+  // const videoFiles = watch("videoFiles") || [];
+
+  const handleAudioFilesChange = (files) => {
+    setValue("audioFiles", files, { shouldValidate: true });
+  };
+
+  const handleVideoFilesChange = (files) => {
+    setValue("videoFiles", files, { shouldValidate: true });
   };
 
   // Handle date selection
@@ -583,21 +634,8 @@ export default function FormPage() {
             {/* Password Field - Moved to separate row */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               <div>
-                <Label htmlFor="datePicker">Date Picker *</Label>
-                <div className="relative">
-                  <DatePicker
-                    id="date-picker"
-                    placeholder="Select a date"
-                    value={formData.selectedDate}
-                    onChange={handleDateChange}
-                    minDate={new Date()}
-                  />
-                  {errors.selectedDate && (
-                    <p className="mt-1 text-sm text-red-500">
-                      {errors.selectedDate}
-                    </p>
-                  )}
-                </div>
+                <Label htmlFor="selectRadio">Select Radio *</Label>
+                <RadioButtons />
               </div>
 
               <div>
@@ -630,7 +668,7 @@ export default function FormPage() {
             </div>
 
             {/* Description & File Upload Section */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               <div>
                 <Label htmlFor="description">Description *</Label>
                 <TextArea
@@ -642,7 +680,7 @@ export default function FormPage() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   required
-                  className="min-h-[380px] !py-2"
+                  className="max-h-[67px] !py-2"
                 />
                 {errors.description && (
                   <p className="mt-1 text-sm text-red-500">
@@ -650,7 +688,35 @@ export default function FormPage() {
                   </p>
                 )}
               </div>
+
               <div>
+                <Label htmlFor="datePicker">Date Picker *</Label>
+                <div className="relative">
+                  <DatePicker
+                    id="date-picker"
+                    placeholder="Select a date"
+                    value={formData.selectedDate}
+                    onChange={handleDateChange}
+                    minDate={new Date()}
+                  />
+                  {errors.selectedDate && (
+                    <p className="mt-1 text-sm text-red-500">
+                      {errors.selectedDate}
+                    </p>
+                  )}
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="selectDropdown">Select Dropdown *</Label>
+                <SelectInputs />
+              </div>
+            </div>
+
+            {/* Date, Terms & Radio Buttons Section */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              {/* File Upload */}
+              <div>
+                <Label htmlFor="fileUpload">File Upload *</Label>
                 <DropzoneComponent
                   onFilesChange={handleFilesChange}
                   maxFiles={5}
@@ -673,17 +739,35 @@ export default function FormPage() {
                   </p>
                 )}
               </div>
-            </div>
 
-            {/* Date, Terms & Radio Buttons Section */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              {/* Audio Upload Section */}
               <div>
-                <Label htmlFor="selectRadio">Select Radio *</Label>
-                <RadioButtons />
+                <Label htmlFor="audioFiles">Audio Files *</Label>
+                <AudioUploadComponent
+                  onFilesChange={handleAudioFilesChange}
+                  maxFiles={3}
+                  maxSize={50 * 1024 * 1024}
+                />
+                {errors.audioFiles && (
+                  <p className="mt-2 text-sm text-red-500">
+                    {errors.audioFiles.message}
+                  </p>
+                )}
               </div>
+
+              {/* Video Upload Section */}
               <div>
-                <Label htmlFor="selectDropdown">Select Dropdown *</Label>
-                <SelectInputs />
+                <Label htmlFor="videoFiles">Video Files *</Label>
+                <VideoUploadComponent
+                  onFilesChange={handleVideoFilesChange}
+                  maxFiles={2}
+                  maxSize={100 * 1024 * 1024}
+                />
+                {errors.videoFiles && (
+                  <p className="mt-2 text-sm text-red-500">
+                    {errors.videoFiles.message}
+                  </p>
+                )}
               </div>
             </div>
 

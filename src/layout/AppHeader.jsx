@@ -7,12 +7,9 @@ import { useSidebar } from "../context/SidebarContext";
 import Link from "next/link";
 import React, { useState, useEffect, useRef } from "react";
 import { Search, X } from "lucide-react";
-import { useTheme } from "../context/ThemeContext";
 
 const AppHeader = () => {
   const [isApplicationMenuOpen, setApplicationMenuOpen] = useState(false);
-  const { colors } = useTheme();
-  const primary = colors?.secondaryColor || "#2563eb";
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [showSearchResults, setShowSearchResults] = useState(false);
@@ -176,10 +173,7 @@ const AppHeader = () => {
   };
 
   return (
-    <header
-      className="sticky top-0 flex w-full bg-white border-gray-200  z-50 dark:border-gray-800 dark:bg-gray-900 lg:border-b sm:h-[64px]"
-      style={{ background: primary }}
-    >
+    <header className="sticky top-0 flex w-full bg-white border-gray-200  z-50 dark:border-gray-800 dark:bg-gray-900 lg:border-b sm:h-[64px]">
       <div className="flex flex-col items-center justify-between grow lg:flex-row lg:px-6 w-full">
         <div className="flex items-center justify-between w-full gap-2 px-3 py-3 border-b border-gray-200 dark:border-gray-800 sm:gap-4 lg:justify-normal lg:border-b-0 lg:px-0 lg:py-4">
           <button
@@ -419,7 +413,6 @@ const AppHeader = () => {
           className={`${
             isApplicationMenuOpen ? "flex" : "hidden"
           } items-center justify-between w-full gap-4 px-5 py-4 lg:flex shadow-theme-md lg:justify-end lg:px-0 lg:shadow-none  md:dark:bg-[#16181D] md:bg-white md:-mt-1 md:h-[60px]  md:border-gray-800`}
-          style={{ background: primary }}
         >
           {/* Desktop Search - Hidden on tablet */}
           {!isTabletView && (
@@ -438,7 +431,6 @@ const AppHeader = () => {
                     onFocus={handleSearchFocus}
                     onBlur={handleSearchBlur}
                     className="dark:bg-dark-900 h-10 w-full rounded-lg border border-gray-200 bg-transparent py-2.5 pl-12 pr-10 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-800 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800 xl:w-[430px]"
-                    style={{ background: primary }}
                   />
                   {searchQuery && (
                     <button

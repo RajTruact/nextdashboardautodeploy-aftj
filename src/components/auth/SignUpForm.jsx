@@ -8,6 +8,7 @@ import { EyeIcon, EyeOffIcon as EyeCloseIcon } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
 import * as yup from "yup";
+import Image from "next/image";
 
 // Validation schema
 const formSchema = yup.object().shape({
@@ -110,6 +111,23 @@ export default function SignUpForm() {
           Back to dashboard
         </Link>
       </div>
+      <div className="flex flex-col items-center mb-4">
+        <div className="flex items-center justify-center w-full h-full -mb-8">
+          <div className="relative w-40 h-40">
+            <Image
+              src="https://www.truact.in/Truact_logo_reverse-01.png"
+              alt="Truact Logo"
+              fill
+              className="object-contain"
+              priority
+            />
+          </div>
+        </div>
+        <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
+          Create your account to get started
+        </p>
+      </div>
+
       <div className="flex flex-col justify-center flex-1 w-full max-w-md mx-auto">
         <div>
           <div className="mb-5 sm:mb-8">

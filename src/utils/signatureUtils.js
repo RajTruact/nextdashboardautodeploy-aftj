@@ -15,11 +15,11 @@ export const extractBase64FromDataURL = (dataURL) => {
   }
 
   const base64Data = dataURL.split(",")[1];
-  console.log("📊 Base64 data extracted:", {
-    totalLength: dataURL.length,
-    base64Length: base64Data.length,
-    preview: base64Data,
-  });
+  // console.log("📊 Base64 data extracted:", {
+  //   totalLength: dataURL.length,
+  //   base64Length: base64Data.length,
+  //   preview: base64Data,
+  // });
 
   return base64Data;
 };
@@ -43,7 +43,7 @@ export const getBase64FileSize = (base64String) => {
  * Comprehensive signature validation with detailed logging
  */
 export const isSignatureValid = (signatureData) => {
-  console.group("🔍 Signature Validation");
+  // console.group("🔍 Signature Validation");
 
   if (!signatureData) {
     console.warn("❌ No signature data provided");
@@ -67,13 +67,13 @@ export const isSignatureValid = (signatureData) => {
   // Check if signature has meaningful content
   const isValid = base64Data.length > 500;
 
-  console.log("📈 Signature Analysis:", {
-    dataURLLength: signatureData.length,
-    base64Length: base64Data.length,
-    fileSizeKB: (getBase64FileSize(base64Data) / 1024).toFixed(2),
-    isValid: isValid,
-    meetsMinimumLength: base64Data.length > 500,
-  });
+  // console.log("📈 Signature Analysis:", {
+  //   dataURLLength: signatureData.length,
+  //   base64Length: base64Data.length,
+  //   fileSizeKB: (getBase64FileSize(base64Data) / 1024).toFixed(2),
+  //   isValid: isValid,
+  //   meetsMinimumLength: base64Data.length > 500,
+  // });
 
   console.groupEnd();
   return isValid;

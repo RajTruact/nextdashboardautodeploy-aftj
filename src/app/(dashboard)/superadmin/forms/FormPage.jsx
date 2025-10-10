@@ -339,17 +339,20 @@ export default function FormPage() {
 
   // Handle file uploads
   const handleFilesChange = (files) => {
-    setFormData((prev) => ({
-      ...prev,
-      files: files,
+    // Transform into objects compatible with Yup schema
+    const formattedFiles = files.map((file) => ({
+      name: file.name || file.path?.replace(/^.*[\\/]/, ""), // extract filename if path given
+      size: file.size || 0,
+      type: file.type || "application/pdf",
     }));
 
-    // Clear file errors when new files are selected
+    setFormData((prev) => ({
+      ...prev,
+      files: formattedFiles,
+    }));
+
     if (errors.files) {
-      setErrors((prev) => ({
-        ...prev,
-        files: "",
-      }));
+      setErrors((prev) => ({ ...prev, files: "" }));
     }
   };
 

@@ -21,7 +21,7 @@ const AppSidebar = ({ role = "admin" }) => {
   const pathname = usePathname();
   const roles = pathname.split("/")[1];
   const { isExpanded, isMobileOpen, isHovered } = useSidebar();
-  const { colors } = useTheme();
+  const { colors, theme } = useTheme();
   const primary = colors?.secondaryColor || "#2563eb";
   const tertiary = colors?.tertiaryColor;
 
@@ -29,6 +29,7 @@ const AppSidebar = ({ role = "admin" }) => {
   const [subMenuHeight, setSubMenuHeight] = useState({});
   const subMenuRefs = useRef({});
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isDark, setIsDark] = useState(false);
 
   const isActive = useCallback((path) => path === pathname, [pathname]);
 
@@ -43,6 +44,10 @@ const AppSidebar = ({ role = "admin" }) => {
         : { type: menuType, index }
     );
   };
+
+  // if(theme == "dark"){
+  //   setIsDark(true)
+  // }
 
   const toggleSettings = () => {
     setIsSettingsOpen(!isSettingsOpen);
@@ -337,7 +342,9 @@ const AppSidebar = ({ role = "admin" }) => {
         }
         ${isMobileOpen ? "translate-x-0" : "-translate-x-full"}
         lg:translate-x-0`}
-      style={{ background: tertiary }}
+      style={{
+        background: theme ? tertiary : "#16181D",
+      }}
     >
       {/* Logo */}
       <div

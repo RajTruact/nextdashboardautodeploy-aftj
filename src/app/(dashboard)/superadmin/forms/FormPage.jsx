@@ -896,8 +896,13 @@ export default function FormPage() {
                 <InspectionSubform
                   inspectionEntries={formData.inspectionEntries}
                   onChange={handleInspectionEntriesChange}
-                  errors={errors.inspectionEntries}
                 />
+
+                {errors.inspectionEntries && (
+                  <p className="mt-2 text-sm text-red-500">
+                    {errors.inspectionEntries}
+                  </p>
+                )}
               </div>
             </div>
 

@@ -124,11 +124,11 @@ const VideoUploadComponent = ({
             </div>
           </div> */}
 
-          <h4 className="mb-1 font-semibold text-gray-800 text-theme-xl dark:text-white/90">
+          <h4 className="mb-1 font-semibold text-gray-600 text-theme-xl dark:text-gray-400">
             {isDragActive ? "Drop Video Files" : "Upload Video Files"}
           </h4>
 
-          <span className="text-center mb-1 block w-full max-w-[320px] text-sm text-gray-700 dark:text-gray-400">
+          <span className="text-center mb-1 block w-full max-w-[320px] text-sm text-gray-500 dark:text-gray-500">
             Drag and drop your video files here or browse. Max {maxFiles} files,{" "}
             {maxSize / (1024 * 1024)}MB each
           </span>

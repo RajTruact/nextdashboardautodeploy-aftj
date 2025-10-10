@@ -115,7 +115,7 @@ const SignatureField = ({
       {/* Signature Display/Input Area */}
       <div
         className={`
-          border-2 border-dashed rounded-lg transition-colors cursor-pointer
+          border border-dashed rounded-md transition-colors cursor-pointer
           ${
             showError
               ? "border-brand-300 bg-red-50 dark:bg-[#16181D]"
@@ -135,18 +135,18 @@ const SignatureField = ({
               <img
                 src={signature}
                 alt="Signature"
-                className="max-h-32 object-contain border border-gray-200 rounded bg-white "
+                className="max-h-32 object-contain border border-gray-200 rounded bg-white w-full "
               />
 
               {/* File Information */}
-              {showFileInfo && fileInfo && (
+              {/* {showFileInfo && fileInfo && (
                 <div className="flex-1">
-                  {/* <div className="flex items-center gap-2 mb-2">
+                  <div className="flex items-center gap-2 mb-2">
                     <FileText className="w-4 h-4 text-gray-500" />
                     <span className="text-sm font-medium text-gray-700">
                       Signature Details
                     </span>
-                  </div> */}
+                  </div>
                   <div className="flex flex-col gap-2 text-xs text-gray-600 mt-5">
                     <div>
                       Size: <strong>{fileInfo.size} KB</strong>
@@ -157,12 +157,12 @@ const SignatureField = ({
                     <div>
                       Dimensions: <strong>{fileInfo.dimensions}</strong>
                     </div>
-                    {/* <div>
+                    <div>
                       Status: <strong className="text-green-600">Valid</strong>
-                    </div> */}
+                    </div>
                   </div>
                 </div>
-              )}
+              )} */}
             </div>
 
             {/* Action Buttons */}

@@ -118,10 +118,10 @@ const SignatureField = ({
           border-2 border-dashed rounded-lg transition-colors cursor-pointer
           ${
             showError
-              ? "border-red-300 bg-red-50"
+              ? "border-brand-300 bg-red-50 dark:bg-[#16181D]"
               : isValidSignature
-              ? "border-green-300 bg-green-50"
-              : "border-gray-300 bg-gray-50 hover:border-gray-400"
+              ? "border-brand-300 bg-green-50"
+              : "border-brand-300 bg-gray-50 dark:bg-[#16181D] hover:border-gray-400"
           }
         `}
         onClick={() => setShowSignaturePad(true)}
@@ -135,7 +135,7 @@ const SignatureField = ({
               <img
                 src={signature}
                 alt="Signature"
-                className="max-h-32 object-contain border border-gray-200 rounded bg-white"
+                className="max-h-32 object-contain border border-gray-200 rounded bg-white "
               />
 
               {/* File Information */}
@@ -147,7 +147,7 @@ const SignatureField = ({
                       Signature Details
                     </span>
                   </div> */}
-                  <div className="grid grid-cols-2 gap-2 text-xs text-gray-600 mt-5">
+                  <div className="flex flex-col gap-2 text-xs text-gray-600 mt-5">
                     <div>
                       Size: <strong>{fileInfo.size} KB</strong>
                     </div>

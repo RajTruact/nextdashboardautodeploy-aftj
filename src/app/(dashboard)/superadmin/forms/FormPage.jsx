@@ -293,6 +293,7 @@ export default function FormPage() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [value, setValue] = useState();
 
   const handleChange = (e) => {
     try {
@@ -891,7 +892,7 @@ export default function FormPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-1 gap-5 mb-2">
-              <div className="mt-8 pt-6 border-t border-gray-200">
+              <div className="mt-0 pt-0 ">
                 <InspectionSubform
                   inspectionEntries={formData.inspectionEntries}
                   onChange={handleInspectionEntriesChange}

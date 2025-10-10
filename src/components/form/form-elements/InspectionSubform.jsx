@@ -1,18 +1,12 @@
 // components/form/InspectionSubform.jsx
 "use client";
-import React from 'react';
-import { Trash2, Plus, Upload, X } from 'lucide-react';
-import Button from '@/src/components/ui/button/Button';
-import Input from '@/src/components/ui/input/InputField';
-import Label from '@/src/components/ui/input/Label';
+import React from "react";
+import { Trash2, Plus, Upload, X } from "lucide-react";
+import Button from "@/src/components/ui/button/Button";
+import Input from "@/src/components/ui/input/InputField";
+import Label from "@/src/components/ui/input/Label";
 
-const InspectionEntry = ({ 
-  entry, 
-  index, 
-  onChange, 
-  onRemove, 
-  errors 
-}) => {
+const InspectionEntry = ({ entry, index, onChange, onRemove, errors }) => {
   const handleFieldChange = (fieldName, value) => {
     const updatedEntry = { ...entry, [fieldName]: value };
     onChange(index, updatedEntry);
@@ -21,32 +15,32 @@ const InspectionEntry = ({
   const handleImageUpload = (event) => {
     const files = Array.from(event.target.files);
     const currentImages = entry.inspectionImages || [];
-    
-    const newImages = files.map(file => ({
+
+    const newImages = files.map((file) => ({
       name: file.name,
       size: file.size,
       type: file.type,
       url: URL.createObjectURL(file),
-      file: file
+      file: file,
     }));
-    
+
     const updatedImages = [...currentImages, ...newImages].slice(0, 5); // Limit to 5 images
-    handleFieldChange('inspectionImages', updatedImages);
+    handleFieldChange("inspectionImages", updatedImages);
   };
 
   const removeImage = (imageIndex) => {
-    const updatedImages = entry.inspectionImages.filter((_, i) => i !== imageIndex);
-    handleFieldChange('inspectionImages', updatedImages);
+    const updatedImages = entry.inspectionImages.filter(
+      (_, i) => i !== imageIndex
+    );
+    handleFieldChange("inspectionImages", updatedImages);
   };
 
   const entryErrors = errors?.[index] || {};
 
   return (
-    <div className="p-6 bg-white border border-gray-200 rounded-lg shadow-sm space-y-4">
+    <div className="p-6 dark:bg-[#16181d59] bg-[#F9FAFB] border border-gray-200 rounded-md shadow-sm space-y-4">
       <div className="flex justify-between items-center border-b pb-3">
-        <h3 className="text-lg font-semibold text-gray-800">
-          Inspection Entry #{index + 1}
-        </h3>
+        <Label htmlFor="inspection"> Inspection Entry #{index + 1}</Label>
         <button
           type="button"
           onClick={() => onRemove(index)}
@@ -63,8 +57,8 @@ const InspectionEntry = ({
           <Label htmlFor={`scanner-${index}`}>Scanner *</Label>
           <Input
             id={`scanner-${index}`}
-            value={entry.scanner || ''}
-            onChange={(e) => handleFieldChange('scanner', e.target.value)}
+            value={entry.scanner || ""}
+            onChange={(e) => handleFieldChange("scanner", e.target.value)}
             placeholder="Enter scanner details"
           />
           {entryErrors.scanner && (
@@ -76,12 +70,16 @@ const InspectionEntry = ({
           <Label htmlFor={`productSerialNo-${index}`}>Product S. No. *</Label>
           <Input
             id={`productSerialNo-${index}`}
-            value={entry.productSerialNo || ''}
-            onChange={(e) => handleFieldChange('productSerialNo', e.target.value)}
+            value={entry.productSerialNo || ""}
+            onChange={(e) =>
+              handleFieldChange("productSerialNo", e.target.value)
+            }
             placeholder="Enter product serial number"
           />
           {entryErrors.productSerialNo && (
-            <p className="mt-1 text-sm text-red-500">{entryErrors.productSerialNo}</p>
+            <p className="mt-1 text-sm text-red-500">
+              {entryErrors.productSerialNo}
+            </p>
           )}
         </div>
 
@@ -89,12 +87,14 @@ const InspectionEntry = ({
           <Label htmlFor={`productGroup-${index}`}>Product Group *</Label>
           <Input
             id={`productGroup-${index}`}
-            value={entry.productGroup || ''}
-            onChange={(e) => handleFieldChange('productGroup', e.target.value)}
+            value={entry.productGroup || ""}
+            onChange={(e) => handleFieldChange("productGroup", e.target.value)}
             placeholder="Enter product group"
           />
           {entryErrors.productGroup && (
-            <p className="mt-1 text-sm text-red-500">{entryErrors.productGroup}</p>
+            <p className="mt-1 text-sm text-red-500">
+              {entryErrors.productGroup}
+            </p>
           )}
         </div>
 
@@ -102,12 +102,14 @@ const InspectionEntry = ({
           <Label htmlFor={`productName-${index}`}>Product Name *</Label>
           <Input
             id={`productName-${index}`}
-            value={entry.productName || ''}
-            onChange={(e) => handleFieldChange('productName', e.target.value)}
+            value={entry.productName || ""}
+            onChange={(e) => handleFieldChange("productName", e.target.value)}
             placeholder="Enter product name"
           />
           {entryErrors.productName && (
-            <p className="mt-1 text-sm text-red-500">{entryErrors.productName}</p>
+            <p className="mt-1 text-sm text-red-500">
+              {entryErrors.productName}
+            </p>
           )}
         </div>
 
@@ -115,38 +117,52 @@ const InspectionEntry = ({
           <Label htmlFor={`actionTaken-${index}`}>Action Taken *</Label>
           <Input
             id={`actionTaken-${index}`}
-            value={entry.actionTaken || ''}
-            onChange={(e) => handleFieldChange('actionTaken', e.target.value)}
+            value={entry.actionTaken || ""}
+            onChange={(e) => handleFieldChange("actionTaken", e.target.value)}
             placeholder="Enter action taken"
           />
           {entryErrors.actionTaken && (
-            <p className="mt-1 text-sm text-red-500">{entryErrors.actionTaken}</p>
+            <p className="mt-1 text-sm text-red-500">
+              {entryErrors.actionTaken}
+            </p>
           )}
         </div>
 
         <div>
-          <Label htmlFor={`packingCondition-${index}`}>Packing Condition *</Label>
+          <Label htmlFor={`packingCondition-${index}`}>
+            Packing Condition *
+          </Label>
           <Input
             id={`packingCondition-${index}`}
-            value={entry.packingCondition || ''}
-            onChange={(e) => handleFieldChange('packingCondition', e.target.value)}
+            value={entry.packingCondition || ""}
+            onChange={(e) =>
+              handleFieldChange("packingCondition", e.target.value)
+            }
             placeholder="Enter packing condition"
           />
           {entryErrors.packingCondition && (
-            <p className="mt-1 text-sm text-red-500">{entryErrors.packingCondition}</p>
+            <p className="mt-1 text-sm text-red-500">
+              {entryErrors.packingCondition}
+            </p>
           )}
         </div>
 
         <div>
-          <Label htmlFor={`physicalCondition-${index}`}>Physical Condition *</Label>
+          <Label htmlFor={`physicalCondition-${index}`}>
+            Physical Condition *
+          </Label>
           <Input
             id={`physicalCondition-${index}`}
-            value={entry.physicalCondition || ''}
-            onChange={(e) => handleFieldChange('physicalCondition', e.target.value)}
+            value={entry.physicalCondition || ""}
+            onChange={(e) =>
+              handleFieldChange("physicalCondition", e.target.value)
+            }
             placeholder="Enter physical condition"
           />
           {entryErrors.physicalCondition && (
-            <p className="mt-1 text-sm text-red-500">{entryErrors.physicalCondition}</p>
+            <p className="mt-1 text-sm text-red-500">
+              {entryErrors.physicalCondition}
+            </p>
           )}
         </div>
       </div>
@@ -165,10 +181,12 @@ const InspectionEntry = ({
           />
           <label
             htmlFor={`inspection-images-${index}`}
-            className="flex items-center gap-2 px-4 py-2 border border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-500 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 border border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-brand-500 transition-colors"
           >
-            <Upload size={16} />
-            Upload Inspection Images
+            <Upload size={16} className=" text-brand-400" />
+            <Label htmlFor="uploadInspectionImages">
+              Upload Inspection Images
+            </Label>
           </label>
         </div>
 
@@ -194,30 +212,32 @@ const InspectionEntry = ({
         </div>
 
         {entryErrors.inspectionImages && (
-          <p className="mt-1 text-sm text-red-500">{entryErrors.inspectionImages}</p>
+          <p className="mt-1 text-sm text-red-500">
+            {entryErrors.inspectionImages}
+          </p>
         )}
       </div>
     </div>
   );
 };
 
-export const InspectionSubform = ({ 
-  inspectionEntries = [], 
-  onChange, 
-  errors 
+export const InspectionSubform = ({
+  inspectionEntries = [],
+  onChange,
+  errors,
 }) => {
   const addNewEntry = () => {
     const newEntry = {
-      scanner: '',
-      productSerialNo: '',
-      productGroup: '',
-      productName: '',
-      actionTaken: '',
-      packingCondition: '',
-      physicalCondition: '',
+      scanner: "",
+      productSerialNo: "",
+      productGroup: "",
+      productName: "",
+      actionTaken: "",
+      packingCondition: "",
+      physicalCondition: "",
       inspectionImages: [],
     };
-    
+
     const updatedEntries = [...inspectionEntries, newEntry];
     onChange(updatedEntries);
   };
@@ -234,21 +254,13 @@ export const InspectionSubform = ({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-3">
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-bold text-gray-800">Inspection Details</h2>
-        <Button
-          type="button"
-          onClick={addNewEntry}
-          className="flex items-center gap-2"
-        >
-          <Plus size={16} />
-          Add New Entry
-        </Button>
+        <Label>Inspection Details SubForm *</Label>
       </div>
 
       {/* Display main array error */}
-      {errors && typeof errors === 'string' && (
+      {errors && typeof errors === "string" && (
         <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
           <p className="text-red-600 font-medium">{errors}</p>
         </div>
@@ -269,13 +281,12 @@ export const InspectionSubform = ({
       </div>
 
       {/* Empty State */}
-      {inspectionEntries.length === 0 && (
-        <div className="text-center py-12 border-2 border-dashed border-gray-300 rounded-lg">
-          <Upload size={48} className="mx-auto text-gray-400 mb-4" />
-          <h3 className="text-lg font-medium text-gray-600 mb-2">
+      {inspectionEntries.length === 0 ? (
+        <div className="text-center py-5 border border-dashed border-brand-300 rounded-lg dark:bg-[#16181D] bg-[#F9FAFB]">
+          <h3 className="text-lg font-medium text-gray-500 mb-1">
             No Inspection Entries
           </h3>
-          <p className="text-gray-500 mb-4">
+          <p className="text-gray-500 mb-2">
             Click "Add New Entry" to start adding inspection details.
           </p>
           <Button onClick={addNewEntry}>
@@ -283,6 +294,15 @@ export const InspectionSubform = ({
             Add First Entry
           </Button>
         </div>
+      ) : (
+        <Button
+          type="button"
+          onClick={addNewEntry}
+          className="flex items-center gap-2"
+        >
+          <Plus size={16} />
+          Add New Entry
+        </Button>
       )}
     </div>
   );

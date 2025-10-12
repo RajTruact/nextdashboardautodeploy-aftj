@@ -52,118 +52,122 @@ const InspectionEntry = ({ entry, index, onChange, onRemove, errors }) => {
       </div>
 
       {/* Main Inspection Fields */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-4">
-        <div>
-          <Label htmlFor={`scanner-${index}`}>Scanner *</Label>
-          <Input
-            id={`scanner-${index}`}
-            value={entry.scanner || ""}
-            onChange={(e) => handleFieldChange("scanner", e.target.value)}
-            placeholder="Enter scanner details"
-          />
-          {entryErrors.scanner && (
-            <p className="mt-1 text-sm text-red-500">{entryErrors.scanner}</p>
-          )}
-        </div>
+      <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+        <div className="grid grid-cols-7 gap-4 min-w-[1200px] mb-5">
+          <div>
+            <Label htmlFor={`scanner-${index}`}>Scanner *</Label>
+            <Input
+              id={`scanner-${index}`}
+              value={entry.scanner || ""}
+              onChange={(e) => handleFieldChange("scanner", e.target.value)}
+              placeholder="Enter scanner details"
+            />
+            {entryErrors.scanner && (
+              <p className="mt-1 text-sm text-red-500">{entryErrors.scanner}</p>
+            )}
+          </div>
 
-        <div>
-          <Label htmlFor={`productSerialNo-${index}`}>Product S. No. *</Label>
-          <Input
-            id={`productSerialNo-${index}`}
-            value={entry.productSerialNo || ""}
-            onChange={(e) =>
-              handleFieldChange("productSerialNo", e.target.value)
-            }
-            placeholder="Enter product serial number"
-          />
-          {entryErrors.productSerialNo && (
-            <p className="mt-1 text-sm text-red-500">
-              {entryErrors.productSerialNo}
-            </p>
-          )}
-        </div>
+          <div>
+            <Label htmlFor={`productSerialNo-${index}`}>Product S. No. *</Label>
+            <Input
+              id={`productSerialNo-${index}`}
+              value={entry.productSerialNo || ""}
+              onChange={(e) =>
+                handleFieldChange("productSerialNo", e.target.value)
+              }
+              placeholder="Enter product serial number"
+            />
+            {entryErrors.productSerialNo && (
+              <p className="mt-1 text-sm text-red-500">
+                {entryErrors.productSerialNo}
+              </p>
+            )}
+          </div>
 
-        <div>
-          <Label htmlFor={`productGroup-${index}`}>Product Group *</Label>
-          <Input
-            id={`productGroup-${index}`}
-            value={entry.productGroup || ""}
-            onChange={(e) => handleFieldChange("productGroup", e.target.value)}
-            placeholder="Enter product group"
-          />
-          {entryErrors.productGroup && (
-            <p className="mt-1 text-sm text-red-500">
-              {entryErrors.productGroup}
-            </p>
-          )}
-        </div>
+          <div>
+            <Label htmlFor={`productGroup-${index}`}>Product Group *</Label>
+            <Input
+              id={`productGroup-${index}`}
+              value={entry.productGroup || ""}
+              onChange={(e) =>
+                handleFieldChange("productGroup", e.target.value)
+              }
+              placeholder="Enter product group"
+            />
+            {entryErrors.productGroup && (
+              <p className="mt-1 text-sm text-red-500">
+                {entryErrors.productGroup}
+              </p>
+            )}
+          </div>
 
-        <div>
-          <Label htmlFor={`productName-${index}`}>Product Name *</Label>
-          <Input
-            id={`productName-${index}`}
-            value={entry.productName || ""}
-            onChange={(e) => handleFieldChange("productName", e.target.value)}
-            placeholder="Enter product name"
-          />
-          {entryErrors.productName && (
-            <p className="mt-1 text-sm text-red-500">
-              {entryErrors.productName}
-            </p>
-          )}
-        </div>
+          <div>
+            <Label htmlFor={`productName-${index}`}>Product Name *</Label>
+            <Input
+              id={`productName-${index}`}
+              value={entry.productName || ""}
+              onChange={(e) => handleFieldChange("productName", e.target.value)}
+              placeholder="Enter product name"
+            />
+            {entryErrors.productName && (
+              <p className="mt-1 text-sm text-red-500">
+                {entryErrors.productName}
+              </p>
+            )}
+          </div>
 
-        <div>
-          <Label htmlFor={`actionTaken-${index}`}>Action Taken *</Label>
-          <Input
-            id={`actionTaken-${index}`}
-            value={entry.actionTaken || ""}
-            onChange={(e) => handleFieldChange("actionTaken", e.target.value)}
-            placeholder="Enter action taken"
-          />
-          {entryErrors.actionTaken && (
-            <p className="mt-1 text-sm text-red-500">
-              {entryErrors.actionTaken}
-            </p>
-          )}
-        </div>
+          <div>
+            <Label htmlFor={`actionTaken-${index}`}>Action Taken *</Label>
+            <Input
+              id={`actionTaken-${index}`}
+              value={entry.actionTaken || ""}
+              onChange={(e) => handleFieldChange("actionTaken", e.target.value)}
+              placeholder="Enter action taken"
+            />
+            {entryErrors.actionTaken && (
+              <p className="mt-1 text-sm text-red-500">
+                {entryErrors.actionTaken}
+              </p>
+            )}
+          </div>
 
-        <div>
-          <Label htmlFor={`packingCondition-${index}`}>
-            Packing Condition *
-          </Label>
-          <Input
-            id={`packingCondition-${index}`}
-            value={entry.packingCondition || ""}
-            onChange={(e) =>
-              handleFieldChange("packingCondition", e.target.value)
-            }
-            placeholder="Enter packing condition"
-          />
-          {entryErrors.packingCondition && (
-            <p className="mt-1 text-sm text-red-500">
-              {entryErrors.packingCondition}
-            </p>
-          )}
-        </div>
+          <div>
+            <Label htmlFor={`packingCondition-${index}`}>
+              Packing Condition *
+            </Label>
+            <Input
+              id={`packingCondition-${index}`}
+              value={entry.packingCondition || ""}
+              onChange={(e) =>
+                handleFieldChange("packingCondition", e.target.value)
+              }
+              placeholder="Enter packing condition"
+            />
+            {entryErrors.packingCondition && (
+              <p className="mt-1 text-sm text-red-500">
+                {entryErrors.packingCondition}
+              </p>
+            )}
+          </div>
 
-        <div>
-          <Label htmlFor={`physicalCondition-${index}`}>
-            Physical Condition *
-          </Label>
-          <Input
-            id={`physicalCondition-${index}`}
-            value={entry.physicalCondition || ""}
-            onChange={(e) =>
-              handleFieldChange("physicalCondition", e.target.value)
-            }
-            placeholder="Enter physical condition"
-          />
-          {entryErrors.physicalCondition && (
-            <p className="mt-1 text-sm text-red-500">
-              {entryErrors.physicalCondition}
-            </p>
-          )}
+          <div>
+            <Label htmlFor={`physicalCondition-${index}`}>
+              Physical Condition *
+            </Label>
+            <Input
+              id={`physicalCondition-${index}`}
+              value={entry.physicalCondition || ""}
+              onChange={(e) =>
+                handleFieldChange("physicalCondition", e.target.value)
+              }
+              placeholder="Enter physical condition"
+            />
+            {entryErrors.physicalCondition && (
+              <p className="mt-1 text-sm text-red-500">
+                {entryErrors.physicalCondition}
+              </p>
+            )}
+          </div>
         </div>
       </div>
 

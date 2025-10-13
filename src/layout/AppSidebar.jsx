@@ -22,8 +22,11 @@ const AppSidebar = ({ role = "admin" }) => {
   const roles = pathname.split("/")[1];
   const { isExpanded, isMobileOpen, isHovered } = useSidebar();
   const { colors, theme } = useTheme();
-  const primary = colors?.secondaryColor || "#2563eb";
+  const primary = colors?.secondaryColor || "#B04B34";
   const tertiary = colors?.tertiaryColor;
+  const secondary = colors?.primaryColor;
+  // console.log(secondary);
+  // console.log(theme);
 
   const [openSubmenu, setOpenSubmenu] = useState(null);
   const [subMenuHeight, setSubMenuHeight] = useState({});
@@ -104,18 +107,21 @@ const AppSidebar = ({ role = "admin" }) => {
                 className={`menu-item group ${
                   isActive(nav.path) ? "menu-item-active" : "menu-item-inactive"
                 }`}
+                style={{
+                  background: isActive(nav.path) ? secondary : "transparent",
+                }}
               >
                 <span
                   className={`${
                     isActive(nav.path)
-                      ? "menu-item-icon-active "
-                      : "menu-item-icon-inactive "
+                      ? "menu-item-icon-active dark:text-white text-[#555]"
+                      : "menu-item-icon-inactive dark:text-white text-[#555] "
                   }`}
                 >
                   {nav.icon}
                 </span>
                 {(isExpanded || isHovered || isMobileOpen) && (
-                  <span className="menu-text-wrapper">
+                  <span className="menu-text-wrapper text-[#555] dark:text-white">
                     <span
                       className="menu-text"
                       onMouseEnter={(e) => {
@@ -330,6 +336,8 @@ const AppSidebar = ({ role = "admin" }) => {
     }
   }, [openSubmenu]);
 
+  const sidebarBackground = theme === "light" ? tertiary : "#16181D";
+
   return (
     <aside
       className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-0 left-0  dark:bg-gray-900 dark:border-gray-800 text-gray-900 h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200 
@@ -343,7 +351,7 @@ const AppSidebar = ({ role = "admin" }) => {
         ${isMobileOpen ? "translate-x-0" : "-translate-x-full"}
         lg:translate-x-0`}
       style={{
-        background: theme ? tertiary : "#16181D",
+        background: sidebarBackground,
       }}
     >
       {/* Logo */}
@@ -420,6 +428,9 @@ const AppSidebar = ({ role = "admin" }) => {
                 ? "lg:justify-center"
                 : "lg:justify-start"
             }`}
+            style={{
+              background: !isExpanded ? secondary : "transparent",
+            }}
           >
             <span
               className={`${

@@ -111,7 +111,7 @@ export default function SignUpForm() {
           Back to dashboard
         </Link>
       </div>
-      <div className="flex flex-col items-center mb-4">
+      <div className="flex flex-col items-center -mb-8">
         <div className="flex items-center justify-center w-full h-full -mb-8">
           <div className="relative w-40 h-40">
             <Image

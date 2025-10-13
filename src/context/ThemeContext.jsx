@@ -14,9 +14,9 @@ const CATALYST_API = {
 export const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState("light");
   const [colors, setColors] = useState({
-    primaryColor: "#3b82f6",
-    secondaryColor: "#8b5cf6",
-    tertiaryColor: "#10b981",
+    primaryColor: "#B04B34",
+    secondaryColor: "#b04b34",
+    tertiaryColor: "#F9FAFB",
   });
   const [isInitialized, setIsInitialized] = useState(false);
   const [isLoading, setIsLoading] = useState(false);

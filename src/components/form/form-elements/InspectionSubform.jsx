@@ -47,13 +47,12 @@ const InspectionEntry = ({ entry, index, onChange, onRemove, errors }) => {
           className="flex items-center gap-2 text-red-600 hover:text-red-700 text-sm"
         >
           <Trash2 size={16} />
-          Remove Entry
         </button>
       </div>
 
       {/* Main Inspection Fields */}
       <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
-        <div className="grid grid-cols-7 gap-4 min-w-[1200px] mb-5">
+        <div className="grid grid-cols-8 gap-4 min-w-[1200px] mb-5">
           <div>
             <Label htmlFor={`scanner-${index}`}>Scanner *</Label>
             <Input
@@ -168,59 +167,62 @@ const InspectionEntry = ({ entry, index, onChange, onRemove, errors }) => {
               </p>
             )}
           </div>
+
+          <div className="w-56">
+            <Label>Inspection Images (Max 5)</Label>
+            <div className="mt-2">
+              <input
+                type="file"
+                multiple
+                accept="image/*"
+                onChange={handleImageUpload}
+                className="hidden"
+                id={`inspection-images-${index}`}
+              />
+              <label
+                htmlFor={`inspection-images-${index}`}
+                className="flex items-center gap-2 px-4 py-2 border border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-brand-500 transition-colors"
+              >
+                <Upload size={16} className=" text-brand-400" />
+                <Label htmlFor="uploadInspectionImages">
+                  Upload Inspection Images
+                </Label>
+              </label>
+            </div>
+
+            {/* Image Previews */}
+            <div className="mt-3  w-full flex flex-wrap gap-3">
+              {entry.inspectionImages?.map((image, imgIndex) => (
+                <div key={imgIndex} className="relative group">
+                  <img
+                    src={image.url}
+                    alt={image.name}
+                    className="w-20 h-20 object-cover rounded border"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeImage(imgIndex)}
+                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
+                    <X size={12} />
+                  </button>
+                  <p className="text-xs mt-1 truncate w-20 text-[#444] dark:text-[#fffefe]">
+                    {image.name}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            {entryErrors.inspectionImages && (
+              <p className="mt-1 text-sm text-red-500">
+                {entryErrors.inspectionImages}
+              </p>
+            )}
+          </div>
         </div>
       </div>
 
       {/* Image Upload Section */}
-      <div className="border-t pt-4">
-        <Label>Inspection Images (Max 5)</Label>
-        <div className="mt-2">
-          <input
-            type="file"
-            multiple
-            accept="image/*"
-            onChange={handleImageUpload}
-            className="hidden"
-            id={`inspection-images-${index}`}
-          />
-          <label
-            htmlFor={`inspection-images-${index}`}
-            className="flex items-center gap-2 px-4 py-2 border border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-brand-500 transition-colors"
-          >
-            <Upload size={16} className=" text-brand-400" />
-            <Label htmlFor="uploadInspectionImages">
-              Upload Inspection Images
-            </Label>
-          </label>
-        </div>
-
-        {/* Image Previews */}
-        <div className="mt-3 flex flex-wrap gap-3">
-          {entry.inspectionImages?.map((image, imgIndex) => (
-            <div key={imgIndex} className="relative group">
-              <img
-                src={image.url}
-                alt={image.name}
-                className="w-20 h-20 object-cover rounded border"
-              />
-              <button
-                type="button"
-                onClick={() => removeImage(imgIndex)}
-                className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
-              >
-                <X size={12} />
-              </button>
-              <p className="text-xs mt-1 truncate w-20">{image.name}</p>
-            </div>
-          ))}
-        </div>
-
-        {entryErrors.inspectionImages && (
-          <p className="mt-1 text-sm text-red-500">
-            {entryErrors.inspectionImages}
-          </p>
-        )}
-      </div>
     </div>
   );
 };

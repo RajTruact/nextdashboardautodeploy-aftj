@@ -1,1 +1,1 @@
-# Tailwind Manual Next Js Dashboard By Raj
+# Tailwind Manual Next Js Dashboard

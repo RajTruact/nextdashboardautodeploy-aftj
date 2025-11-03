@@ -15,11 +15,11 @@ export const extractBase64FromDataURL = (dataURL) => {
   }
 
   const base64Data = dataURL.split(",")[1];
-  // console.log("📊 Base64 data extracted:", {
-  //   totalLength: dataURL.length,
-  //   base64Length: base64Data.length,
-  //   preview: base64Data,
-  // });
+  console.log("📊 Base64 data extracted:", {
+    totalLength: dataURL.length,
+    base64Length: base64Data.length,
+    preview: base64Data,
+  });
 
   return base64Data;
 };

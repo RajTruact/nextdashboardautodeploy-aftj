@@ -41,7 +41,7 @@ const sidebarConfig = {
         icon: <Users className="w-5 h-5" />,
       },
       {
-        name: "System Analytics",
+        name: "Data Display",
         path: "/superadmin/analytics",
         icon: <Database className="w-5 h-5" />,
       },

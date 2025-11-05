@@ -74,8 +74,8 @@ const sidebarConfig = {
             icon: <ShoppingBag className="w-4 h-4" />,
             children: [
               {
-                name: "Report A",
-                path: "/dashboard/faculty/reports/purchase/a",
+                name: "Data Analytics",
+                path: "/superadmin/analytics",
                 icon: <FileText className="w-4 h-4" />,
               },
               {

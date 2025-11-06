@@ -42,6 +42,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "cms.patrika.com",
       },
+      {
+        protocol: "https",
+        hostname: "static.vecteezy.com",
+      },
     ],
   },
   experimental: {

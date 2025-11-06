@@ -10,7 +10,7 @@ import Image from "next/image";
 export default function UserMetaCard() {
   const { isOpen, openModal, closeModal } = useModal();
   const [profileImage, setProfileImage] = useState(
-    "https://cms.patrika.com/wp-content/uploads/2024/06/FYnsZUFXgAAhV7I.jpg"
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRR-9ELVfKQi7PanMuugufOquNFrdN6_iIU3g&s"
   );
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const fileInputRef = useRef(null);

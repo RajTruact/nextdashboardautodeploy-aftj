@@ -25,13 +25,13 @@ export default function UserDropdown() {
         onClick={toggleDropdown}
         className="flex items-center text-gray-700 dark:text-gray-400 dropdown-toggle"
       >
-        <span className="mr-3 overflow-hidden rounded-full h-10 w-10 border-2">
+        <span className="mr-3 overflow-hidden rounded-full h-10 w-10 border-2 border-gray-200 flex items-center justify-center">
           <Image
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRR-9ELVfKQi7PanMuugufOquNFrdN6_iIU3g&s"
+            alt="User"
             width={44}
             height={44}
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4ynBFooDqfA4VeRB1zuBjbQhwCrmJqtRAQw&s"
-            alt="User"
-            className=""
+            className="object-cover h-full w-full"
           />
         </span>
 

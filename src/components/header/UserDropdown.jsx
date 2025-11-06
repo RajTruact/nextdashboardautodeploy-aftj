@@ -63,10 +63,10 @@ export default function UserDropdown() {
       >
         <div className="p-4 border-b border-gray-100 dark:border-gray-700">
           <span className="block font-medium text-gray-900 dark:text-white text-sm">
-            Jayant
+            John Wick
           </span>
           <span className="block mt-1 text-xs text-gray-500 dark:text-gray-400">
-            JayantkumarBanrakas@gmail.comm
+            johnwick@gmail.com
           </span>
         </div>
 

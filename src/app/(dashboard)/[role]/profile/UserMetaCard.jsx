@@ -132,7 +132,7 @@ export default function UserMetaCard() {
                   First Name
                 </p>
                 <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                  Jayant
+                  John
                 </p>
               </div>
 
@@ -141,7 +141,7 @@ export default function UserMetaCard() {
                   Last Name
                 </p>
                 <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                  Kumar
+                  Wick
                 </p>
               </div>
 
@@ -159,7 +159,7 @@ export default function UserMetaCard() {
                   Profile
                 </p>
                 <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                  Backend Dev
+                  Super Admin
                 </p>
               </div>
 
@@ -168,7 +168,7 @@ export default function UserMetaCard() {
                   Country
                 </p>
                 <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                  India
+                  US
                 </p>
               </div>
 
@@ -177,7 +177,7 @@ export default function UserMetaCard() {
                   City
                 </p>
                 <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                  Merut
+                  New York City
                 </p>
               </div>
 
@@ -195,7 +195,7 @@ export default function UserMetaCard() {
                   State
                 </p>
                 <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                  Uttar Pradesh
+                  New York
                 </p>
               </div>
             </div>
@@ -265,12 +265,12 @@ export default function UserMetaCard() {
                 <div className="grid grid-cols-1 gap-x-4 gap-y-3 sm:gap-x-5 sm:gap-y-4 md:grid-cols-2">
                   <div>
                     <Label>First Name</Label>
-                    <Input type="text" defaultValue="Jayant" />
+                    <Input type="text" defaultValue="John" />
                   </div>
 
                   <div>
                     <Label>Last Name</Label>
-                    <Input type="text" defaultValue="Kumar" />
+                    <Input type="text" defaultValue="Wick" />
                   </div>
 
                   <div>
@@ -280,17 +280,17 @@ export default function UserMetaCard() {
 
                   <div>
                     <Label>Profile</Label>
-                    <Input type="text" defaultValue="Backend" />
+                    <Input type="text" defaultValue="Super Admin" />
                   </div>
 
                   <div>
                     <Label>Country</Label>
-                    <Input type="text" defaultValue="India" />
+                    <Input type="text" defaultValue="US" />
                   </div>
 
                   <div>
                     <Label>City</Label>
-                    <Input type="text" defaultValue="New Delhi" />
+                    <Input type="text" defaultValue="New York City" />
                   </div>
 
                   <div>
@@ -300,7 +300,7 @@ export default function UserMetaCard() {
 
                   <div>
                     <Label>State</Label>
-                    <Input type="text" defaultValue="Uttar Pradesh" />
+                    <Input type="text" defaultValue="New York" />
                   </div>
                 </div>
               </div>

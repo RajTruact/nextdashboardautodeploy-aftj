@@ -31,9 +31,10 @@ const nextConfig = {
             key: "X-Frame-Options",
             value: "SAMEORIGIN",
           },
+          // ✅ Modern browsers use this one
           {
             key: "Content-Security-Policy",
-            value: "frame-ancestors *",
+            value: "frame-ancestors 'self' https://www.truact.in;",
           },
         ],
       },

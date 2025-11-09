@@ -47,7 +47,7 @@ const sidebarConfig = {
       },
       {
         name: "Admin Access",
-        path: "/dashboard/admin",
+        path: "/superadmin/donations",
         icon: <Grid className="w-5 h-5" />,
       },
       {

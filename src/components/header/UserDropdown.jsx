@@ -25,17 +25,17 @@ export default function UserDropdown() {
         onClick={toggleDropdown}
         className="flex items-center text-gray-700 dark:text-gray-400 dropdown-toggle"
       >
-        <span className="mr-3 overflow-hidden rounded-full h-10 w-10 border-2">
+        <span className="mr-3 overflow-hidden rounded-full h-10 w-10 border-2 border-gray-200 flex items-center justify-center">
           <Image
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRR-9ELVfKQi7PanMuugufOquNFrdN6_iIU3g&s"
+            alt="User"
             width={44}
             height={44}
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4ynBFooDqfA4VeRB1zuBjbQhwCrmJqtRAQw&s"
-            alt="User"
-            className=""
+            className="object-cover h-full w-full"
           />
         </span>
 
-        <span className="block mr-1 font-medium text-theme-sm">Jayant</span>
+        <span className="block mr-1 font-medium text-theme-sm">John</span>
 
         <svg
           className={`stroke-gray-500 dark:stroke-gray-400 transition-transform duration-200 ${
@@ -63,10 +63,10 @@ export default function UserDropdown() {
       >
         <div className="p-4 border-b border-gray-100 dark:border-gray-700">
           <span className="block font-medium text-gray-900 dark:text-white text-sm">
-            Jayant
+            John Wick
           </span>
           <span className="block mt-1 text-xs text-gray-500 dark:text-gray-400">
-            JayantkumarBanrakas@gmail.comm
+            johnwick@gmail.com
           </span>
         </div>
 

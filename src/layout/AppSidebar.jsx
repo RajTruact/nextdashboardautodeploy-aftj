@@ -87,7 +87,15 @@ const AppSidebar = ({ role = "admin" }) => {
                 {nav.icon}
               </span>
               {(isExpanded || isHovered || isMobileOpen) && (
-                <span className="menu-item-text">{nav.name}</span>
+                <span
+                  className={`menu-item-text ${
+                    isActive(nav.path)
+                      ? "menu-item-icon-active dark:text-white text-[#555]"
+                      : "menu-item-icon-inactive dark:text-white text-[#555] "
+                  }`}
+                >
+                  {nav.name}
+                </span>
               )}
               {(isExpanded || isHovered || isMobileOpen) && (
                 <ChevronDown
@@ -131,7 +139,6 @@ const AppSidebar = ({ role = "admin" }) => {
                         // Reset animation so it can retrigger
                         el.style.animation = "none";
 
-                        // केवल तभी animate जब text container से बड़ा हो
                         if (el.scrollWidth > wrapper.offsetWidth) {
                           const shift = `-${
                             el.scrollWidth - wrapper.offsetWidth
@@ -143,7 +150,7 @@ const AppSidebar = ({ role = "admin" }) => {
                           // Force reflow to restart animation
                           void el.offsetWidth;
 
-                          // Animation run करो
+                          // Animation run
                           el.style.animation =
                             "marquee-once 0.8s linear forwards";
                         }
@@ -151,7 +158,7 @@ const AppSidebar = ({ role = "admin" }) => {
                       onAnimationEnd={(e) => {
                         const el = e.currentTarget;
 
-                        // Animation खत्म होने के बाद delay रखो (जैसे 1s)
+                        // Animation
                         setTimeout(() => {
                           el.style.animation = "none"; // reset so next hover can retrigger
                         }, 500); // 500ms = 0.5s delay
@@ -229,18 +236,29 @@ const AppSidebar = ({ role = "admin" }) => {
                             <li key={child.name}>
                               <Link
                                 href={child.path}
-                                className={`menu-dropdown-item flex items-center gap-2 ${
+                                className={`menu-item group ${
                                   isActive(child.path)
-                                    ? "menu-dropdown-item-active"
-                                    : "menu-dropdown-item-inactive"
+                                    ? "menu-item-active"
+                                    : "menu-item-inactive"
                                 }`}
+                                style={{
+                                  background: isActive(child.path)
+                                    ? secondary
+                                    : "transparent",
+                                }}
                               >
                                 {child.icon && (
-                                  <span className="menu-dropdown-icon">
+                                  <span
+                                    className={`${
+                                      isActive(child.path)
+                                        ? "menu-item-icon-active dark:text-white text-[#555]"
+                                        : "menu-item-icon-inactive dark:text-white text-[#555] "
+                                    }`}
+                                  >
                                     {child.icon}
                                   </span>
                                 )}
-                                <span className="menu-text-wrapper">
+                                <span className="menu-text-wrapper text-[#555] dark:text-white">
                                   <span
                                     className="menu-text"
                                     onMouseEnter={(e) => {

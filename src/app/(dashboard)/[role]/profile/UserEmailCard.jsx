@@ -60,7 +60,7 @@ export default function UserEmailCard() {
               Change your email address linked to this account.
             </p>
             <p className="mt-2 text-sm font-medium text-gray-800 dark:text-white/90">
-              Jayantkumar@gmail.com
+              johnwick@gmail.com
             </p>
           </div>
 
@@ -74,7 +74,11 @@ export default function UserEmailCard() {
         </div>
       </div>
 
-      <Modal isOpen={isOpen} onClose={handleCancel} className="max-w-[600px] m-4">
+      <Modal
+        isOpen={isOpen}
+        onClose={handleCancel}
+        className="max-w-[600px] m-4"
+      >
         <div className="relative w-full p-4 bg-white rounded-3xl dark:bg-gray-900 lg:p-10">
           {step === 1 ? (
             // Step 1: Verify identity with password
@@ -88,11 +92,7 @@ export default function UserEmailCard() {
               <form className="flex flex-col gap-5" onSubmit={handleVerify}>
                 <div>
                   <Label>Current Email</Label>
-                  <Input 
-                    type="email" 
-                    placeholder="Enter your email" 
-                    required 
-                  />
+                  <Input type="email" placeholder="Enter your email" required />
                 </div>
                 <div>
                   <Label>Password</Label>
@@ -119,17 +119,18 @@ export default function UserEmailCard() {
                 Update Email
               </h4>
               <p className="mb-6 text-sm text-gray-500 dark:text-gray-400">
-                Enter your new email address. We'll send a verification code to this email.
+                Enter your new email address. We'll send a verification code to
+                this email.
               </p>
               <form className="flex flex-col gap-5" onSubmit={handleSendOtp}>
                 <div>
                   <Label>New Email</Label>
-                  <Input 
-                    type="email" 
-                    placeholder="Enter new email" 
+                  <Input
+                    type="email"
+                    placeholder="Enter new email"
                     value={newEmail}
                     onChange={(e) => setNewEmail(e.target.value)}
-                    required 
+                    required
                   />
                 </div>
                 <div>
@@ -141,9 +142,9 @@ export default function UserEmailCard() {
                   />
                 </div>
                 <div className="flex items-center gap-3 mt-6 lg:justify-end">
-                  <Button 
-                    size="sm" 
-                    variant="outline" 
+                  <Button
+                    size="sm"
+                    variant="outline"
                     onClick={() => setStep(1)}
                   >
                     Back
@@ -191,9 +192,9 @@ export default function UserEmailCard() {
                   </button>
                 </div>
                 <div className="flex items-center gap-3 mt-6 lg:justify-end">
-                  <Button 
-                    size="sm" 
-                    variant="outline" 
+                  <Button
+                    size="sm"
+                    variant="outline"
                     onClick={() => setStep(2)}
                   >
                     Back

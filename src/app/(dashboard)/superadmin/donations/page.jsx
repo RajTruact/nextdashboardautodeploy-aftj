@@ -34,7 +34,7 @@ export default function DonationSwitch() {
   return (
     <div className="w-full rounded-lg shadow-md overflow-hidden">
       {/* Tab Buttons */}
-      <div className="flex w-full">
+      <div className="flex flex-wrap md:flex-nowrap w-full">
         {tabs.map((tab) => (
           <button
             key={tab.id}

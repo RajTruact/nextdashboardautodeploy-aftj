@@ -29,7 +29,7 @@ const nextConfig = {
           // ✅ Allow embedding your site in iframes
           {
             key: "X-Frame-Options",
-            value: "SAMEORIGIN",
+            value: "ALLOWALL",
           },
           {
             key: "Content-Security-Policy",

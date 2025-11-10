@@ -72,11 +72,11 @@ const TaxExemption = () => {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y dark:border-[#344054]">
+              <tbody className="dark:divide-y-[#344054] dark:border-[#344054]">
                 {taxData.map((item, index) => (
                   <tr
                     key={index}
-                    className="hover:bg-gray-50 dark:hover:bg-brand-500 transition-colors duration-150"
+                    className="hover:bg-gray-50 dark:hover:bg-brand-500 hover:cursor-pointer transition-colors duration-150"
                   >
                     <td className="px-6 py-4 text-sm text-gray-800 font-medium dark:text-white/90 ">
                       {item.contributor}

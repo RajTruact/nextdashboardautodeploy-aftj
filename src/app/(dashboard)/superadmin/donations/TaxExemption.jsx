@@ -46,66 +46,50 @@ const TaxExemption = () => {
   };
 
   return (
-    <div className=" mx-auto p-6 bg-white rounded-lg shadow-lg">
-      {/* Header Section */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">Tax Exemption</h1>
-        <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded">
-          <p className="text-sm text-gray-700 leading-relaxed">
-            All donations to IIT Kanpur qualify for 100% tax deduction under
-            various sections of the Income Tax Act, 1961. Below are the details
-            of tax benefits for different types of contributors.
-          </p>
-        </div>
-      </div>
-
+    <div className="w-full mx-auto p-6 dark:bg-[#1D1F24] rounded-lg shadow-lg">
       {/* Tax Exemption Table */}
       <div className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-          Tax Exemption Details
-        </h2>
-
-        <div className="overflow-hidden rounded-lg border border-gray-200 shadow-sm">
+        <div className="overflow-hidden rounded-lg border dark:border-[#344054] shadow-sm">
           {/* Desktop Table */}
           <div className="hidden md:block">
             <table className="w-full">
               <thead>
-                <tr className="bg-gray-50 border-b border-gray-200">
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                <tr className="dark:bg-[#1D1F24] border-b dark:border-[#344054]">
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700 dark:text-white/90 ">
                     Contributor
                   </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700 dark:text-white/90 ">
                     Beneficiary
                   </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700 dark:text-white/90 ">
                     Allowed deductions
                   </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700 dark:text-white/90 ">
                     Sections/Classification of IRS
                   </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700 dark:text-white/90 ">
                     Link
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y dark:border-[#344054]">
                 {taxData.map((item, index) => (
                   <tr
                     key={index}
-                    className="hover:bg-gray-50 transition-colors duration-150"
+                    className="hover:bg-gray-50 dark:hover:bg-brand-500 transition-colors duration-150"
                   >
-                    <td className="px-6 py-4 text-sm text-gray-800 font-medium">
+                    <td className="px-6 py-4 text-sm text-gray-800 font-medium dark:text-white/90 ">
                       {item.contributor}
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-700">
+                    <td className="px-6 py-4 text-sm text-gray-700 dark:text-white/90 ">
                       {item.beneficiary}
                     </td>
                     <td className="px-6 py-4">
-                      <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                      <span className="inline-flex items-center dark:text-white/90  px-3 py-1 rounded-full text-sm font-medium ">
                         {item.deduction}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-700">
+                    <td className="px-6 py-4 text-sm text-gray-700 dark:text-white/90 ">
                       {item.section}
                     </td>
                     <td className="px-6 py-4">
@@ -127,31 +111,31 @@ const TaxExemption = () => {
             {taxData.map((item, index) => (
               <div
                 key={index}
-                className="border-b border-gray-200 last:border-b-0"
+                className="border-b dark:border-[#344054] last:border-b-0"
               >
                 <div className="p-4 space-y-3">
                   <div>
-                    <h3 className="text-sm font-semibold text-gray-700">
+                    <h3 className="text-sm font-semibold text-gray-700 dark:text-white/90 ">
                       Contributor
                     </h3>
-                    <p className="text-sm text-gray-800 font-medium mt-1">
+                    <p className="text-sm text-gray-800 font-medium mt-1 dark:text-white/90 ">
                       {item.contributor}
                     </p>
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-gray-700">
+                    <h3 className="text-sm font-semibold text-gray-700 dark:text-white/90 ">
                       Beneficiary
                     </h3>
-                    <p className="text-sm text-gray-700 mt-1">
+                    <p className="text-sm text-gray-700 mt-1 dark:text-white/90 ">
                       {item.beneficiary}
                     </p>
                   </div>
                   <div className="flex justify-between items-center">
                     <div>
-                      <h3 className="text-sm font-semibold text-gray-700">
+                      <h3 className="text-sm font-semibold text-gray-700 dark:text-white/90 ">
                         Deduction
                       </h3>
-                      <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 mt-1">
+                      <span className="inline-flex items-center dark:text-white/90  px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 mt-1">
                         {item.deduction}
                       </span>
                     </div>
@@ -178,7 +162,7 @@ const TaxExemption = () => {
       </div>
 
       {/* CSR Section */}
-      <div className="bg-blue-50 rounded-lg border border-blue-200 p-6 mb-8">
+      {/* <div className="bg-blue-50 rounded-lg border border-blue-200 p-6 mb-8">
         <h2 className="text-2xl font-semibold text-blue-800 mb-4">
           Corporate Social Responsibility (CSR)
         </h2>
@@ -206,10 +190,10 @@ const TaxExemption = () => {
             </button>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Additional Information */}
-      <div className="bg-gray-50 rounded-lg border border-gray-200 p-6">
+      {/* <div className="bg-gray-50 rounded-lg border border-gray-200 p-6">
         <h3 className="text-lg font-semibold text-gray-800 mb-3">
           Important Notes
         </h3>
@@ -228,10 +212,10 @@ const TaxExemption = () => {
           </li>
           <li>Consult your tax advisor for specific tax planning advice</li>
         </ul>
-      </div>
+      </div> */}
 
       {/* Contact Information */}
-      <div className="mt-8 text-center">
+      {/* <div className="mt-8 text-center">
         <p className="text-sm text-gray-600">
           For any queries related to tax exemption, please contact:
         </p>
@@ -239,7 +223,7 @@ const TaxExemption = () => {
           Office of Dean of Resources and Alumni | Phone: +91-512-6797289 |
           Email: dora@iitk.ac.in
         </p>
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -105,7 +105,7 @@ const DebitUPI = () => {
                 type="text"
                 name="name"
                 value={formData.name}
-                onChange={handleInputChange}
+                // onChange={handleInputChange}
                 required
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Enter your full name"
@@ -117,7 +117,7 @@ const DebitUPI = () => {
                 type="email"
                 name="email"
                 value={formData.email}
-                onChange={handleInputChange}
+                // onChange={handleInputChange}
                 required
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Enter your email address"
@@ -131,7 +131,7 @@ const DebitUPI = () => {
                 type="tel"
                 name="phone"
                 value={formData.phone}
-                onChange={handleInputChange}
+                // onChange={handleInputChange}
                 required
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Enter your phone number"
@@ -147,7 +147,7 @@ const DebitUPI = () => {
                 type="text"
                 name="panNumber"
                 value={formData.panNumber}
-                onChange={handleInputChange}
+                // onChange={handleInputChange}
                 required
                 pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
                 title="Please enter a valid PAN number (e.g., ABCDE1234F)"
@@ -264,7 +264,7 @@ const DebitUPI = () => {
                   type="number"
                   name="customAmount"
                   value={formData.customAmount}
-                  onChange={handleInputChange}
+                  // onChange={handleInputChange}
                   required
                   min="1"
                   max="500000"

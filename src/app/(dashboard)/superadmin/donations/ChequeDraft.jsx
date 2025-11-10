@@ -4,7 +4,7 @@ import {
 } from "@/src/components/debitForm/DebitRadio";
 import { DonationSelectInput } from "@/src/components/debitForm/DonationSelectInput";
 import DatePicker from "@/src/components/form/date-picker";
-import Input from "@/src/components/ui/Input/InputField";
+import Input from "@/src/components/ui/input/InputField";
 import Label from "@/src/components/ui/input/Label";
 import React, { useState } from "react";
 
@@ -65,7 +65,7 @@ const ChequeDraft = () => {
                   type="text"
                   name="name"
                   value={formData.name}
-                  onChange={handleInputChange}
+                  // onChange={handleInputChange}
                   required
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Enter your full name"
@@ -80,7 +80,7 @@ const ChequeDraft = () => {
                   type="email"
                   name="email"
                   value={formData.email}
-                  onChange={handleInputChange}
+                  // onChange={handleInputChange}
                   required
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Enter your email address"
@@ -97,7 +97,7 @@ const ChequeDraft = () => {
                   type="tel"
                   name="phone"
                   value={formData.phone}
-                  onChange={handleInputChange}
+                  // onChange={handleInputChange}
                   required
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Enter your phone number"
@@ -123,7 +123,7 @@ const ChequeDraft = () => {
                 type="text"
                 name="panNumber"
                 value={formData.panNumber}
-                onChange={handleInputChange}
+                // onChange={handleInputChange}
                 required
                 pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
                 title="Please enter a valid PAN number (e.g., ABCDE1234F)"
@@ -140,7 +140,7 @@ const ChequeDraft = () => {
                 type="number"
                 name="amount"
                 value={formData.amount}
-                onChange={handleInputChange}
+                // onChange={handleInputChange}
                 required
                 min="1"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -157,7 +157,7 @@ const ChequeDraft = () => {
                   type="text"
                   name="payeeBank"
                   value={formData.payeeBank}
-                  onChange={handleInputChange}
+                  // onChange={handleInputChange}
                   required
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Enter bank name"
@@ -172,7 +172,7 @@ const ChequeDraft = () => {
                   type="text"
                   name="chequeNumber"
                   value={formData.chequeNumber}
-                  onChange={handleInputChange}
+                  // onChange={handleInputChange}
                   required
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Enter cheque number"

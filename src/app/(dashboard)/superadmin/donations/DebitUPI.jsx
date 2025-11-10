@@ -8,8 +8,8 @@ import {
   DonationRecurringDuration,
   DonationSelectInput,
 } from "@/src/components/debitForm/DonationSelectInput";
-// import Input from "@/src/components/ui/Input/InputField";
-// import Label from "@/src/components/ui/Input/Label";
+import Input from "@/src/components/ui/input/InputField";
+import Label from "@/src/components/ui/input/Label";
 import React, { useState } from "react";
 
 const DebitUPI = () => {
@@ -101,11 +101,11 @@ const DebitUPI = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>
-              <input
+              <Input
                 type="text"
                 name="name"
                 value={formData.name}
-                onChange={handleInputChange}
+                // onChange={handleInputChange}
                 required
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Enter your full name"
@@ -113,11 +113,11 @@ const DebitUPI = () => {
             </div>
 
             <div>
-              <input
+              <Input
                 type="email"
                 name="email"
                 value={formData.email}
-                onChange={handleInputChange}
+                // onChange={handleInputChange}
                 required
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Enter your email address"
@@ -127,11 +127,11 @@ const DebitUPI = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-0">
             <div>
-              <input
+              <Input
                 type="tel"
                 name="phone"
                 value={formData.phone}
-                onChange={handleInputChange}
+                // onChange={handleInputChange}
                 required
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Enter your phone number"
@@ -143,11 +143,11 @@ const DebitUPI = () => {
             </div>
 
             <div>
-              <input
+              <Input
                 type="text"
                 name="panNumber"
                 value={formData.panNumber}
-                onChange={handleInputChange}
+                // onChange={handleInputChange}
                 required
                 pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
                 title="Please enter a valid PAN number (e.g., ABCDE1234F)"
@@ -257,14 +257,14 @@ const DebitUPI = () => {
             {/* Custom Amount Input */}
             {formData.amount === "other" && (
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <Label className="block text-sm font-medium text-gray-700 mb-2">
                   Enter Custom Amount *
-                </label>
-                <input
+                </Label>
+                <Input
                   type="number"
                   name="customAmount"
                   value={formData.customAmount}
-                  onChange={handleInputChange}
+                  // onChange={handleInputChange}
                   required
                   min="1"
                   max="500000"
@@ -316,23 +316,23 @@ const DebitUPI = () => {
           <div className="dark:bg-[#1D1F24] p-6 rounded-lg border dark:border-[#344054]">
             <div className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-3">
+                <Label className="block text-sm font-medium text-gray-700 mb-3">
                   Mark this donation as Anonymous *
-                </label>
+                </Label>
                 <DonationAnonymous />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-3">
+                <Label className="block text-sm font-medium text-gray-700 mb-3">
                   Display donated amount on Wall of Donors *
-                </label>
+                </Label>
                 <DonationWallDonars />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-3">
+                <Label className="block text-sm font-medium text-gray-700 mb-3">
                   Need tax receipt *
-                </label>
+                </Label>
                 <DonationTaxReciepts />
               </div>
             </div>

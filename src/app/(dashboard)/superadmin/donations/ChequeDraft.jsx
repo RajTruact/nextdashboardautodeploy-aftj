@@ -5,7 +5,7 @@ import {
 import { DonationSelectInput } from "@/src/components/debitForm/DonationSelectInput";
 import DatePicker from "@/src/components/form/date-picker";
 import Input from "@/src/components/ui/input/InputField";
-// import Label from "@/src/components/ui/input/Label";
+import Label from "@/src/components/ui/input/Label";
 import React, { useState } from "react";
 
 const ChequeDraft = () => {
@@ -58,10 +58,10 @@ const ChequeDraft = () => {
           <div className="dark:bg-[#1D1F24] p-6 rounded-lg border dark:border-[#344054] w-full">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <Label className="block text-sm font-medium text-gray-700 mb-2">
                   Name *
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   name="name"
                   value={formData.name}
@@ -73,10 +73,10 @@ const ChequeDraft = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <Label className="block text-sm font-medium text-gray-700 mb-2">
                   Your Email *
-                </label>
-                <input
+                </Label>
+                <Input
                   type="email"
                   name="email"
                   value={formData.email}
@@ -90,10 +90,10 @@ const ChequeDraft = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <Label className="block text-sm font-medium text-gray-700 mb-2">
                   Your Phone *
-                </label>
-                <input
+                </Label>
+                <Input
                   type="tel"
                   name="phone"
                   value={formData.phone}
@@ -105,21 +105,21 @@ const ChequeDraft = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <Label className="block text-sm font-medium text-gray-700 mb-2">
                   Select Category *
-                </label>
+                </Label>
                 <DonationSelectInput />
               </div>
             </div>
 
             <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <Label className="block text-sm font-medium text-gray-700 mb-2">
                 PAN NUMBER *
-              </label>
+              </Label>
               <span className="block text-xs text-gray-500 mb-2">
                 (Mandatory Field for 80G certificate)
               </span>
-              <input
+              <Input
                 type="text"
                 name="panNumber"
                 value={formData.panNumber}
@@ -133,10 +133,10 @@ const ChequeDraft = () => {
             </div>
 
             <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <Label className="block text-sm font-medium text-gray-700 mb-2">
                 Amount *
-              </label>
-              <input
+              </Label>
+              <Input
                 type="number"
                 name="amount"
                 value={formData.amount}
@@ -150,10 +150,10 @@ const ChequeDraft = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <Label className="block text-sm font-medium text-gray-700 mb-2">
                   Payee Bank *
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   name="payeeBank"
                   value={formData.payeeBank}
@@ -165,10 +165,10 @@ const ChequeDraft = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <Label className="block text-sm font-medium text-gray-700 mb-2">
                   Cheque Number *
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   name="chequeNumber"
                   value={formData.chequeNumber}
@@ -181,9 +181,9 @@ const ChequeDraft = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <Label className="block text-sm font-medium text-gray-700 mb-2">
                 Cheque Date *
-              </label>
+              </Label>
               <DatePicker
                 id="date-picker"
                 placeholder="Select a date"
@@ -225,16 +225,16 @@ const ChequeDraft = () => {
             <div className="mb-8">
               <div className="space-y-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-3">
+                  <Label className="block text-sm font-medium text-gray-700 mb-3">
                     Mark this donation as Anonymous *
-                  </label>
+                  </Label>
                   <DonationAnonymous />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-3">
+                  <Label className="block text-sm font-medium text-gray-700 mb-3">
                     Need tax receipt *
-                  </label>
+                  </Label>
                   <DonationTaxReciepts />
                 </div>
               </div>

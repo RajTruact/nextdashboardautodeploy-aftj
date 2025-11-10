@@ -178,7 +178,7 @@ const DebitUPI = () => {
                 type="button"
                 className={`flex-1 py-3 px-4 font-medium transition-colors ${
                   formData.donationType === "oneTime"
-                    ? "bg-brand-500 text-white"
+                    ? "bg-[#A9131E] text-white"
                     : "bg-brand-100 hover:bg-brand-200"
                 }`}
                 onClick={() =>
@@ -191,7 +191,7 @@ const DebitUPI = () => {
                 type="button"
                 className={`flex-1 py-3 px-4 font-medium transition-colors ${
                   formData.donationType === "recurring"
-                    ? "bg-brand-500 text-white"
+                    ? "bg-[#A9131E] text-white"
                     : "bg-brand-100 hover:bg-brand-200"
                 }`}
                 onClick={() =>
@@ -217,7 +217,7 @@ const DebitUPI = () => {
                     type="button"
                     className={`py-3 px-4 border-2 rounded-lg font-medium transition-all ${
                       formData.amount === amount.value
-                        ? "bg-brand-500 text-white"
+                        ? "bg-[#A9131E] text-white"
                         : "bg-brand-100 hover:bg-brand-200"
                     }`}
                     onClick={() => handleAmountSelect(amount.value)}
@@ -235,7 +235,7 @@ const DebitUPI = () => {
                   type="button"
                   className={`flex-1 py-3 px-4 font-medium transition-colors rounded-md mb-3 ${
                     formData.donationType === "recurring"
-                      ? "bg-brand-500 text-white"
+                      ? "bg-[#A9131E] text-white"
                       : "bg-brand-100 hover:bg-brand-200"
                   }`}
                   onClick={() =>
@@ -289,11 +289,8 @@ const DebitUPI = () => {
             <div>
               <button
                 type="submit"
-                disabled={
-                  !formData.amount ||
-                  (formData.amount === "other" && !formData.customAmount)
-                }
-                className="w-full bg-brand-600 hover:bg-brand-700 disabled:bg-gray-400 text-white font-bold py-2 px-6 rounded-lg transition-colors duration-200 text-lg"
+                disabled={!formData.amount}
+                className="w-full bg-[#A9131E] disabled:bg-gray-400 text-white font-bold py-2 px-6 rounded-lg transition-colors duration-200 text-lg"
               >
                 Give Back Now
                 {/* {getFinalAmount()

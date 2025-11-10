@@ -46,7 +46,7 @@ const TaxExemption = () => {
   };
 
   return (
-    <div className="w-full mx-auto p-6 dark:bg-[#1D1F24] rounded-lg shadow-lg">
+    <div className="w-full mx-auto p-6 dark:bg-[#1D1F24] rounded-lg shadow-lg min-h-[95vh]">
       {/* Tax Exemption Table */}
       <div className="mb-8">
         <div className="overflow-hidden rounded-lg border dark:border-[#344054] shadow-sm">
@@ -76,7 +76,7 @@ const TaxExemption = () => {
                 {taxData.map((item, index) => (
                   <tr
                     key={index}
-                    className="hover:bg-gray-50 dark:hover:bg-brand-500 hover:cursor-pointer transition-colors duration-150"
+                    className="hover:bg-gray-50 dark:hover:bg-[#A9131E] hover:cursor-pointer transition-colors duration-150"
                   >
                     <td className="px-6 py-4 text-sm text-gray-800 font-medium dark:text-white/90 ">
                       {item.contributor}
@@ -157,6 +157,40 @@ const TaxExemption = () => {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+        <div className="overflow-hidden rounded-lg border dark:border-[#344054] shadow-sm mt-5">
+          <div className="hidden md:block ">
+            <table className="w-full">
+              <thead>
+                <tr className="dark:bg-[#1D1F24] border-b dark:border-[#344054]">
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700 dark:text-white/90 ">
+                    Corporate Social Responsibility(CSR)
+                  </th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700 dark:text-white/90 ">
+                    Link
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="dark:divide-y-[#344054] dark:border-[#344054]">
+                <tr className="hover:bg-gray-50 dark:hover:bg-[#A9131E] hover:cursor-pointer transition-colors duration-150">
+                  <td className="px-6 py-4 text-sm text-gray-800 font-medium dark:text-white/90 ">
+                    IIT Kanpur is eligible to accept funding from Corporate
+                    Social Responsibility Initiatives for the purpose of
+                    education, as mentioned under Schedule VII & Section 135 of
+                    Companies Act 2013.
+                  </td>
+                  <td className="px-6 py-4 text-sm text-gray-800 font-medium dark:text-white/90 ">
+                    <button
+                      onClick={() => handleGovtNotification()}
+                      className="text-blue-600 hover:text-blue-800 text-sm font-medium underline transition-colors duration-200"
+                    >
+                      Click here to view Pan Card of IIT Kanpur.
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

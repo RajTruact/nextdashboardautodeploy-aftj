@@ -42,8 +42,8 @@ export default function DonationSwitch() {
             className={`flex-1 px-5 py-3 text-sm font-semibold text-center transition-all
               ${
                 activeTab === tab.id
-                  ? "bg-brand-500 text-white"
-                  : "bg-brand-100 hover:bg-brand-200"
+                  ? "bg-[#A9131E] text-white"
+                  : "bg-brand-100 hover:bg-[#F8F9FA]"
               }
             `}
           >
@@ -55,7 +55,7 @@ export default function DonationSwitch() {
       </div>
 
       {/* Active Component */}
-      <div className="p-6 border-2 dark:border-[#344054] rounded-b-lg shadow-sm min-h-[75vh]">
+      <div className="p-6 border-2 dark:border-[#344054] rounded-b-lg shadow-sm min-h-[95vh]">
         {renderComponent()}
       </div>
     </div>

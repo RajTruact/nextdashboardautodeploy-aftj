@@ -1,34 +1,40 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 
 export const useSignatureValidation = (initialValue = null, options = {}) => {
   const {
     required = false,
     minPoints = 10, // Minimum number of drawing points for valid signature
-    customValidator = null
+    customValidator = null,
   } = options;
 
   const [signature, setSignature] = useState(initialValue);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [isTouched, setIsTouched] = useState(false);
 
-  const validateSignature = useCallback((sig) => {
-    if (required && !sig) {
-      return 'Signature is required';
-    }
+  const validateSignature = useCallback(
+    (sig) => {
+      if (required && !sig) {
+        return "Signature is required";
+      }
 
-    if (customValidator) {
-      const customError = customValidator(sig);
-      if (customError) return customError;
-    }
+      if (customValidator) {
+        const customError = customValidator(sig);
+        if (customError) return customError;
+      }
 
-    return '';
-  }, [required, customValidator]);
+      return "";
+    },
+    [required, customValidator]
+  );
 
-  const handleChange = useCallback((sig) => {
-    setSignature(sig);
-    const validationError = validateSignature(sig);
-    setError(validationError);
-  }, [validateSignature]);
+  const handleChange = useCallback(
+    (sig) => {
+      setSignature(sig);
+      const validationError = validateSignature(sig);
+      setError(validationError);
+    },
+    [validateSignature]
+  );
 
   const handleBlur = useCallback(() => {
     setIsTouched(true);
@@ -38,7 +44,7 @@ export const useSignatureValidation = (initialValue = null, options = {}) => {
 
   const clearSignature = useCallback(() => {
     setSignature(null);
-    setError(required ? 'Signature is required' : '');
+    setError(required ? "Signature is required" : "");
     setIsTouched(true);
   }, [required]);
 
@@ -52,6 +58,6 @@ export const useSignatureValidation = (initialValue = null, options = {}) => {
     handleChange,
     handleBlur,
     clearSignature,
-    setTouched: setIsTouched
+    setTouched: setIsTouched,
   };
 };

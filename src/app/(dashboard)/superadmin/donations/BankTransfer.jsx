@@ -39,12 +39,11 @@ const BankTransfer = () => {
   ];
 
   return (
-    <div className=" mx-auto p-6 bg-white rounded-lg shadow-lg">
+    <div className="w-full mx-auto p-6 dark:bg-[#1D1F24] rounded-lg shadow-lg">
       {/* Header Section */}
       <div className="mb-8">
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">Bank Transfer</h2>
-        <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
-          <p className="text-sm text-gray-700 leading-relaxed">
+        <div className="dark:bg-[#16181D] bg-white border-l-4 border-blue-500 p-4 rounded ">
+          <p className="text-sm text-gray-700 leading-relaxed dark:text-white/90  ">
             All donations qualify for a 100% tax deduction, with tax receipts
             issued upon receipt of funds, typically within 3-4 working days;
             please refer to the Tax Exemption tab for more details.

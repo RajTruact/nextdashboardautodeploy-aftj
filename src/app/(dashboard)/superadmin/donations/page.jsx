@@ -4,6 +4,7 @@ import DebitUPI from "./DebitUPI";
 import ChequeDraft from "./ChequeDraft";
 import BankTransfer from "./BankTransfer";
 import TaxExemption from "./TaxExemption";
+import { CreditCardIcon } from "lucide-react";
 
 export default function DonationSwitch() {
   const [activeTab, setActiveTab] = useState("debit");
@@ -46,13 +47,15 @@ export default function DonationSwitch() {
               }
             `}
           >
-            {tab.label}
+            <div className="flex justify-center items-center gap-2">
+              <CreditCardIcon /> {tab.label}
+            </div>
           </button>
         ))}
       </div>
 
       {/* Active Component */}
-      <div className="p-6 border rounded-b-lg shadow-sm min-h-[75vh]">
+      <div className="p-6 border-2 dark:border-[#344054] rounded-b-lg shadow-sm min-h-[75vh]">
         {renderComponent()}
       </div>
     </div>

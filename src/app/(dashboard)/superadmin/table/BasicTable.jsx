@@ -15,16 +15,17 @@ const tableData = [
   {
     id: 1,
     user: {
-      image: "/images/user/user-17.jpg",
+      image:
+        "https://plus.unsplash.com/premium_photo-1664540415069-bc45ce3e711e?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmVzc2lvbmFsJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500",
       name: "Lindsey Curtis",
       role: "Web Designer",
     },
     projectName: "Agency Website",
     team: {
       images: [
-        "/images/user/user-22.jpg",
-        "/images/user/user-23.jpg",
-        "/images/user/user-24.jpg",
+        "https://plus.unsplash.com/premium_photo-1664540415069-bc45ce3e711e?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmVzc2lvbmFsJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500",
+        "https://images.unsplash.com/photo-1543132220-3ec99c6094dc?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cHJvZmVzc2lvbmFsJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500",
+        "https://plus.unsplash.com/premium_photo-1681489930334-b0d26fdb9ed8?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fHByb2Zlc3Npb25hbCUyMHdvbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500",
       ],
     },
     budget: "3.9K",
@@ -33,7 +34,8 @@ const tableData = [
   {
     id: 2,
     user: {
-      image: "/images/user/user-18.jpg",
+      image:
+        "https://images.unsplash.com/photo-1610631066894-62452ccb927c?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHByb2Zlc3Npb25hbCUyMHdvbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500",
       name: "Kaiya George",
       role: "Project Manager",
     },
@@ -47,13 +49,16 @@ const tableData = [
   {
     id: 3,
     user: {
-      image: "/images/user/user-17.jpg",
+      image:
+        "https://plus.unsplash.com/premium_photo-1664540415069-bc45ce3e711e?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmVzc2lvbmFsJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500ss",
       name: "Zain Geidt",
       role: "Content Writing",
     },
     projectName: "Blog Writing",
     team: {
-      images: ["/images/user/user-27.jpg"],
+      images: [
+        "https://images.unsplash.com/photo-1543132220-3ec99c6094dc?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cHJvZmVzc2lvbmFsJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500sssss",
+      ],
     },
     budget: "12.7K",
     status: "Active",
@@ -61,16 +66,17 @@ const tableData = [
   {
     id: 4,
     user: {
-      image: "/images/user/user-20.jpg",
+      image:
+        "https://images.unsplash.com/photo-1543132220-3ec99c6094dc?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cHJvZmVzc2lvbmFsJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500",
       name: "Abram Schleifer",
       role: "Digital Marketer",
     },
     projectName: "Social Media",
     team: {
       images: [
-        "/images/user/user-28.jpg",
-        "/images/user/user-29.jpg",
-        "/images/user/user-30.jpg",
+        "https://plus.unsplash.com/premium_photo-1681489930334-b0d26fdb9ed8?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fHByb2Zlc3Npb25hbCUyMHdvbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500sss",
+        "https://images.unsplash.com/photo-1543132220-3ec99c6094dc?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cHJvZmVzc2lvbmFsJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500",
+        "https://images.unsplash.com/photo-1543132220-3ec99c6094dc?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cHJvZmVzc2lvbmFsJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500",
       ],
     },
     budget: "2.8K",
@@ -79,16 +85,17 @@ const tableData = [
   {
     id: 5,
     user: {
-      image: "/images/user/user-21.jpg",
+      image:
+        "https://images.unsplash.com/photo-1629425733761-caae3b5f2e50?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHByb2Zlc3Npb25hbCUyMG1hbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=500",
       name: "Carla George",
       role: "Front-end Developer",
     },
     projectName: "Website",
     team: {
       images: [
-        "/images/user/user-31.jpg",
-        "/images/user/user-32.jpg",
-        "/images/user/user-33.jpg",
+        "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHByb2Zlc3Npb25hbCUyMG1hbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=500",
+        "https://plus.unsplash.com/premium_photo-1681489930334-b0d26fdb9ed8?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fHByb2Zlc3Npb25hbCUyMHdvbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500",
+        "https://images.unsplash.com/photo-1610631066894-62452ccb927c?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHByb2Zlc3Npb25hbCUyMHdvbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500",
       ],
     },
     budget: "4.5K",
@@ -97,16 +104,17 @@ const tableData = [
   {
     id: 6,
     user: {
-      image: "/images/user/user-17.jpg",
+      image:
+        "https://plus.unsplash.com/premium_photo-1664540415069-bc45ce3e711e?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmVzc2lvbmFsJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500ss",
       name: "Lindsey Curtis",
       role: "Web Designer",
     },
     projectName: "Agency Website",
     team: {
       images: [
-        "/images/user/user-22.jpg",
-        "/images/user/user-23.jpg",
-        "/images/user/user-24.jpg",
+        "https://plus.unsplash.com/premium_photo-1664540415069-bc45ce3e711e?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmVzc2lvbmFsJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500",
+        "https://images.unsplash.com/photo-1543132220-3ec99c6094dc?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cHJvZmVzc2lvbmFsJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500",
+        "https://plus.unsplash.com/premium_photo-1681489930334-b0d26fdb9ed8?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fHByb2Zlc3Npb25hbCUyMHdvbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500",
       ],
     },
     budget: "3.9K",
@@ -115,7 +123,8 @@ const tableData = [
   {
     id: 7,
     user: {
-      image: "/images/user/user-18.jpg",
+      image:
+        "https://images.unsplash.com/photo-1610631066894-62452ccb927c?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHByb2Zlc3Npb25hbCUyMHdvbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500",
       name: "Kaiya George",
       role: "Project Manager",
     },
@@ -129,13 +138,16 @@ const tableData = [
   {
     id: 8,
     user: {
-      image: "/images/user/user-17.jpg",
+      image:
+        "https://plus.unsplash.com/premium_photo-1664540415069-bc45ce3e711e?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmVzc2lvbmFsJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500ss",
       name: "Zain Geidt",
       role: "Content Writing",
     },
     projectName: "Blog Writing",
     team: {
-      images: ["/images/user/user-27.jpg"],
+      images: [
+        "https://images.unsplash.com/photo-1543132220-3ec99c6094dc?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cHJvZmVzc2lvbmFsJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500sssss",
+      ],
     },
     budget: "12.7K",
     status: "Active",
@@ -143,16 +155,17 @@ const tableData = [
   {
     id: 9,
     user: {
-      image: "/images/user/user-20.jpg",
+      image:
+        "https://images.unsplash.com/photo-1543132220-3ec99c6094dc?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cHJvZmVzc2lvbmFsJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500",
       name: "Abram Schleifer",
       role: "Digital Marketer",
     },
     projectName: "Social Media",
     team: {
       images: [
-        "/images/user/user-28.jpg",
-        "/images/user/user-29.jpg",
-        "/images/user/user-30.jpg",
+        "https://plus.unsplash.com/premium_photo-1681489930334-b0d26fdb9ed8?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fHByb2Zlc3Npb25hbCUyMHdvbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500sss",
+        "https://images.unsplash.com/photo-1543132220-3ec99c6094dc?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cHJvZmVzc2lvbmFsJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500",
+        "https://images.unsplash.com/photo-1543132220-3ec99c6094dc?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cHJvZmVzc2lvbmFsJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500",
       ],
     },
     budget: "2.8K",
@@ -161,15 +174,16 @@ const tableData = [
   {
     id: 10,
     user: {
-      image: "/images/user/user-21.jpg",
+      image:
+        "https://images.unsplash.com/photo-1629425733761-caae3b5f2e50?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHByb2Zlc3Npb25hbCUyMG1hbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=500",
       name: "Carla George",
       role: "Front-end Developer",
     },
     projectName: "Website",
     team: {
       images: [
-        "/images/user/user-31.jpg",
-        "/images/user/user-32.jpg",
+        "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHByb2Zlc3Npb25hbCUyMG1hbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=500",
+        "https://plus.unsplash.com/premium_photo-1681489930334-b0d26fdb9ed8?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fHByb2Zlc3Npb25hbCUyMHdvbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500",
         "/images/user/user-33.jpg",
       ],
     },
@@ -179,16 +193,17 @@ const tableData = [
   {
     id: 11,
     user: {
-      image: "/images/user/user-17.jpg",
+      image:
+        "https://plus.unsplash.com/premium_photo-1664540415069-bc45ce3e711e?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmVzc2lvbmFsJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500ss",
       name: "Lindsey Curtis",
       role: "Web Designer",
     },
     projectName: "Agency Website",
     team: {
       images: [
-        "/images/user/user-22.jpg",
-        "/images/user/user-23.jpg",
-        "/images/user/user-24.jpg",
+        "https://plus.unsplash.com/premium_photo-1664540415069-bc45ce3e711e?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmVzc2lvbmFsJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500",
+        "https://images.unsplash.com/photo-1543132220-3ec99c6094dc?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cHJvZmVzc2lvbmFsJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500",
+        "https://plus.unsplash.com/premium_photo-1681489930334-b0d26fdb9ed8?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fHByb2Zlc3Npb25hbCUyMHdvbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500",
       ],
     },
     budget: "3.9K",
@@ -197,7 +212,8 @@ const tableData = [
   {
     id: 12,
     user: {
-      image: "/images/user/user-18.jpg",
+      image:
+        "https://images.unsplash.com/photo-1610631066894-62452ccb927c?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHByb2Zlc3Npb25hbCUyMHdvbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500",
       name: "Kaiya George",
       role: "Project Manager",
     },
@@ -211,13 +227,16 @@ const tableData = [
   {
     id: 13,
     user: {
-      image: "/images/user/user-17.jpg",
+      image:
+        "https://plus.unsplash.com/premium_photo-1664540415069-bc45ce3e711e?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmVzc2lvbmFsJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500ss",
       name: "Zain Geidt",
       role: "Content Writing",
     },
     projectName: "Blog Writing",
     team: {
-      images: ["/images/user/user-27.jpg"],
+      images: [
+        "https://images.unsplash.com/photo-1543132220-3ec99c6094dc?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cHJvZmVzc2lvbmFsJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500sssss",
+      ],
     },
     budget: "12.7K",
     status: "Active",
@@ -225,16 +244,17 @@ const tableData = [
   {
     id: 14,
     user: {
-      image: "/images/user/user-20.jpg",
+      image:
+        "https://images.unsplash.com/photo-1543132220-3ec99c6094dc?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cHJvZmVzc2lvbmFsJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500",
       name: "Abram Schleifer",
       role: "Digital Marketer",
     },
     projectName: "Social Media",
     team: {
       images: [
-        "/images/user/user-28.jpg",
-        "/images/user/user-29.jpg",
-        "/images/user/user-30.jpg",
+        "https://plus.unsplash.com/premium_photo-1681489930334-b0d26fdb9ed8?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fHByb2Zlc3Npb25hbCUyMHdvbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500sss",
+        "https://images.unsplash.com/photo-1543132220-3ec99c6094dc?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cHJvZmVzc2lvbmFsJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500",
+        "https://images.unsplash.com/photo-1543132220-3ec99c6094dc?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cHJvZmVzc2lvbmFsJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500",
       ],
     },
     budget: "2.8K",
@@ -243,15 +263,16 @@ const tableData = [
   {
     id: 15,
     user: {
-      image: "/images/user/user-21.jpg",
+      image:
+        "https://images.unsplash.com/photo-1629425733761-caae3b5f2e50?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHByb2Zlc3Npb25hbCUyMG1hbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=500",
       name: "Carla George",
       role: "Front-end Developer",
     },
     projectName: "Website",
     team: {
       images: [
-        "/images/user/user-31.jpg",
-        "/images/user/user-32.jpg",
+        "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHByb2Zlc3Npb25hbCUyMG1hbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=500",
+        "https://plus.unsplash.com/premium_photo-1681489930334-b0d26fdb9ed8?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fHByb2Zlc3Npb25hbCUyMHdvbWFufGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500",
         "/images/user/user-33.jpg",
       ],
     },

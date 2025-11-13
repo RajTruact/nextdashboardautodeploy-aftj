@@ -97,47 +97,45 @@ export const DonationTaxReciepts = () => {
         />
       </div>
 
-      {selectedValue === "option2" ||
-        selectedValue ===
-          "option3"(
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Input
-                label="Address"
-                name="address"
-                value={formData.address}
-                onChange={handleChange}
-                placeholder={"Enter Address"}
-              />
-              <Input
-                label="City"
-                name="city"
-                value={formData.city}
-                onChange={handleChange}
-                placeholder={"Enter City"}
-              />
-              <Input
-                label="Pincode"
-                name="pincode"
-                value={formData.pincode}
-                onChange={handleChange}
-                placeholder={"Enter Pincode"}
-              />
-              <Input
-                label="State"
-                name="state"
-                value={formData.state}
-                onChange={handleChange}
-                placeholder={"Enter State"}
-              />
-              <Input
-                label="Country"
-                name="country"
-                value={formData.country}
-                onChange={handleChange}
-                placeholder={"Enter Country"}
-              />
-            </div>
-          )}
+      {(selectedValue === "option2" || selectedValue === "option3") && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Input
+            label="Address"
+            name="address"
+            value={formData.address}
+            onChange={handleChange}
+            placeholder={"Enter Address"}
+          />
+          <Input
+            label="City"
+            name="city"
+            value={formData.city}
+            onChange={handleChange}
+            placeholder={"Enter City"}
+          />
+          <Input
+            label="Pincode"
+            name="pincode"
+            value={formData.pincode}
+            onChange={handleChange}
+            placeholder={"Enter Pincode"}
+          />
+          <Input
+            label="State"
+            name="state"
+            value={formData.state}
+            onChange={handleChange}
+            placeholder={"Enter State"}
+          />
+          <Input
+            label="Country"
+            name="country"
+            value={formData.country}
+            onChange={handleChange}
+            placeholder={"Enter Country"}
+          />
+        </div>
+      )}
     </div>
   );
 };

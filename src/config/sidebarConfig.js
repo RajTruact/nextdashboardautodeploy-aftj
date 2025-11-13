@@ -174,13 +174,13 @@ const sidebarConfig = {
   donor: {
     main: [
       {
-        name: "Dashboard",
-        path: "/dashboard/donor",
+        name: "Giving Back",
+        path: "/donor/giving-back",
         icon: <Grid className="w-5 h-5" />,
       },
       {
-        name: "My Donations",
-        path: "/dashboard/donor/donations",
+        name: "View Donation History",
+        path: "/donor/donation-history",
         icon: <HeartHandshake className="w-5 h-5" />,
       },
       {

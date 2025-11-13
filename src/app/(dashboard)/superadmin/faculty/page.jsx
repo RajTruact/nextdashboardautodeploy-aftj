@@ -1,7 +1,11 @@
 import React from "react";
 
 const page = () => {
-  return <div>Faculty Page</div>;
+  return (
+    <div>
+      <h2>Faculty Raj</h2>
+    </div>
+  );
 };
 
 export default page;
